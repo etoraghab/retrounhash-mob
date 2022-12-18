@@ -44,7 +44,6 @@
                         },
                         ...posts,
                       ];
-                      console.log(posts);
                     }
                   });
               }

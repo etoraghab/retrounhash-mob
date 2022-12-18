@@ -43,7 +43,7 @@ export async function getUserName(pub) {
 export async function getUserAvatar(pub) {
   return new Promise(async (r) => {
     await db
-      .user(pub)
+      .user(pub.replace(/~/g, ''))
       .get("avatar")
       .then(async (avatar) => {
         if (avatar) {

@@ -37,7 +37,6 @@
           if (element.length > 2) {
             let soul = await Gun.node.soul(data);
             let hash = await SEA.work(soul, null, null, { name: "SHA-256" });
-            console.log(soul, hash);
             db.get("search")
               .get("query")
               .get(`#${String(element).toLowerCase()}`)
