@@ -5,7 +5,7 @@
   import Settings from "@svicons/boxicons-regular/cog.svelte";
   import Message from "@svicons/boxicons-regular/message-alt.svelte";
   import Account from "@svicons/boxicons-regular/user.svelte";
-  import { db, user, username as username_ } from "$lib/gun";
+  import { db, keys, user, username as username_ } from "$lib/gun";
   import { SEA } from "gun";
 
   let username, password;
@@ -43,9 +43,10 @@
       <Settings width="1.2em" />
     </div>
   </div>
-  <div class="w-full h-full">
+  <div class="w-full h-full overflow-scroll">
     {#if $username_}
       <slot />
+      <div class="p-2" />
     {:else}
       <div class="w-full h-full flex justify-center items-center">
         <div class="flex gap-2 items-center flex-col">

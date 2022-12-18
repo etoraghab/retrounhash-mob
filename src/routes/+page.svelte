@@ -1,9 +1,12 @@
 <script>
+  import moment from "moment";
+  moment().format();
   import Image from "@svicons/boxicons-regular/image.svelte";
-  import { user } from "$lib/gun";
+  import { avatar, db, keys, user, username } from "$lib/gun";
   import { v4 } from "uuid";
   import Post from "../comp/post.svelte";
   import { onMount } from "svelte";
+  import { getUserAvatar, getUserName } from "$lib/utils";
 
   let option = false;
   let postFocus = false;
@@ -25,24 +28,62 @@
 
   function refreshPosts() {
     posts = [];
-    user.get("posts").once((post) => {
-      delete post._;
-      Object.entries(post).forEach((post) => {
-        posts = [
-          {
-            content: post[1],
-            uid: post[0],
-          },
-          ...posts,
-        ];
-        console.log(posts);
-      });
+
+    user.get("following").once((followers) => {
+      if (followers) {
+        Object.entries(followers).forEach(async (f) => {
+          if (f[0] !== "_" && f[1] !== null && f[1]) {
+            let pub = f[0];
+            let avatar = await getUserAvatar(pub);
+            let name = await getUserName(pub);
+            db.user(pub)
+              .get("posts")
+              .once((post_) => {
+                if (post_) {
+                  Object.entries(post_).forEach(async (post) => {
+                    if (post[0] !== "_" && post[1] !== null) {
+                      let date = new Date(
+                        post_["_"][">"][post[0]]
+                      ).toUTCString();
+                      posts = [
+                        {
+                          content: post[1],
+                          uid: post[0],
+                          avatar: avatar,
+                          name: name,
+                          date: moment(date).calendar(),
+                          sortDate: date,
+                          self: pub == $keys.pub ? true : false,
+                          pub: pub,
+                        },
+                        ...posts,
+                      ];
+                    }
+                  });
+                }
+              });
+          }
+        });
+      }
     });
   }
 
   onMount(() => {
     refreshPosts();
   });
+
+  function removeDUP() {
+    let a = posts.filter(
+      (v, i, a) =>
+        a.findIndex((v2) => JSON.stringify(v2) === JSON.stringify(v)) === i
+    );
+    posts = a;
+    posts.sort(
+      (d1, d2) =>
+        new Date(d2.sortDate).getTime() - new Date(d1.sortDate).getTime()
+    );
+  }
+  $: posts, removeDUP();
 </script>
 
 <div class="flex break-all justify-center items-center mt-3">
@@ -50,7 +91,7 @@
     class="w-11/12 p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
   >
     <img
-      src="/favicon.png"
+      src={$avatar}
       class="h-6 w-6 {postFocus
         ? 'mb-auto mt-1'
         : ''} mx-auto aspect-square object-cover rounded-md"
@@ -65,7 +106,7 @@
             postFocus = true;
             setTimeout(() => {
               textareaVAR.focus();
-            }, 500);
+            }, 0);
           }}
           class="text-sm font-thin w-full resize-none bg-[#19191a] rounded p-1"
         >
@@ -116,7 +157,7 @@
     {/if}
   </div>
 </div>
-<div class="flex flex-col gap-3 justify-center items-center mt-3">
+<div class="flex flex-col gap-3 justify-start items-center mt-3">
   {#each posts as p}
     <Post data={p} />
   {/each}

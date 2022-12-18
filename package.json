@@ -27,6 +27,7 @@
 	"dependencies": {
 		"browser-image-compression": "^2.0.0",
 		"gun": "^0.2020.1238",
+		"moment": "^2.29.4",
 		"uuid": "^9.0.0"
 	}
 }

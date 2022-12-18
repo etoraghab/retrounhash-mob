@@ -1,8 +1,11 @@
 <script>
   import imageCompression from "browser-image-compression";
   import Link from "@svicons/boxicons-regular/link.svelte";
-  import { user, username } from "$lib/gun";
+  import Copy from "@svicons/boxicons-regular/copy.svelte";
+  import Open from "@svicons/boxicons-regular/window-alt.svelte";
+  import { keys, user, username } from "$lib/gun";
   import { onMount } from "svelte";
+  import { copyToClipboard } from "$lib/utils";
 
   let editable = false;
   let user_avatar;
@@ -95,28 +98,52 @@
   >
     loading
   </div>
-  <div
+  <button
     class="text-xs items-center text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 p-3 pt-1"
+    on:click={() => {
+      if (!editable) {
+        open(link_VAL.innerHTML);
+      }
+    }}
   >
     <Link width="1em" />
     <span bind:this={link_VAL} contenteditable={editable}> loading </span>
-  </div>
-  <button
-    on:click={async () => {
-      if (editable) {
-        editable = false;
-        await save().then(() => {
-          console.log("saved");
-        });
-      } else {
-        editable = true;
-        setTimeout(function () {
-          username_VAL.focus();
-        }, 0);
-      }
-    }}
-    class="w-10/12 bg-[#d7d7e0] text-black rounded-md text-sm p-1 transition-colors duration-300 hover:bg-[#c3c3ca]"
-  >
-    {editable ? "save" : "edit"}
   </button>
+  <div class="flex gap-2 w-full px-2">
+    <button
+      on:click={async () => {
+        if (editable) {
+          editable = false;
+          await save().then(() => {
+            console.log("saved");
+          });
+        } else {
+          editable = true;
+          setTimeout(function () {
+            username_VAL.focus();
+          }, 0);
+        }
+      }}
+      class="w-10/12 bg-[#d7d7e0] text-black rounded-md text-sm p-1 transition-colors duration-300 hover:bg-[#c3c3ca]"
+    >
+      {editable ? "save" : "edit"}
+    </button>
+    <button
+      on:click={async () => {
+        await copyToClipboard($keys.pub);
+        console.log("copied");
+      }}
+      class="w-7 rounded-md text-sm p-1"
+    >
+      <Copy width="1.4em" />
+    </button>
+    <button
+      on:click={async () => {
+        open(location.href.replace(/profile/, 'u/') + $keys.pub);
+      }}
+      class="w-7 rounded-md text-sm p-1"
+    >
+      <Open width="1.4em" />
+    </button>
+  </div>
 </div>
