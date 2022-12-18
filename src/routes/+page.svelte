@@ -20,9 +20,31 @@
       .get("posts")
       .get(id)
       .put(postContent)
-      .then((e) => {
-        postContent = null;
+      .then(async () => {
+        postContent = postContent.replace(/(\,|\.)/g, "");
         refreshPosts();
+      });
+
+    await user
+      .get("searchable")
+      .get(id)
+      .put({
+        content: postContent,
+      })
+      .then(async (data) => {
+        let array1 = postContent.split(" ");
+        array1.forEach(async (element) => {
+          if (element.length > 2) {
+            let soul = await Gun.node.soul(data);
+            let hash = await SEA.work(soul, null, null, { name: "SHA-256" });
+            console.log(soul, hash);
+            db.get("search")
+              .get("query")
+              .get(`#${String(element).toLowerCase()}`)
+              .get(hash)
+              .put(soul);
+          }
+        });
       });
   }
 

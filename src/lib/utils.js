@@ -32,7 +32,7 @@ export async function getUserPosts(pub) {
 export async function getUserName(pub) {
   return new Promise(async (r) => {
     await db
-      .user(pub)
+      .user(pub.replace(/~/g, ''))
       .get("alias")
       .then((alias) => {
         r(alias);

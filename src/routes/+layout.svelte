@@ -77,6 +77,11 @@
                           {}
                         );
                         await user.get("followersCert").put(cert);
+                        await user
+                          .get("following")
+                          .get(user._.sea.pub)
+                          .put(true);
+                        location.reload();
                         toast("success");
                       });
                     } else if (e.err == "User already created!") {

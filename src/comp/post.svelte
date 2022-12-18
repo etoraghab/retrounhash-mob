@@ -55,14 +55,14 @@
     </div>
   {:else}
     <div>
-      <div class="text-xs break-all">
+      <div class="text-sm break-all">
         {data.content}
       </div>
       <div class="flex items-center mb-1 mt-2">
         <div class="flex w-full">
           <button
             on:click={() => {
-              goto(`/u/${data.pub}`);
+              goto(`/u/${data.pub.replace(/~/, '')}`);
             }}
           >
             <img
