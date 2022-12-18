@@ -78,14 +78,14 @@ export async function publickeyGet(username) {
 
 export async function usernameGet(pub) {
   return new Promise(async (r, re) => {
-    db.user(pub)
+    db.user(pub.replace(/~/, ''))
       .get("username")
       .once(async (usern_) => {
-        if ((await publickeyGet(usern_)) == pub) {
-          r(usern_);
-        } else {
-          re("verification failed");
-        }
+          if ((await publickeyGet(usern_)) == pub) {
+            r(usern_);
+          } else {
+            r("verification failed");
+          }
       });
   });
 }

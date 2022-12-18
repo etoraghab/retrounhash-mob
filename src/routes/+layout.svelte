@@ -200,7 +200,7 @@
             {:else if disabled}
               login
             {:else}
-              sign up
+              continue
             {/if}
           </button>
         </div>

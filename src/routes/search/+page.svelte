@@ -4,7 +4,7 @@
   import { db } from "$lib/gun";
   import moment from "moment";
   import Post from "../../comp/post.svelte";
-  import { getUserAvatar } from "$lib/utils";
+  import { getUserAvatar, usernameGet } from "$lib/utils";
   let q;
   let posts = [];
 
@@ -76,6 +76,13 @@
     content="search among various posts, accounts and communities across retrounhash, the decentralized social platform."
   />
 </svelte:head>
+
+<div class="flex flex-col gap-3 justify-start items-center mt-3">
+  {#each posts as p}
+    <Post data={p} />
+  {/each}
+</div>
+
 <div class="flex justify-center items-center mt-3">
   <div
     class="w-11/12 p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
@@ -102,10 +109,4 @@
       <Arrow width="1.2em" />
     </div>
   </div>
-</div>
-
-<div class="flex flex-col gap-3 justify-start items-center mt-3">
-  {#each posts as p}
-    <Post data={p} />
-  {/each}
 </div>
