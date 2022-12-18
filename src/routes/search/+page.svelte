@@ -69,6 +69,13 @@
   $: posts, removeDUP();
 </script>
 
+<svelte:head>
+  <title>search - retrounhash</title>
+  <meta
+    name="description"
+    content="search among various posts, accounts and communities across retrounhash, the decentralized social platform."
+  />
+</svelte:head>
 <div class="flex justify-center items-center mt-3">
   <div
     class="w-11/12 p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"

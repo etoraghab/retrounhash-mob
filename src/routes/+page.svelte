@@ -8,13 +8,15 @@
   import { onMount } from "svelte";
   import { getUserAvatar, getUserName } from "$lib/utils";
 
-  let option = false;
   let postFocus = false;
   let postContent;
   let textareaVAR;
   let posts = [];
 
   async function publishPost() {
+    if (!postContent) {
+      return;
+    }
     let id = v4();
     await user
       .get("posts")
@@ -109,6 +111,13 @@
   $: posts, removeDUP();
 </script>
 
+<svelte:head>
+  <title>home - retrounhash</title>
+  <meta
+    name="description"
+    content="retrounhash is a decentralized social media platform to share, interact and socialise around with the world while staying secure and private."
+  />
+</svelte:head>
 <div class="flex break-all justify-center items-center mt-3">
   <div
     class="w-11/12 p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
@@ -181,6 +190,16 @@
   </div>
 </div>
 <div class="flex flex-col gap-3 justify-start items-center mt-3">
+  {#if posts.length == 0}
+    <div class="text-sm">
+      no posts, <button
+        class="underline"
+        on:click={() => {
+          postFocus = true;
+        }}>write one.</button
+      >
+    </div>
+  {/if}
   {#each posts as p}
     <Post data={p} />
   {/each}

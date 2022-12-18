@@ -19,12 +19,14 @@
   let bio_graph = user.get("bio");
   let link_graph = user.get("link");
   let avatar_graph = user.get("avatar");
+  let user_bio;
 
   onMount(() => {
     alias_graph.once((val) => {
       username_VAL.innerHTML = val;
     });
     bio_graph.once((val) => {
+      user_bio = val;
       bio_VAL.innerHTML = val || "404 no bio found";
     });
     link_graph.once((val) => {
@@ -38,12 +40,17 @@
   });
 
   let posts = [];
+  let name, avatar;
+  getUserName(pub).then((n) => {
+    name = n;
+  });
+  getUserAvatar(pub).then((a) => {
+    avatar = a;
+  });
   db.user(pub)
     .get("posts")
     .once(async (post_) => {
       if (post_) {
-        let name = await getUserName(pub);
-        let avatar = await getUserAvatar(pub);
         Object.entries(post_).forEach(async (post) => {
           if (post[0] !== "_" && post[1] !== null) {
             let date = new Date(post_["_"][">"][post[0]]).toUTCString();
@@ -73,6 +80,12 @@
     });
 </script>
 
+<svelte:head>
+  <title>
+    {name} - retrounhash
+  </title>
+  <meta name="description" content={user_bio} />
+</svelte:head>
 <div class="flex flex-col break-all justify-center items-center mt-3">
   <img
     src={user_avatar}

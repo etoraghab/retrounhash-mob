@@ -27,6 +27,15 @@
     } else {
       loading = false;
     }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").then(
+        function (registration) {},
+        function (err) {
+          console.error(err);
+        }
+      );
+    }
   });
 </script>
 
@@ -42,21 +51,38 @@
         alt=""
       />
     </div>
-    <a href="/" class="mx-auto mt-2 p-2 rounded-md bg-[#202020]">
+    <a
+      href="/"
+      aria-label="home"
+      class="mx-auto mt-2 p-2 rounded-md bg-[#202020]"
+    >
       <Home width="1.2em" />
     </a>
-    <a href="/search" class="mx-auto mt-2 p-2 rounded-md bg-[#202020]">
+    <a
+      href="/search"
+      aria-label="search"
+      class="mx-auto mt-2 p-2 rounded-md bg-[#202020]"
+    >
       <Search width="1.2em" />
     </a>
-    <a href="/dm" class="mx-auto mt-2 p-2 rounded-md bg-[#202020]">
+    <a
+      href="/dm"
+      aria-label="messages"
+      class="mx-auto mt-2 p-2 rounded-md bg-[#202020]"
+    >
       <Message width="1.2em" />
     </a>
-    <a href="/profile" class="mx-auto mt-2 p-2 rounded-md bg-[#202020]">
+    <a
+      href="/profile"
+      aria-label="profile"
+      class="mx-auto mt-2 p-2 rounded-md bg-[#202020]"
+    >
       <Account width="1.2em" />
     </a>
 
     <a
       href="/settings"
+      aria-label="settings"
       class="mx-auto mt-auto mb-3 p-2 rounded-md bg-[#202020]"
     >
       <Settings width="1.2em" />

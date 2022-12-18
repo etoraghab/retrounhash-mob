@@ -72,6 +72,15 @@
   }
 </script>
 
+<svelte:head>
+  <title>
+    {$username} - profile
+  </title>
+  <meta
+    name="description"
+    content="Edit and manage your profile on retrounhash, the decentralized social platform."
+  />
+</svelte:head>
 <div class="flex flex-col break-all justify-center items-center mt-3">
   <label for="avatar">
     <img
@@ -124,7 +133,9 @@
           }, 0);
         }
       }}
-      class="w-10/12 bg-[#d7d7e0] text-black rounded-md text-sm p-1 transition-colors duration-300 hover:bg-[#c3c3ca]"
+      class="w-10/12 {!editable
+        ? 'bg-[#272626] hover:bg-[#383737] text-white'
+        : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
     >
       {editable ? "save" : "edit"}
     </button>
@@ -139,7 +150,7 @@
     </button>
     <button
       on:click={async () => {
-        open(location.href.replace(/profile/, 'u/') + $keys.pub);
+        open(location.href.replace(/profile/, "u/") + $keys.pub);
       }}
       class="w-7 rounded-md text-sm p-1"
     >
