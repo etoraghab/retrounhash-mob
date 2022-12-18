@@ -33,8 +33,14 @@
               .get("posts")
               .get(data.uid)
               .put(null)
-              .then(() => {
-                elmUID.remove();
+              .then(async () => {
+                await user
+                  .get("searchable")
+                  .get(data.uid)
+                  .put(null)
+                  .then(() => {
+                    elmUID.remove();
+                  });
               });
           }}
         >
@@ -55,14 +61,14 @@
     </div>
   {:else}
     <div>
-      <div class="text-sm break-all">
+      <div class="text-sm break-words">
         {data.content}
       </div>
       <div class="flex items-center mb-1 mt-2">
         <div class="flex w-full">
           <button
             on:click={() => {
-              goto(`/u/${data.pub.replace(/~/, '')}`);
+              goto(`/u/${data.pub.replace(/~/, "")}`);
             }}
           >
             <img

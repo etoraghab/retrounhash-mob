@@ -45,6 +45,7 @@
           }
         });
       });
+    postContent = null;
   }
 
   function refreshPosts() {
@@ -87,6 +88,7 @@
         });
       }
     });
+    postFocus = false;
   }
 
   onMount(() => {

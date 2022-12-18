@@ -7,18 +7,34 @@
   import Account from "@svicons/boxicons-regular/user.svelte";
   import { db, keys, user, username as username_ } from "$lib/gun";
   import { SEA } from "gun";
+  import { onMount } from "svelte";
+  import Loading from "../comp/loading.svelte";
 
   let username, password;
 
   function toast(a) {
     console.log(a);
   }
+
+  let loading = true;
+  onMount(() => {
+    if (localStorage.getItem("keys")) {
+      user.auth(JSON.parse(localStorage.getItem("keys")), function (res) {
+        console.log("loggedIN");
+        console.log(res);
+      });
+      loading = true;
+    } else {
+      loading = false;
+    }
+  });
 </script>
 
 <div class="flex h-screen bg-[#141414] text-white text-opacity-75">
   <div
     class="h-full w-12 flex flex-col gap-2 bg-[#19191a] text-white text-opacity-70"
   >
+    <div class="pt-1" />
     <div class="mx-auto mt-3 text-white text-opacity-70">
       <img
         class="w-5 rounded-md h-auto aspect-square "
@@ -39,14 +55,21 @@
       <Account width="1.2em" />
     </a>
 
-    <div class="mx-auto mt-auto mb-3 p-2 rounded-md bg-[#202020]">
+    <a
+      href="/settings"
+      class="mx-auto mt-auto mb-3 p-2 rounded-md bg-[#202020]"
+    >
       <Settings width="1.2em" />
-    </div>
+    </a>
   </div>
   <div class="w-full h-full overflow-scroll">
     {#if $username_}
       <slot />
       <div class="p-2" />
+    {:else if loading}
+      <div class="w-full h-full flex justify-center items-center">
+        <Loading />
+      </div>
     {:else}
       <div class="w-full h-full flex justify-center items-center">
         <div class="flex gap-2 items-center flex-col">

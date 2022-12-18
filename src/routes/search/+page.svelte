@@ -24,30 +24,32 @@
           .get("query")
           .get("#" + String(query).toLowerCase())
           .once((post) => {
-            Object.entries(post).forEach((e) => {
-              if (e[0] !== "_") {
-                db.get(String(e[1]).split("/")[0])
-                  .get("searchable")
-                  .get(String(e[1]).split("/")[2])
-                  .once(async (n) => {
-                    if (n) {
-                      let pub__ = String(e[1]).split("/")[0];
-                      let date = new Date(n["_"][">"].content).toUTCString();
-                      posts = [
-                        {
-                          content: n.content,
-                          pub: pub__,
-                          date: moment(date).calendar(),
-                          name: await getUserName(pub__),
-                          avatar: await getUserAvatar(pub__),
-                          sortDate: n["_"][">"].content,
-                        },
-                        ...posts,
-                      ];
-                    }
-                  });
-              }
-            });
+            if (post) {
+              Object.entries(post).forEach((e) => {
+                if (e[0] !== "_") {
+                  db.get(String(e[1]).split("/")[0])
+                    .get("searchable")
+                    .get(String(e[1]).split("/")[2])
+                    .once(async (n) => {
+                      if (n) {
+                        let pub__ = String(e[1]).split("/")[0];
+                        let date = new Date(n["_"][">"].content).toUTCString();
+                        posts = [
+                          {
+                            content: n.content,
+                            pub: pub__,
+                            date: moment(date).calendar(),
+                            name: await getUserName(pub__),
+                            avatar: await getUserAvatar(pub__),
+                            sortDate: n["_"][">"].content,
+                          },
+                          ...posts,
+                        ];
+                      }
+                    });
+                }
+              });
+            }
           });
       }
     });
