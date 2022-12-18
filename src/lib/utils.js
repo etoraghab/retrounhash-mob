@@ -66,11 +66,12 @@ export async function copyToClipboard(text) {
 
 export async function publickeyGet(username) {
   return new Promise(async (r) => {
-    await db
-      .get(`#${username}`)
+    db.get(`#${username}`)
       .map()
       .once((pub) => {
-        r(pub);
+        if (pub) {
+          r(pub);
+        }
       });
   });
 }

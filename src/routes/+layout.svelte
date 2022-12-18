@@ -9,9 +9,9 @@
   import { SEA } from "gun";
   import { onMount } from "svelte";
   import Loading from "../comp/loading.svelte";
-  import { usernameGet } from "$lib/utils";
+  import { publickeyGet, usernameGet } from "$lib/utils";
 
-  let username, password;
+  let username, password, disabled;
 
   function toast(a) {
     console.log(a);
@@ -37,6 +37,65 @@
       );
     }
   });
+
+  async function auditUsername() {
+    if (username) {
+      disabled = false;
+      await publickeyGet(username).then((val) => {
+        if (val) {
+          disabled = true;
+        }
+      });
+    } else {
+      disabled = true;
+    }
+  }
+
+  $: username, auditUsername();
+
+  async function handleAuth() {
+    loading = true;
+    user.auth(username, password, (e) => {
+      if (e.err == "Wrong user or password.") {
+        user.create(username, password, async (e) => {
+          if (e.ok == 0) {
+            var data = user.is.pub || user._.sea.pub;
+            var hash = await SEA.work(data, null, null, {
+              name: "SHA-256",
+            });
+            db.get(`#${username}`).get(hash).put(data);
+            db.get(`#${username}`).get(hash).once(console.log);
+
+            // auth now
+            user.auth(username, password, async (e) => {
+              const cert = await SEA.certify(
+                "*",
+                { "*": "followers", "+": "*" },
+                user._.sea,
+                null,
+                {}
+              );
+              await user.get("followersCert").put(cert);
+              await user.get("following").get(user._.sea.pub).put(true);
+              await user.get("username").put(username);
+              loading = false;
+              location.reload();
+              toast("success");
+            });
+          } else if (e.err == "User already created!") {
+            toast("error", "wrong username/pass");
+          } else if (e.err == undefined) {
+            toast("success", "user created");
+          } else {
+            toast("error", e.err);
+          }
+          loading = false;
+        });
+      } else if (e.err == "User already created!") {
+        toast("error", "wrong username/pass");
+      }
+    });
+  }
 </script>
 
 <svelte:head>
@@ -119,52 +178,30 @@
             placeholder="*********"
             bind:value={password}
           />
-          <button
-            on:click={() => {
+          <!-- <button
+            on:click={async () => {
               user.auth(username, password, (e) => {
-                if (e.err == "Wrong user or password.") {
-                  user.create(username, password, (e) => {
-                    if (e.ok == 0) {
-                      user.auth(username, password, async (e) => {
-                        var data = user.is.pub || user._.sea.pub;
-                        var hash = await SEA.work(data, null, null, {
-                          name: "SHA-256",
-                        });
-                        db.get(`#${username}`).get(hash).put(data);
-                        db.get(`#${username}`).get(hash).once(console.log);
-
-                        const cert = await SEA.certify(
-                          "*",
-                          { "*": "followers", "+": "*" },
-                          user._.sea,
-                          null,
-                          {}
-                        );
-                        await user.get("followersCert").put(cert);
-                        await user
-                          .get("following")
-                          .get(user._.sea.pub)
-                          .put(true);
-                        await user.get("username").put(username);
-                        location.reload();
-                        toast("success");
-                      });
-                    } else if (e.err == "User already created!") {
-                      toast("error", "wrong username/pass");
-                    } else if (e.err == undefined) {
-                      toast("success", "user created");
-                    } else {
-                      toast("error", e.err);
-                    }
-                  });
-                } else if (e.err == "User already created!") {
-                  toast("error", "wrong username/pass");
-                }
+                console.log(e);
               });
             }}
-            class="w-full bg-[#d7d7e0] text-black rounded-md text-sm p-1 transition-colors duration-300 hover:bg-[#c3c3ca]"
+            class="w-full bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black rounded-md text-sm p-1 transition-colors duration-300"
           >
-            continue
+            login
+          </button> -->
+          <button
+            on:click={handleAuth}
+            disabled={username == undefined}
+            class="w-full {disabled && username !== undefined
+              ? 'bg-blue-900 hover:bg-blue-800'
+              : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
+          >
+            {#if username == undefined}
+              continue
+            {:else if disabled}
+              login
+            {:else}
+              sign up
+            {/if}
           </button>
         </div>
       </div>
