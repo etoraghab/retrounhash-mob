@@ -1,13 +1,48 @@
 <script>
-  import Menu from "@svicons/boxicons-regular/dots-horizontal-rounded.svelte";
-  import Report from "@svicons/boxicons-regular/flag.svelte";
-  import X from "@svicons/boxicons-regular/x-circle.svelte";
   import Image from "@svicons/boxicons-regular/image.svelte";
+  import { user } from "$lib/gun";
+  import { v4 } from "uuid";
+  import Post from "../comp/post.svelte";
+  import { onMount } from "svelte";
 
   let option = false;
   let postFocus = false;
   let postContent;
   let textareaVAR;
+  let posts = [];
+
+  async function publishPost() {
+    let id = v4();
+    await user
+      .get("posts")
+      .get(id)
+      .put(postContent)
+      .then((e) => {
+        postContent = null;
+        refreshPosts();
+      });
+  }
+
+  function refreshPosts() {
+    posts = [];
+    user.get("posts").once((post) => {
+      delete post._;
+      Object.entries(post).forEach((post) => {
+        posts = [
+          {
+            content: post[1],
+            uid: post[0],
+          },
+          ...posts,
+        ];
+        console.log(posts);
+      });
+    });
+  }
+
+  onMount(() => {
+    refreshPosts();
+  });
 </script>
 
 <div class="flex break-all justify-center items-center mt-3">
@@ -66,9 +101,10 @@
                   postFocus = false;
                 }}
               >
-                cancel
+                close
               </button>
               <button
+                on:click={publishPost}
                 class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#222222]"
               >
                 post
@@ -80,62 +116,8 @@
     {/if}
   </div>
 </div>
-<div class="flex justify-center items-center mt-3">
-  <div
-    class="w-11/12 p-3 bg-[#19191a] border border-[#313131] rounded-md h-auto flex flex-col"
-  >
-    {#if option}
-      <div class="text-sm font-thin flex items-center justify-center">
-        <button
-          class="flex px-2 py-1 rounded-md bg-[#464242] gap-1 justify-center items-center"
-        >
-          <span class="text-red-600">
-            <Report width="1.2em" />
-          </span>
-          report
-        </button>
-        <button
-          on:click={() => {
-            option = false;
-          }}
-          class="p-1 bg-[#464242] rounded-md my-auto ml-auto"
-        >
-          <X width="1.2em" />
-        </button>
-      </div>
-    {:else}
-      <div>
-        <div class="text-xs break-all">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae a
-          doloremque, earum ad iste nisi? Voluptatem quibusdam a odit quis
-          officia molestias laborum, accusamus at esse tempora ipsam incidunt
-          culpa.
-        </div>
-        <div class="flex items-center mb-1 mt-2">
-          <div class="flex w-full">
-            <img
-              src="/favicon.png"
-              class="h-6 w-6 aspect-square rounded-md m-1"
-              alt=""
-            />
-            <div class="flex flex-col justify-center pl-1">
-              <span class="text-xs m-auto ml-0"> name </span>
-              <span class="text-[9px] text-opacity-60 my-auto">
-                2 days ago
-              </span>
-            </div>
-            <div class="m-auto mr-2 flex justify-center items-center">
-              <button
-                on:click={() => {
-                  option = true;
-                }}
-              >
-                <Menu width="1.2em" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    {/if}
-  </div>
+<div class="flex flex-col gap-3 justify-center items-center mt-3">
+  {#each posts as p}
+    <Post data={p} />
+  {/each}
 </div>

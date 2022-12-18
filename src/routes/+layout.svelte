@@ -4,7 +4,15 @@
   import Search from "@svicons/boxicons-regular/search.svelte";
   import Settings from "@svicons/boxicons-regular/cog.svelte";
   import Message from "@svicons/boxicons-regular/message-alt.svelte";
-  import { db, user } from "$lib/gun";
+  import Account from "@svicons/boxicons-regular/user.svelte";
+  import { db, user, username as username_ } from "$lib/gun";
+  import { SEA } from "gun";
+
+  let username, password;
+
+  function toast(a) {
+    console.log(a);
+  }
 </script>
 
 <div class="flex h-screen bg-[#141414] text-white text-opacity-75">
@@ -27,17 +35,66 @@
     <a href="/dm" class="mx-auto mt-2 p-2 rounded-md bg-[#202020]">
       <Message width="1.2em" />
     </a>
+    <a href="/profile" class="mx-auto mt-2 p-2 rounded-md bg-[#202020]">
+      <Account width="1.2em" />
+    </a>
+
     <div class="mx-auto mt-auto mb-3 p-2 rounded-md bg-[#202020]">
       <Settings width="1.2em" />
     </div>
   </div>
   <div class="w-full h-full">
-    {#if user.is}
+    {#if $username_}
       <slot />
     {:else}
       <div class="w-full h-full flex justify-center items-center">
-        <div>
-          <input type="text">
+        <div class="flex gap-2 items-center flex-col">
+          <input
+            type="text"
+            class="bg-[#19191a] p-2 rounded-md text-sm"
+            placeholder="username"
+            bind:value={username}
+          />
+          <input
+            type="password"
+            class="bg-[#19191a] p-2 rounded-md text-sm"
+            placeholder="*********"
+            bind:value={password}
+          />
+          <button
+            on:click={() => {
+              user.auth(username, password, (e) => {
+                if (e.err == "Wrong user or password.") {
+                  user.create(username, password, (e) => {
+                    if (e.ok == 0) {
+                      user.auth(username, password, async (e) => {
+                        const cert = await SEA.certify(
+                          "*",
+                          { "*": "followers", "+": "*" },
+                          user._.sea,
+                          null,
+                          {}
+                        );
+                        await user.get("followersCert").put(cert);
+                        toast("success");
+                      });
+                    } else if (e.err == "User already created!") {
+                      toast("error", "wrong username/pass");
+                    } else if (e.err == undefined) {
+                      toast("success", "user created");
+                    } else {
+                      toast("error", e.err);
+                    }
+                  });
+                } else if (e.err == "User already created!") {
+                  toast("error", "wrong username/pass");
+                }
+              });
+            }}
+            class="w-full bg-[#d7d7e0] text-black rounded-md text-sm p-1 transition-colors duration-300 hover:bg-[#c3c3ca]"
+          >
+            continue
+          </button>
         </div>
       </div>
     {/if}

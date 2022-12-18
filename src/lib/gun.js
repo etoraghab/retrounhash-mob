@@ -1,8 +1,9 @@
 import Gun from "gun";
 import "gun/sea";
+// import "gun/axe";
 import { writable } from "svelte/store";
 export const db = new Gun({
-  peers: ["https://gun-ams1.cl0vr.co/gun"],
+  peers: ["https://gun-manhattan.herokuapp.com/gun"],
   localStorage: false,
 });
 export const user = db.user().recall({ sessionStorage: true });
