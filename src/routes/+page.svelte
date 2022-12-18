@@ -6,7 +6,7 @@
   import { v4 } from "uuid";
   import Post from "../comp/post.svelte";
   import { onMount } from "svelte";
-  import { getUserAvatar, getUserName } from "$lib/utils";
+  import { getUserAvatar, usernameGet } from "$lib/utils";
 
   let postFocus = false;
   let postContent;
@@ -59,7 +59,6 @@
           if (f[0] !== "_" && f[1] !== null && f[1]) {
             let pub = f[0];
             let avatar = await getUserAvatar(pub);
-            let name = await getUserName(pub);
             db.user(pub)
               .get("posts")
               .once((post_) => {
@@ -74,7 +73,7 @@
                           content: post[1],
                           uid: post[0],
                           avatar: avatar,
-                          name: name,
+                          name: await usernameGet(pub),
                           date: moment(date).calendar(),
                           sortDate: date,
                           self: pub == $keys.pub ? true : false,

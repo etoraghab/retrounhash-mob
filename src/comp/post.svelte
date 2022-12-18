@@ -68,7 +68,7 @@
         <div class="flex w-full">
           <button
             on:click={() => {
-              goto(`/u/${data.pub.replace(/~/, "")}`);
+              goto(`/u/${data.name}`);
             }}
           >
             <img

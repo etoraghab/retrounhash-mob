@@ -4,7 +4,7 @@
   import { db } from "$lib/gun";
   import moment from "moment";
   import Post from "../../comp/post.svelte";
-  import { getUserAvatar, getUserName } from "$lib/utils";
+  import { getUserAvatar } from "$lib/utils";
   let q;
   let posts = [];
 
@@ -39,7 +39,7 @@
                             content: n.content,
                             pub: pub__,
                             date: moment(date).calendar(),
-                            name: await getUserName(pub__),
+                            name: await usernameGet(pub__),
                             avatar: await getUserAvatar(pub__),
                             sortDate: n["_"][">"].content,
                           },

@@ -16,7 +16,7 @@ export async function getUserPosts(pub) {
                   content: post[1],
                   uid: post[0],
                   avatar: await getUserAvatar(pub),
-                  name: await getUserName(pub),
+                  name: await usernameGet(pub),
                   date: moment(date).calendar(),
                   self: true,
                 },
@@ -29,32 +29,16 @@ export async function getUserPosts(pub) {
   });
 }
 
-export async function getUserName(pub) {
-  return new Promise(async (r) => {
-    await db
-      .user(pub.replace(/~/g, ''))
-      .get("alias")
-      .then((alias) => {
-        r(alias);
-      });
-  });
-}
-
-export async function getUserAvatar(pub) {
-  return new Promise(async (r) => {
-    await db
-      .user(pub.replace(/~/g, ''))
-      .get("avatar")
-      .then(async (avatar) => {
-        if (avatar) {
-          r(avatar);
-        } else {
-          let name = await getUserName(pub);
-          r(`https://avatars.dicebear.com/api/identicon/${name}.svg`);
-        }
-      });
-  });
-}
+// export async function getUserName(pub) {
+//   return new Promise(async (r) => {
+//     await db
+//       .user(pub.replace(/~/g, ""))
+//       .get("displayName")
+//       .then((alias) => {
+//         r(alias);
+//       });
+//   });
+// }
 
 export async function copyToClipboard(text) {
   if (window.clipboardData && window.clipboardData.setData) {
@@ -78,4 +62,45 @@ export async function copyToClipboard(text) {
       document.body.removeChild(textarea);
     }
   }
+}
+
+export async function publickeyGet(username) {
+  return new Promise(async (r) => {
+    await db
+      .get(`#${username}`)
+      .map()
+      .once((pub) => {
+        r(pub);
+      });
+  });
+}
+
+export async function usernameGet(pub) {
+  return new Promise(async (r, re) => {
+    db.user(pub)
+      .get("username")
+      .once(async (usern_) => {
+        if ((await publickeyGet(usern_)) == pub) {
+          r(usern_);
+        } else {
+          re("verification failed");
+        }
+      });
+  });
+}
+
+export async function getUserAvatar(pub) {
+  return new Promise(async (r) => {
+    await db
+      .user(pub.replace(/~/g, ""))
+      .get("avatar")
+      .then(async (avatar) => {
+        if (avatar) {
+          r(avatar);
+        } else {
+          let name = await usernameGet(pub);
+          r(`https://avatars.dicebear.com/api/identicon/${name}.svg`);
+        }
+      });
+  });
 }
