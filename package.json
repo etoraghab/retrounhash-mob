@@ -12,6 +12,7 @@
 		"@fontsource/fira-mono": "^4.5.10",
 		"@neoconfetti/svelte": "^1.0.0",
 		"@sveltejs/adapter-auto": "^1.0.0",
+		"@sveltejs/adapter-vercel": "next",
 		"@sveltejs/kit": "^1.0.0",
 		"@svicons/boxicons-regular": "^0.1.11",
 		"@types/cookie": "^0.5.1",
@@ -25,9 +26,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"aws-sdk": "^2.1277.0",
 		"browser-image-compression": "^2.0.0",
+		"bufferutil": "^4.0.7",
 		"gun": "^0.2020.1238",
 		"moment": "^2.29.4",
+		"utf-8-validate": "^5.0.10",
 		"uuid": "^9.0.0"
 	}
 }
