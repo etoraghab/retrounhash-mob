@@ -73,7 +73,7 @@
           >
             <img
               src={data.avatar}
-              class="h-6 w-6 aspect-square rounded-md m-1"
+              class="h-6 w-6 aspect-square object-cover rounded-md m-1"
               alt=""
             />
           </button>

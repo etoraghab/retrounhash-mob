@@ -1,9 +1,12 @@
+@import "../fonts/style.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
     outline: none;
+    font-family: "Product";
 }
 
 /* width */

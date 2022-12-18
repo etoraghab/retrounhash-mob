@@ -106,6 +106,9 @@
     {:else}
       <div class="w-full h-full flex justify-center items-center">
         <div class="flex gap-2 items-center flex-col">
+          <div class="text-md">
+            retrounhash
+          </div>
           <input
             type="text"
             class="bg-[#19191a] p-2 rounded-md text-sm"
@@ -162,3 +165,4 @@
     {/if}
   </div>
 </div>
+
