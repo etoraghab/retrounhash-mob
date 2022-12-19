@@ -2,7 +2,7 @@
   import GUN from "gun";
   import Search from "@svicons/boxicons-regular/search.svelte";
   import Arrow from "@svicons/boxicons-regular/right-arrow-alt.svelte";
-  import { avatar, db } from "$lib/gun";
+  import { avatar, db, keys } from "$lib/gun";
   import moment from "moment";
   import Post from "../../comp/post.svelte";
   import { getUserAvatar, usernameGet } from "$lib/utils";
@@ -33,6 +33,7 @@
                           name: username,
                           date: moment(date).calendar(),
                           sortDate: date,
+                          self: post.split(/~/)[1].split(/\//)[0] == $keys.pub ? true : false,
                           pub: post.split(/~/)[1].split(/\//)[0],
                         },
                         ...posts,

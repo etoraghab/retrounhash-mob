@@ -58,7 +58,7 @@
                     avatar: await getUserAvatar(pub),
                     name: username,
                     date: moment(date).calendar(),
-                    self: false,
+                    self: pub == $keys.pub ? true : false,
                     sortDate: date,
                     pub: pub,
                   },
