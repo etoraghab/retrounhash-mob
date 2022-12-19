@@ -4,7 +4,7 @@
   import Menu from "@svicons/boxicons-regular/dots-horizontal-rounded.svelte";
   import Report from "@svicons/boxicons-regular/flag.svelte";
   import Delete from "@svicons/boxicons-regular/trash-alt.svelte";
-  import X from "@svicons/boxicons-regular/x-circle.svelte";
+  import X from "@svicons/boxicons-regular/x.svelte";
 
   let option;
   export let data;
@@ -18,7 +18,7 @@
   {#if option}
     <div class="text-sm font-thin flex gap-1 items-center justify-center">
       <button
-        class="flex px-2 py-1 rounded-md bg-[#272626] gap-1 justify-center items-center"
+        class="flex px-2 py-1 rounded-md bg-[#292626] gap-1 justify-center items-center"
       >
         <span class="text-red-600">
           <Report width="1.2em" />
@@ -27,7 +27,7 @@
       </button>
       {#if data.self}
         <button
-          class="flex px-2 py-1 rounded-md bg-[#272626] gap-1 justify-center items-center"
+          class="flex px-2 py-1 rounded-md bg-[#292626] gap-1 justify-center items-center"
           on:click={async () => {
             await user
               .get("posts")

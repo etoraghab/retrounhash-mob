@@ -149,7 +149,7 @@
     </button>
     <button
       on:click={async () => {
-        open(location.href.replace(/profile/, "u/") + $keys.pub);
+        open(location.href.replace(/profile/, "u/") + $username);
       }}
       class="w-7 rounded-md text-sm p-1"
     >

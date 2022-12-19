@@ -120,28 +120,28 @@
     <a
       href="/"
       aria-label="home"
-      class="mx-auto mt-2 p-2 rounded-md bg-[#202020]"
+      class="mx-auto mt-2 p-2 rounded-md"
     >
       <Home width="1.2em" />
     </a>
     <a
       href="/search"
       aria-label="search"
-      class="mx-auto mt-2 p-2 rounded-md bg-[#202020]"
+      class="mx-auto mt-2 p-2 rounded-md"
     >
       <Search width="1.2em" />
     </a>
     <a
       href="/dm"
       aria-label="messages"
-      class="mx-auto mt-2 p-2 rounded-md bg-[#202020]"
+      class="mx-auto mt-2 p-2 rounded-md "
     >
       <Message width="1.2em" />
     </a>
     <a
       href="/profile"
       aria-label="profile"
-      class="mx-auto mt-2 p-2 rounded-md bg-[#202020]"
+      class="mx-auto mt-2 p-2 rounded-md"
     >
       <Account width="1.2em" />
     </a>
@@ -149,7 +149,7 @@
     <a
       href="/settings"
       aria-label="settings"
-      class="mx-auto mt-auto mb-3 p-2 rounded-md bg-[#202020]"
+      class="mx-auto mt-auto mb-3 p-2 rounded-md"
     >
       <Settings width="1.2em" />
     </a>

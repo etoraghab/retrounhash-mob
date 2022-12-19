@@ -76,6 +76,18 @@ export async function publickeyGet(username) {
   });
 }
 
+export async function getuserbio(pub) {
+  return new Promise(async (r) => {
+    db.user(pub)
+      .get("bio")
+      .once((pub) => {
+        if (pub) {
+          r(pub);
+        }
+      });
+  });
+}
+
 export async function usernameGet(pub) {
   return new Promise(async (r, re) => {
     db.user(pub)
