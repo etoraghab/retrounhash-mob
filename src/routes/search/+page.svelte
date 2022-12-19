@@ -1,55 +1,46 @@
 <script>
+  import GUN from "gun";
   import Search from "@svicons/boxicons-regular/search.svelte";
   import Arrow from "@svicons/boxicons-regular/right-arrow-alt.svelte";
-  import { db } from "$lib/gun";
+  import { avatar, db } from "$lib/gun";
   import moment from "moment";
   import Post from "../../comp/post.svelte";
-  import { getUserAvatar, getUserName } from "$lib/utils";
+  import { getUserAvatar, usernameGet } from "$lib/utils";
   let q;
   let posts = [];
 
   function search(query) {
-    /*db.get("search")
-      .get("query")
-      .get(`#${q}`)
-      .once((map) => {
-        Object.entries(map).forEach((e) => {
-        });
-      });*/
-
     query.split(" ").forEach((query) => {
       query = query.replace(/ /, "");
       if (!(query.length <= 2)) {
         db.get("search")
           .get("query")
           .get("#" + String(query).toLowerCase())
+          .map()
           .once((post) => {
-            if (post) {
-              Object.entries(post).forEach((e) => {
-                if (e[0] !== "_") {
-                  db.get(String(e[1]).split("/")[0])
-                    .get("searchable")
-                    .get(String(e[1]).split("/")[2])
-                    .once(async (n) => {
-                      if (n) {
-                        let pub__ = String(e[1]).split("/")[0];
-                        let date = new Date(n["_"][">"].content).toUTCString();
-                        posts = [
-                          {
-                            content: n.content,
-                            pub: pub__,
-                            date: moment(date).calendar(),
-                            name: await getUserName(pub__),
-                            avatar: await getUserAvatar(pub__),
-                            sortDate: n["_"][">"].content,
-                          },
-                          ...posts,
-                        ];
-                      }
-                    });
+            db.get(post).once((val) => {
+              usernameGet(post.split(/~/)[1].split(/\//)[0]).then(
+                (username) => {
+                  getUserAvatar(post.split(/~/)[1].split(/\//)[0]).then(
+                    (avatar) => {
+                      let date = GUN.state.is(val, "content");
+                      posts = [
+                        {
+                          content: val.content,
+                          uid: post.split(/~/)[1].split(/\//)[2],
+                          avatar: avatar,
+                          name: username,
+                          date: moment(date).calendar(),
+                          sortDate: date,
+                          pub: post.split(/~/)[1].split(/\//)[0],
+                        },
+                        ...posts,
+                      ];
+                    }
+                  );
                 }
-              });
-            }
+              );
+            });
           });
       }
     });

@@ -2,6 +2,7 @@ import Gun from "gun";
 import "gun/sea";
 // import "gun/axe";
 import { writable } from "svelte/store";
+import { usernameGet } from "./utils";
 export const db = new Gun({
   peers: ["https://gun-manhattan.herokuapp.com/gun"],
   localStorage: false,
@@ -17,9 +18,9 @@ export const keys = writable({
   epriv: "",
   priv: "",
 });
-db.on("auth", () => {
+db.on("auth", async () => {
   localStorage.setItem("keys", JSON.stringify(user._.sea));
-  user.get("alias").once((name) => {
+  await usernameGet(user.is.pub).then((name) => {
     username.set(name);
     username_local = name;
   });

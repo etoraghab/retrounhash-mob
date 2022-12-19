@@ -9,15 +9,15 @@
 
   let editable = false;
   let user_avatar;
-  let username_VAL, bio_VAL, link_VAL;
-  let alias_graph = user.get("alias");
+  let bio_VAL, link_VAL;
+  // let alias_graph = user.get("displayName");
   let bio_graph = user.get("bio");
   let link_graph = user.get("link");
   let avatar_graph = user.get("avatar");
 
   function save() {
     return new Promise(async (r) => {
-      await alias_graph.put(username_VAL.innerHTML);
+      // await alias_graph.put(username_VAL.innerHTML);
       await bio_graph.put(bio_VAL.innerHTML);
       await link_graph.put(link_VAL.innerHTML);
       r();
@@ -33,9 +33,9 @@
   }
 
   onMount(() => {
-    alias_graph.once((val) => {
-      username_VAL.innerHTML = val;
-    });
+    // alias_graph.once((val) => {
+    //   username_VAL.innerHTML = val;
+    // });
     bio_graph.once((val) => {
       bio_VAL.innerHTML = val || "404 no bio found";
     });
@@ -44,8 +44,7 @@
     });
     avatar_graph.once((val) => {
       user_avatar =
-        val ||
-        `https://avatars.dicebear.com/api/identicon/${username_VAL.innerHTML}.svg`;
+        val || `https://avatars.dicebear.com/api/identicon/${$username}.svg`;
     });
   });
 
@@ -97,8 +96,8 @@
     accept="image/*"
     class="hidden"
   />
-  <span class="mt-1" contenteditable={editable} bind:this={username_VAL}>
-    {$username}
+  <span class="mt-1">
+    @{$username}
   </span>
   <div
     bind:this={bio_VAL}
@@ -129,7 +128,7 @@
         } else {
           editable = true;
           setTimeout(function () {
-            username_VAL.focus();
+            bio_VAL.focus();
           }, 0);
         }
       }}
