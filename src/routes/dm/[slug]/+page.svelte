@@ -71,15 +71,17 @@
         })
         .then((data) => {
           q = "";
-          messages = [
-            {
-              message: data.message,
-              time: Gun.state.is(data, "message"),
-              self: true,
-            },
-            ...messages,
-          ];
-          dummy.scrollIntoView();
+          // messages = [
+          //   {
+          //     message: data.message,
+          //     time: Gun.state.is(data, "message"),
+          //     self: true,
+          //   },
+          //   ...messages,
+          // ];
+          if (dummy) {
+            dummy.scrollIntoView();
+          }
         });
     }
   }
