@@ -4,11 +4,14 @@
   import { onMount } from "svelte";
   import { db, keys, user } from "$lib/gun";
   import Message from "../../../comp/message.svelte";
+  import Icon from "svelte-icons-pack/Icon.svelte";
+  import BsArrowLeftShort from "svelte-icons-pack/bs/BsArrowLeftShort";
+  import { goto } from "$app/navigation";
 
   export let data;
   const username = data.slug;
-  console.log(username);
   let pub;
+  let dummy;
   let messages = [];
   let refreshMesages = () => {};
 
@@ -16,72 +19,76 @@
     await publickeyGet(username).then((pubb) => {
       pub = pubb;
     });
-
-    refreshMesages = async () => {
-      messages = [];
-      await user
-        .get("dm")
-        .get(pub)
-        .map()
-        .once((a, b) => {
-          console.log(b);
-          messages = [
-            {
-              message: a.message,
-              time: Gun.state.is(a, "message"),
-              self: true,
-            },
-            ...messages,
-          ];
-        });
-
-      await db
-        .user(pub)
-        .get("dm")
-        .get(user.is.pub)
-        .map()
-        .once((a, b) => {
-          console.log(b);
-          messages = [
-            {
-              message: a.message,
-              time: Gun.state.is(a, "message"),
-              self: false,
-            },
-            ...messages,
-          ];
-        });
-    };
+    messages = [];
+    await user
+      .get("dm")
+      .get(pub)
+      .once()
+      .map()
+      .once((a, b) => {
+        messages = [
+          {
+            message: a.message,
+            time: Gun.state.is(a, "message"),
+            self: true,
+          },
+          ...messages,
+        ];
+      });
 
     await db
       .user(pub)
       .get("dm")
       .get(user.is.pub)
       .on(() => {
-        refreshMesages();
+        if (dummy) {
+          dummy.scrollIntoView();
+        }
+      })
+      .map()
+      .once((a, b) => {
+        messages = [
+          {
+            message: a.message,
+            time: Gun.state.is(a, "message"),
+            self: false,
+          },
+          ...messages,
+        ];
       });
   });
 
   let q;
 
   async function sendMessage() {
-    await user.get("dm").get(pub).get(new Date().toISOString()).put({
-      message: q,
-    });
-    console.log("sent");
-    refreshMesages();
+    if (q !== undefined || (q !== "" && q)) {
+      await user
+        .get("dm")
+        .get(pub)
+        .get(new Date().toISOString())
+        .put({
+          message: q,
+        })
+        .then((data) => {
+          q = "";
+          messages = [
+            {
+              message: data.message,
+              time: Gun.state.is(data, "message"),
+              self: true,
+            },
+            ...messages,
+          ];
+          dummy.scrollIntoView();
+        });
+    }
   }
 
-  function removeDUP() {
-    let a = messages.filter(
-      (v, i, a) =>
-        a.findIndex((v2) => JSON.stringify(v2) === JSON.stringify(v)) === i
-    );
-    messages = a;
+  let removeDUP = () => {
     messages.sort(
       (d1, d2) => new Date(d1.time).getTime() - new Date(d2.time).getTime()
     );
-  }
+  };
 
   $: messages, removeDUP();
 </script>
@@ -90,6 +97,13 @@
   <div
     class="mx-4 w-full p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
   >
+    <button
+      on:click={() => {
+        goto("/dm/");
+      }}
+    >
+      <Icon src={BsArrowLeftShort} size={20} />
+    </button>
     <div
       class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-md"
     >
@@ -99,9 +113,14 @@
         {/await}
       {/if}
     </div>
-    <div class="text-sm font-thin w-full resize-none bg-[#19191a] rounded p-1">
+    <button
+      on:click={() => {
+        goto(`/u/${username}`);
+      }}
+      class="text-sm font-thin w-full resize-none bg-[#19191a] rounded p-1"
+    >
       {username}
-    </div>
+    </button>
   </div>
 </div>
 
@@ -111,7 +130,7 @@
       <Message message={m.message} self={m.self} time={m.time} />
     {/each}
   </div>
-  <div class="mb-10" />
+  <div bind:this={dummy} class="mb-10" />
 </div>
 
 <div class="flex centered_bottom justify-center items-center mt-3">
