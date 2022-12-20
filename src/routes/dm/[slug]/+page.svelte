@@ -62,27 +62,29 @@
 
   async function sendMessage() {
     if (q !== undefined || (q !== "" && q)) {
-      await user
+      let time = new Date().toISOString()
+      user
         .get("dm")
         .get(pub)
-        .get(new Date().toISOString())
+        .get(time)
         .put({
           message: q,
         })
         .then((data) => {
           q = "";
-          messages = [
-            {
-              message: data.message,
-              time: Gun.state.is(data, "message"),
-              self: true,
-            },
-            ...messages,
-          ];
           if (dummy) {
             dummy.scrollIntoView();
           }
         });
+
+      messages = [
+        {
+          message: p,
+          time: time,
+          self: true,
+        },
+        ...messages,
+      ];
     }
   }
 
