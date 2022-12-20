@@ -31,7 +31,7 @@
       following = null;
       bio_graph = user.get("bio");
       link_graph = user.get("link");
-      avatar_graph = user.get("avatar");
+      //avatar_graph = user.get("avatar");
 
       bio_graph.once((val) => {
         user_bio = val;
