@@ -177,7 +177,7 @@
               </button>
               <button
                 on:click={publishPost}
-                class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#222222]"
+                class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black"
               >
                 post
               </button>

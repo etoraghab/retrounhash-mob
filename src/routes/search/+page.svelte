@@ -25,18 +25,6 @@
     accounts = [];
     recentSerch = query;
     query.split(" ").forEach(async (query) => {
-      await publickeyGet(query).then(async (val) => {
-        accounts = [
-          {
-            pub: val,
-            username: query,
-            avatar: await getUserAvatar(val),
-            // bio: await getuserbio(val),
-          },
-          ...accounts,
-        ];
-      });
-
       query = query.replace(/ /, "");
       if (!(query.length <= 2)) {
         db.get("search")
@@ -76,6 +64,37 @@
     });
   }
 
+  async function searchAccounts(query_) {
+    query_.replace(/@/g, '').split(" ").forEach(async (query) => {
+      await publickeyGet(query).then(async (val) => {
+        accounts = [
+          {
+            pub: val,
+            username: query,
+            avatar: await getUserAvatar(val),
+            // bio: await getuserbio(val),
+          },
+          ...accounts,
+        ];
+      });
+    });
+
+    let tags = query_.match(/@[a-z0-9_]+/g) || [];
+    tags.forEach(async query => {
+      await publickeyGet(query).then(async (val) => {
+        accounts = [
+          {
+            pub: val,
+            username: query,
+            avatar: await getUserAvatar(val),
+            // bio: await getuserbio(val),
+          },
+          ...accounts,
+        ];
+      });
+    });
+  }
+
   function removeDUP() {
     let a = posts.filter(
       (v, i, a) =>
@@ -99,6 +118,9 @@
   }
 
   $: accounts, removeDUP_accounts();
+
+  let tab = "posts";
+  let tabs_list = ["posts", "accounts"];
 </script>
 
 <svelte:head>
@@ -114,51 +136,72 @@
     <div class="text-center text-xs pt-3 px-4">
       Search across all posts and accounts that match to your query
     </div>
-  {/if}
-
-  <div class="w-11/12 flex flex-col justify-center items-center gap-2">
-    {#if accounts.length !== 0}
-      <div class="text-xl w-full text-left">People</div>
-    {/if}
-    {#each accounts as a}
-      <div
-        class="w-full p-1 bg-[#19191a] border border-[#313131] rounded-md h-auto flex flex-col"
-      >
+  {:else}
+    <div class="flex w-11/12">
+      {#each tabs_list as i}
         <button
           on:click={() => {
-            goto(`/u/${a.username}`);
+            tab = i;
           }}
+          class="w-1/2 center {tab === i
+            ? 'border-b border-blue-600'
+            : 'border-b border-[#141414]'} pb-1 transition-all duration-500"
         >
-          <div class="flex items-center">
-            <div class="flex w-full">
-              <img
-                src={a.avatar}
-                class="h-6 w-6 aspect-square object-cover rounded-md m-1"
-                alt=""
-              />
-              <div class="flex flex-col justify-center pl-1">
-                <span class="text-xs m-auto ml-0">
-                  {a.username}
-                </span>
-                <!-- <span class="text-[9px] text-opacity-60 my-auto">
-                  {a.bio}
-                </span> -->
+          {i}
+        </button>
+      {/each}
+    </div>
+  {/if}
+
+  {#if tab == "accounts"}
+    <div class="w-11/12 flex flex-col justify-center items-center gap-2">
+      {#if accounts.length !== 0}
+        <div class="text-xl w-full text-left">Accounts</div>
+      {:else if accounts.length == 0 && recentSerch}
+        <div class="text-xl">no results</div>
+      {/if}
+      {#each accounts as a}
+        <div
+          class="w-full p-1 bg-[#19191a] border border-[#313131] rounded-md h-auto flex flex-col"
+        >
+          <button
+            on:click={() => {
+              goto(`/u/${a.username}`);
+            }}
+          >
+            <div class="flex items-center">
+              <div class="flex w-full">
+                <img
+                  src={a.avatar}
+                  class="h-6 w-6 aspect-square object-cover rounded-md m-1"
+                  alt=""
+                />
+                <div class="flex flex-col justify-center pl-1">
+                  <span class="text-xs m-auto ml-0">
+                    {a.username}
+                  </span>
+                  <!-- <span class="text-[9px] text-opacity-60 my-auto">
+                {a.bio}
+              </span> -->
+                </div>
               </div>
             </div>
-          </div>
-        </button>
-      </div>
-    {/each}
-  </div>
-
-  <div class="w-full flex flex-col justify-center items-center gap-2">
-    {#if posts.length !== 0}
-      <div class="text-xl w-11/12 text-left">Posts</div>
-    {/if}
-    {#each posts as p}
-      <Post data={p} />
-    {/each}
-  </div>
+          </button>
+        </div>
+      {/each}
+    </div>
+  {:else if tab == "posts"}
+    <div class="w-full flex flex-col justify-center items-center gap-2">
+      {#if posts.length !== 0}
+        <div class="text-xl w-11/12 text-left">Posts</div>
+      {:else if posts.length == 0 && recentSerch}
+        <div class="text-xl">no results</div>
+      {/if}
+      {#each posts as p}
+        <Post data={p} />
+      {/each}
+    </div>
+  {/if}
 </div>
 <div class="pt-14" />
 <div class="flex centered justify-center items-center mt-3">
@@ -174,6 +217,7 @@
       autocomplete="off"
       on:submit|preventDefault={() => {
         search(q);
+        searchAccounts(q);
       }}
       class="flex w-full"
     >
@@ -187,6 +231,7 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button
         on:click={() => {
+          searchAccounts(q);
           search(q);
         }}
         type="submit"
