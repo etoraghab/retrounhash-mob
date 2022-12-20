@@ -20,14 +20,17 @@
     .get("canMessage")
     .map()
     .once(async (a, b) => {
-      messaging_followers = [
-        {
-          pub: b,
-          username: await usernameGet(b),
-          avatar: await getUserAvatar(b),
-        },
-        ...messaging_followers,
-      ];
+      console.log(a);
+      if (a == true) {
+        messaging_followers = [
+          {
+            pub: b,
+            username: await usernameGet(b),
+            avatar: await getUserAvatar(b),
+          },
+          ...messaging_followers,
+        ];
+      }
     });
 
   function blobToBase64(blob) {
@@ -120,6 +123,20 @@ adwwwwwwww
 <div class="w-full flex flex-col justify-center items-center mt-3">
   <div class="text-xl mb-3 w-11/12 text-left">Messages</div>
   <div class="flex w-11/12 gap-1 flex-col justify-center items-center">
+    <div class="text-xs text-left w-full">
+      {messaging_followers.length}
+      {#if messaging_followers.length >= 2 || messaging_followers.length == 0}
+        contacts
+      {:else}
+        contact
+      {/if}
+    </div>
+    {#if messaging_followers.length == 0}
+      <div class="text-xs capitalize ">
+        follow people or message them by visiting their profile for them to show
+        up here
+      </div>
+    {/if}
     {#each messaging_followers as f}
       <MessgageUser {f} />
     {/each}

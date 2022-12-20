@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   /** @type {import('./$types').PageData} */
   export let data;
   const username = data.slug;
@@ -102,26 +103,42 @@
     <Link width="1em" />
     <span bind:this={link_VAL}> loading </span>
   </button>
-  {#if following !== null && pub !== $keys.pub}
-    <button
-      on:click={async () => {
-        if (following) {
-          following = false;
-          user_.get("canMessage").get(pub).put(false);
-          user_.get("following").get(pub).put(false);
-        } else {
-          following = true;
-          user_.get("following").get(pub).put(true);
-          user_.get("canMessage").get(pub).put(true);
-        }
-      }}
-      class="w-10/12 {following
-        ? 'bg-[#272626] hover:bg-[#383737] text-white'
-        : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
-    >
-      {following ? "unfollow" : "follow"}
-    </button>
-  {/if}
+  <div class="flex gap-2 w-11/12 break-all justify-center items-center">
+    {#if following !== null && pub !== $keys.pub}
+      <button
+        on:click={async () => {
+          if (following) {
+            following = false;
+            user_.get("canMessage").get(pub).put(false);
+            user_.get("following").get(pub).put(false);
+          } else {
+            following = true;
+            user_.get("following").get(pub).put(true);
+            user_.get("canMessage").get(pub).put(true);
+          }
+        }}
+        class="w-8/12 {following
+          ? 'bg-[#272626] hover:bg-[#383737] text-white'
+          : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
+      >
+        {following ? "unfollow" : "follow"}
+      </button>
+      <button
+        on:click={async () => {
+          await user_
+            .get("canMessage")
+            .get(pub)
+            .put(true)
+            .then(() => {
+              goto("/dm/" + username);
+            });
+        }}
+        class="w-4/12 bg-[#272626] hover:bg-[#383737] text-white rounded-md text-sm p-1 transition-colors duration-300"
+      >
+        message
+      </button>
+    {/if}
+  </div>
 </div>
 
 <div class="flex flex-col gap-3 justify-start items-center mt-3">
