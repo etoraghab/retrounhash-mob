@@ -107,10 +107,12 @@
       on:click={async () => {
         if (following) {
           following = false;
+          user_.get("canMessage").get(pub).put(false);
           user_.get("following").get(pub).put(false);
         } else {
           following = true;
           user_.get("following").get(pub).put(true);
+          user_.get("canMessage").get(pub).put(true);
         }
       }}
       class="w-10/12 {following

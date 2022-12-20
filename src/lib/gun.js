@@ -1,10 +1,19 @@
 import Gun from "gun";
 import "gun/sea";
 // import "gun/axe";
+import "gun/lib/radix";
+import "gun/lib/radisk";
+import "gun/lib/store";
+import "gun/lib/rindexed";
+
 import { writable } from "svelte/store";
 import { usernameGet } from "./utils";
+
 export const db = new Gun({
-  peers: ["https://gun-manhattan.herokuapp.com/gun"],
+  peers: [
+    "https://relay.129.153.59.37.nip.io/gun",
+    "https://gun-manhattan.herokuapp.com/gun",
+  ],
   localStorage: false,
 });
 let username_local;

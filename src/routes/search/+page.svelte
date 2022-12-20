@@ -18,11 +18,25 @@
   let accounts = [];
 
   function search(query) {
+    if (!query || query == "" || query == "") {
+      return;
+    }
     posts = [];
     accounts = [];
     recentSerch = query;
     query.split(" ").forEach(async (query) => {
-      console.log("ok");
+      await publickeyGet(query).then(async (val) => {
+        accounts = [
+          {
+            pub: val,
+            username: query,
+            avatar: await getUserAvatar(val),
+            // bio: await getuserbio(val),
+          },
+          ...accounts,
+        ];
+      });
+
       query = query.replace(/ /, "");
       if (!(query.length <= 2)) {
         db.get("search")
@@ -59,20 +73,6 @@
             });
           });
       }
-    });
-
-    query.split(" ").forEach(async (query) => {
-      await publickeyGet(query).then(async (val) => {
-        accounts = [
-          {
-            pub: val,
-            username: query,
-            avatar: await getUserAvatar(val),
-            bio: await getuserbio(val),
-          },
-          ...accounts,
-        ];
-      });
     });
   }
 
@@ -140,9 +140,9 @@
                 <span class="text-xs m-auto ml-0">
                   {a.username}
                 </span>
-                <span class="text-[9px] text-opacity-60 my-auto">
+                <!-- <span class="text-[9px] text-opacity-60 my-auto">
                   {a.bio}
-                </span>
+                </span> -->
               </div>
             </div>
           </div>

@@ -154,7 +154,7 @@
       <Settings width="1.2em" />
     </a>
   </div>
-  <div class="w-full h-full overflow-scroll">
+  <div class="w-full h-full overflow-x-scroll">
     {#if $username_}
       <slot />
       <div class="p-2" />
