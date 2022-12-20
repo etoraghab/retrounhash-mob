@@ -62,10 +62,11 @@
 
   async function sendMessage() {
     if (q !== undefined || (q !== "" && q)) {
-      await user
+      let time = new Date().toISOString()
+      user
         .get("dm")
         .get(pub)
-        .get(new Date().toISOString())
+        .get(time)
         .put({
           message: q,
         })
