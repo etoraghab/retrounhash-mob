@@ -134,7 +134,7 @@
       <Message message={m.message} self={m.self} time={m.time} />
     {/each}
   </div>
-  <div bind:this={dummy} class="mb-10" />
+  <div bind:this={dummy} class="mb-12" />
 </div>
 
 <div class="flex centered_bottom justify-center items-center mt-3">
