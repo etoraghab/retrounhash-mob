@@ -115,9 +115,9 @@
     }}
   >
     <Link width="1em" />
-    <span bind:this={link_VAL} contenteditable={editable}> loading </span>
+    <span bind:this={link_VAL} contenteditable={editable}>loading</span>
   </button>
-  <div class="flex gap-2 w-full px-2">
+  <div class="flex gap-2 w-11/12 px-2">
     <button
       on:click={async () => {
         if (editable) {
