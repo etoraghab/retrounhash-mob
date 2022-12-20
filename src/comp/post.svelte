@@ -85,7 +85,7 @@
               {data.date}
             </span>
           </div>
-          <div class="m-auto mr-2 flex justify-center items-center">
+          <div class="m-auto mr-2 center">
             <button
               on:click={() => {
                 option = true;

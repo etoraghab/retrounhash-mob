@@ -35,7 +35,7 @@
             </button>
             <span class="ml-auto mr-2 my-auto text-red-500">
               <button
-                class="flex justify-center items-center"
+                class="center"
                 on:click={() => {
                   user.get("canMessage").get(f.pub).put(false);
                   deleted = true;

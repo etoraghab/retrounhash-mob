@@ -158,7 +158,7 @@
             maxlength="280"
             class="text-lg w-full h-44 resize-none bg-[#19191a] rounded p-1"
           />
-          <div class="flex justify-center items-center p-2 w-full">
+          <div class="center p-2 w-full">
             <!-- <button class="">
               <Image width="1.2em" />
             </button> -->

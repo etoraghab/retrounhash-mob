@@ -7,7 +7,7 @@
   <meta name="description" content="Customise retrounhash the way you want" />
 </svelte:head>
 
-<div class="flex justify-center items-center w-full mt-3">
+<div class="center w-full mt-3">
   <div class="text-xl w-11/12">
     Account
     <div class="p-2 text-xs">

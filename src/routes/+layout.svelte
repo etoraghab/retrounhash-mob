@@ -142,11 +142,11 @@
       <slot />
       <div class="p-2" />
     {:else if loading}
-      <div class="w-full h-full flex justify-center items-center">
+      <div class="w-full h-full center">
         <Loading />
       </div>
     {:else}
-      <div class="w-full h-full flex justify-center items-center">
+      <div class="w-full h-full center">
         <div class="flex gap-2 items-center flex-col">
           <div class="text-md">retrounhash</div>
           <input

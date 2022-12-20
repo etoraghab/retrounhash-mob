@@ -235,7 +235,7 @@
           search(q);
         }}
         type="submit"
-        class="h-6 flex justify-center items-center w-6 m-auto aspect-square object-cover rounded-md"
+        class="h-6 center w-6 m-auto aspect-square object-cover rounded-md"
       >
         <Arrow width="1.2em" />
       </button>

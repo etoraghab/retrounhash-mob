@@ -80,12 +80,12 @@
 <!-- <div class="flex items-center">
   <img
     src={$avatar}
-    class="h-44 w-20 rounded-md brightness-[0.8] object-cover  flex justify-center items-center border border-[#2c2b2b]"
+    class="h-44 w-20 rounded-md brightness-[0.8] object-cover  center border border-[#2c2b2b]"
     alt=""
   />
   <div class="fixed h-44 w-20 flex justify-center items-end mb-4">
     <label for="highlight-chooser">
-      <div class="flex justify-center items-center">
+      <div class="center">
         <Icon src={Plus} size="2.5rem" />
       </div>
       <div class="text-xs text-center">story</div>
