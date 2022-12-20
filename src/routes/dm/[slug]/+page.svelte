@@ -79,7 +79,7 @@
 
       messages = [
         {
-          message: p,
+          message: q,
           time: time,
           self: true,
         },
