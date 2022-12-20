@@ -42,7 +42,6 @@
         } else {
           progress = 0;
           counter++;
-          console.log(highlights.length, counter);
           if (highlights.length !== counter) {
             displayIMG = highlights[counter].img;
             displayCAPTION = highlights[counter].caption;
@@ -78,7 +77,6 @@
       } else {
         progress = 0;
         counter++;
-        console.log(highlights.length, counter);
         if (highlights.length !== counter) {
           displayIMG = highlights[counter].img;
           displayCAPTION = highlights[counter].caption;

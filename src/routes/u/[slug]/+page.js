@@ -6,3 +6,7 @@ export function load({ params }) {
 
   throw error(404, "Not found");
 }
+
+export const prerender = true;
+export const ssr = false;
+export const csr = true;

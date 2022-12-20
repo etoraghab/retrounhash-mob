@@ -7,7 +7,7 @@ import "gun/lib/store";
 import "gun/lib/rindexed";
 
 import { writable } from "svelte/store";
-import { usernameGet } from "./utils";
+import { getUserAvatar, usernameGet } from "./utils";
 
 export const db = new Gun({
   peers: [
@@ -33,10 +33,13 @@ db.on("auth", async () => {
     username.set(name);
     username_local = name;
   });
-  keys.set(user._.sea);
-  avatar_graph.once((val) => {
+  await getUserAvatar(user.is.pub).then((val)=>{
+    avatar.set(val);
+  })
+  keys.set(db.user()._.sea);
+  /*avatar_graph.on((val) => {
     avatar.set(
       val || `https://avatars.dicebear.com/api/identicon/${username_local}.svg`
     );
-  });
+  });*/
 });

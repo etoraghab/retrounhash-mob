@@ -6,7 +6,7 @@
   let pub;
   import imageCompression from "browser-image-compression";
   import Link from "@svicons/boxicons-regular/link.svelte";
-  import { db, keys, user as user_ } from "$lib/gun";
+  import { db, keys, user as user_, avatar } from "$lib/gun";
   import { onMount } from "svelte";
   import { getUserAvatar, publickeyGet, usernameGet } from "$lib/utils";
   import moment from "moment";
@@ -18,7 +18,7 @@
   let bio_VAL, link_VAL;
   let bio_graph = user.get("bio");
   let link_graph = user.get("link");
-  let avatar_graph = user.get("avatar");
+  // let avatar_graph = user.get("avatar");
   let user_bio;
 
   let posts = [];
@@ -40,10 +40,10 @@
       link_graph.once((val) => {
         link_VAL.innerHTML = val || location.href.split(/\//)[2];
       });
-      avatar_graph.once((val) => {
+      /*avatar_graph.once((val) => {
         user_avatar =
           val || `https://avatars.dicebear.com/api/identicon/${username}.svg`;
-      });
+      });*/
 
       db.user(pub)
         .get("posts")
@@ -88,7 +88,7 @@
 </svelte:head>
 <div class="flex flex-col break-all justify-center items-center mt-3">
   <img
-    src={user_avatar}
+    src={$avatar}
     class="h-20 w-20 aspect-square object-cover rounded-full"
     alt=""
   />

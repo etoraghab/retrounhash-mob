@@ -20,7 +20,6 @@
     .get("canMessage")
     .map()
     .once(async (a, b) => {
-      console.log(a);
       if (a == true) {
         messaging_followers = [
           {
@@ -61,7 +60,6 @@
             caption: prompt("caption"),
           })
           .then((e) => {
-            console.log("done :)");
             base64IMG = "";
           });
       } catch (error) {

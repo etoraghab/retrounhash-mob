@@ -22,8 +22,8 @@
     if (localStorage.getItem("keys")) {
       user.auth(JSON.parse(localStorage.getItem("keys")), function (res) {
         console.log("loggedIN");
+        loading = false;
       });
-      loading = true;
     } else {
       loading = false;
     }
@@ -79,7 +79,6 @@
               await user.get("following").get(user._.sea.pub).put(true);
               await user.get("username").put(username);
               loading = false;
-              location.reload();
               toast("success");
             });
           } else if (e.err == "User already created!") {
@@ -117,32 +116,16 @@
         alt=""
       />
     </div>
-    <a
-      href="/"
-      aria-label="home"
-      class="mx-auto mt-2 p-2 rounded-md"
-    >
+    <a href="/" aria-label="home" class="mx-auto mt-2 p-2 rounded-md">
       <Home width="1.2em" />
     </a>
-    <a
-      href="/search"
-      aria-label="search"
-      class="mx-auto mt-2 p-2 rounded-md"
-    >
+    <a href="/search" aria-label="search" class="mx-auto mt-2 p-2 rounded-md">
       <Search width="1.2em" />
     </a>
-    <a
-      href="/dm"
-      aria-label="messages"
-      class="mx-auto mt-2 p-2 rounded-md "
-    >
+    <a href="/dm" aria-label="messages" class="mx-auto mt-2 p-2 rounded-md ">
       <Message width="1.2em" />
     </a>
-    <a
-      href="/profile"
-      aria-label="profile"
-      class="mx-auto mt-2 p-2 rounded-md"
-    >
+    <a href="/profile" aria-label="profile" class="mx-auto mt-2 p-2 rounded-md">
       <Account width="1.2em" />
     </a>
 
@@ -155,7 +138,7 @@
     </a>
   </div>
   <div class="w-full h-full overflow-x-scroll">
-    {#if $username_}
+    {#if $keys.pub}
       <slot />
       <div class="p-2" />
     {:else if loading}
@@ -181,7 +164,6 @@
           <!-- <button
             on:click={async () => {
               user.auth(username, password, (e) => {
-                console.log(e);
               });
             }}
             class="w-full bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black rounded-md text-sm p-1 transition-colors duration-300"
