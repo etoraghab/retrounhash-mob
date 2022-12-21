@@ -1,4 +1,5 @@
 <script>
+  import Postinprofile from "./../../comp/postinprofile.svelte";
   import imageCompression from "browser-image-compression";
   import Link from "@svicons/boxicons-regular/link.svelte";
   import Copy from "@svicons/boxicons-regular/copy.svelte";
@@ -6,6 +7,8 @@
   import { keys, user, username } from "$lib/gun";
   import { onMount } from "svelte";
   import { copyToClipboard } from "$lib/utils";
+  import TrashAlt from "@svicons/boxicons-regular/trash-alt.svelte";
+  import { goto } from "$app/navigation";
 
   let editable = false;
   let user_avatar;
@@ -63,6 +66,32 @@
       }
     };
     reader.readAsDataURL(file);
+  }
+
+  let posts = [];
+
+  user
+    .get("posts")
+    .map()
+    .once((val, uid) => {
+      if (val && uid) {
+        posts = [
+          {
+            uid: uid,
+            content: val,
+          },
+          ...posts,
+        ];
+      }
+    });
+
+  function deleteallposts() {
+    if (confirm("This action is not reversibe! continue?")) {
+      posts.forEach(async (p) => {
+        await user.get("posts").get(p.uid).put(null);
+      });
+      posts = [];
+    }
   }
 </script>
 
@@ -150,5 +179,31 @@
     >
       <Open width="1.4em" />
     </button>
+  </div>
+
+  <div class="w-11/12 mt-3">
+    <div class="text-lg">Post Management</div>
+    {#each posts as p}
+      <Postinprofile {p} />
+    {/each}
+    {#if posts.length == 0}
+      <div class="text-sm">
+        no posts, <button
+          class="underline"
+          on:click={() => {
+            goto("/");
+          }}>write one.</button
+        >
+      </div>
+    {/if}
+
+    <!-- <div class="p-2 border border-dashed center flex-col mt-5 border-red-700 rounded-md">
+      <div class="text-xl font-thin capitalize w-full center">
+        bulk actions
+      </div>
+      <button on:click={deleteallposts} class="px-3 mb-2 bg-red-700 rounded-md">
+        delete all posts
+      </button>
+    </div> -->
   </div>
 </div>
