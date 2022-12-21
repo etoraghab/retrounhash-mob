@@ -105,12 +105,11 @@
   />
 </svelte:head>
 <div
-  class="flex dark h-full bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75"
+  class="h-full bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75"
 >
   <div
-    class="w-12 flex flex-col gap-2 bg-[#ffffff] dark:bg-[#19191a] text-black dark:text-white text-opacity-70"
+    class="w-12 h-full fixed left-0 top-0 flex flex-col gap-2 bg-[#ffffff] dark:bg-[#19191a] text-black dark:text-white text-opacity-70"
   >
-    <div class="pt-1" />
     <div class="mx-auto mt-2 text-black dark:text-white text-opacity-70">
       <img
         class="w-8 rounded-md h-auto aspect-square "
@@ -141,7 +140,12 @@
   </div>
   <div class="w-full">
     {#if $keys.pub}
-      <slot />
+      <div class="flex">
+        <div class="w-12" />
+        <div class="w-full">
+          <slot />
+        </div>
+      </div>
       <div class="p-2" />
     {:else if loading}
       <div class="w-full h-full center">
