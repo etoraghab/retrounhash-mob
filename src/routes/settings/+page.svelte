@@ -34,7 +34,7 @@
   {/each}
   <div class="p-2 text-xs w-11/12">
     <button
-      class="w-full bg-[#b32b2b] hover:bg-[#811f1f] text-white rounded-md text-sm p-1 px-2 transition-colors duration-300"
+      class="w-full bg-[#b32b2b] text-white rounded-md text-sm p-1 px-2 transition-colors duration-300"
       on:click={() => {
         user.leave();
         localStorage.clear();

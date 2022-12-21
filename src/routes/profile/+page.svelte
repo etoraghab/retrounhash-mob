@@ -84,15 +84,6 @@
         ];
       }
     });
-
-  function deleteallposts() {
-    if (confirm("This action is not reversibe! continue?")) {
-      posts.forEach(async (p) => {
-        await user.get("posts").get(p.uid).put(null);
-      });
-      posts = [];
-    }
-  }
 </script>
 
 <svelte:head>
@@ -196,14 +187,5 @@
         >
       </div>
     {/if}
-
-    <!-- <div class="p-2 border border-dashed center flex-col mt-5 border-red-700 rounded-md">
-      <div class="text-xl font-thin capitalize w-full center">
-        bulk actions
-      </div>
-      <button on:click={deleteallposts} class="px-3 mb-2 bg-red-700 rounded-md">
-        delete all posts
-      </button>
-    </div> -->
   </div>
 </div>

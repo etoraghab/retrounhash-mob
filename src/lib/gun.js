@@ -5,6 +5,7 @@ import "gun/lib/radix";
 import "gun/lib/radisk";
 import "gun/lib/store";
 import "gun/lib/rindexed";
+import "gun/lib/webrtc";
 
 import { writable } from "svelte/store";
 import { getUserAvatar, usernameGet } from "./utils";
@@ -15,6 +16,7 @@ export const db = new Gun({
     "https://gun-manhattan.herokuapp.com/gun",
   ],
   localStorage: false,
+  axe: false,
 });
 let username_local;
 export const user = db.user().recall({ sessionStorage: true });
@@ -28,15 +30,15 @@ export const keys = writable({
   priv: "",
 });
 db.on("auth", async () => {
+  keys.set(db.user()._.sea);
   localStorage.setItem("keys", JSON.stringify(user._.sea));
   await usernameGet(user.is.pub).then((name) => {
     username.set(name);
     username_local = name;
   });
-  await getUserAvatar(user.is.pub).then((val)=>{
+  await getUserAvatar(user.is.pub).then((val) => {
     avatar.set(val);
-  })
-  keys.set(db.user()._.sea);
+  });
   /*avatar_graph.on((val) => {
     avatar.set(
       val || `https://avatars.dicebear.com/api/identicon/${username_local}.svg`
