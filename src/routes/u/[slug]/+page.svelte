@@ -91,7 +91,7 @@
   <span class="mt-1">@{username}</span>
   <div bind:this={bio_VAL} class="w-10/12 text-left text-xs py-2">loading</div>
   <button
-    class="text-xs items-center text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3"
+    class="text-xs items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3"
     on:click={() => {
       open(link_VAL.innerHTML);
     }}
@@ -114,8 +114,8 @@
           }
         }}
         class="w-8/12 {following
-          ? 'bg-[#272626] hover:bg-[#383737] text-black dark:text-white'
-          : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
+          ? 'bg-[#f0f2f5] dark:bg-[#222222] dark:text-white'
+          : 'bg-[#383838] text-white text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
       >
         {following ? "unfollow" : "follow"}
       </button>
@@ -129,7 +129,7 @@
               goto("/dm/" + username);
             });
         }}
-        class="w-4/12 bg-[#272626] hover:bg-[#383737] text-black dark:text-white rounded-md text-sm p-1 transition-colors duration-300"
+        class="w-4/12 bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-md text-sm p-1 transition-colors duration-300"
       >
         message
       </button>

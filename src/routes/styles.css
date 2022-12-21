@@ -31,7 +31,7 @@
 }
 
 a {
-    @apply text-blue-500 text-opacity-60;
+    @apply text-blue-700 dark:text-blue-500 text-opacity-60;
 }
 
 .center {

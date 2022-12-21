@@ -131,7 +131,7 @@
     loading
   </div>
   <button
-    class="text-xs items-center text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3 pl-2"
+    class="text-xs items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3 pl-2"
     on:click={() => {
       if (!editable) {
         open(link_VAL.innerHTML);
@@ -157,8 +157,8 @@
         }
       }}
       class="w-10/12 {!editable
-        ? 'bg-[#272626] hover:bg-[#383737] text-black dark:text-white'
-        : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
+        ? 'bg-[#e6e8eb] dark:bg-[#222222] dark:text-white'
+        : 'bg-[#383838] text-white text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
     >
       {editable ? "save" : "edit"}
     </button>

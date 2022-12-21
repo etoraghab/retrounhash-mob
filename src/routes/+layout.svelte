@@ -172,7 +172,7 @@
               disabled={username == undefined}
               class="w-full {disabled && username !== undefined
                 ? 'bg-blue-900 hover:bg-blue-800'
-                : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
+                : 'bg-[#383838] text-white text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
             >
               {#if username == undefined}
                 continue

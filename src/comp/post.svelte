@@ -18,7 +18,7 @@
   {#if option}
     <div class="text-sm font-thin flex gap-1 items-center justify-center">
       <button
-        class="flex px-2 py-1 rounded-md bg-[#292626] gap-1 justify-center items-center"
+        class="flex px-2 py-1 rounded-md bg-[#e6e8eb] dark:bg-[#222222] dark:text-white gap-1 justify-center items-center"
       >
         <span class="text-red-600">
           <Report width="1.2em" />
@@ -27,7 +27,7 @@
       </button>
       {#if data.self}
         <button
-          class="flex px-2 py-1 rounded-md bg-[#292626] gap-1 justify-center items-center"
+          class="flex px-2 py-1 rounded-md bg-[#e6e8eb] dark:bg-[#222222] dark:text-white gap-1 justify-center items-center"
           on:click={async () => {
             await user
               .get("posts")
@@ -54,7 +54,7 @@
         on:click={() => {
           option = false;
         }}
-        class="p-1 bg-[#272626] rounded-md my-auto ml-auto"
+        class="p-1 bg-[#e6e8eb] dark:bg-[#222222] dark:text-white rounded-md my-auto ml-auto"
       >
         <X width="1.2em" />
       </button>
