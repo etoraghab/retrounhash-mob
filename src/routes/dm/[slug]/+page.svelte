@@ -1,5 +1,5 @@
 <script>
-  import { getUserAvatar, publickeyGet } from "$lib/utils";
+  import { getUserAvatar, publickeyGet, usernameGet } from "$lib/utils";
   import Arrow from "@svicons/boxicons-regular/right-arrow-alt.svelte";
   import { onMount } from "svelte";
   import { db, keys, user } from "$lib/gun";
@@ -9,60 +9,23 @@
   import { goto } from "$app/navigation";
 
   export let data;
-  const username = data.slug;
-  let pub;
-  let dummy;
+  const pub = data.slug;
+  let scrollBottom;
   let messages = [];
-  let refreshMesages = () => {};
-
-  onMount(async () => {
-    await publickeyGet(username).then((pubb) => {
-      pub = pubb;
-    });
-    messages = [];
-    await user
-      .get("dm")
-      .get(pub)
-      .once()
-      .map()
-      .once((a, b) => {
-        messages = [
-          {
-            message: a.message,
-            time: Gun.state.is(a, "message"),
-            self: true,
-          },
-          ...messages,
-        ];
-      });
-
-    await db
-      .user(pub)
-      .get("dm")
-      .get(user.is.pub)
-      .on(() => {
-        if (dummy) {
-          dummy.scrollIntoView();
-        }
-      })
-      .map()
-      .once((a, b) => {
-        messages = [
-          {
-            message: a.message,
-            time: Gun.state.is(a, "message"),
-            self: false,
-          },
-          ...messages,
-        ];
-      });
+  let username;
+  usernameGet(pub).then((u) => {
+    username = u;
   });
 
   let q;
 
+  function scroll() {
+    setTimeout(() => scrollBottom?.scrollIntoView({ behavior: "auto" }), 50);
+  }
+
   async function sendMessage() {
     if (q !== undefined || (q !== "" && q)) {
-      let time = new Date().toISOString()
+      let time = new Date().toISOString();
       user
         .get("dm")
         .get(pub)
@@ -72,19 +35,7 @@
         })
         .then((data) => {
           q = "";
-          if (dummy) {
-            dummy.scrollIntoView();
-          }
         });
-
-      // messages = [
-      //   {
-      //     message: data.message,
-      //     time: Gun.state.is(data, "message"),
-      //     self: true,
-      //   },
-      //   ...messages,
-      // ];
     }
   }
 
@@ -95,8 +46,43 @@
   };
 
   $: messages, removeDUP();
+
+  db.user(pub)
+    .get("dm")
+    .get($keys.pub)
+    .map()
+    .once((a) => {
+      messages = [
+        {
+          message: a.message,
+          time: Gun.state.is(a, "message"),
+          self: false,
+        },
+        ...messages,
+      ];
+    });
+
+  user
+    .get("dm")
+    .get(pub)
+    .map()
+    .once((a) => {
+      messages = [
+        {
+          message: a.message,
+          time: Gun.state.is(a, "message"),
+          self: true,
+        },
+        ...messages,
+      ];
+    });
+
+  $: messages, scroll();
 </script>
 
+<svelte:head>
+  <title>{username || "loading"} - retrounhash</title>
+</svelte:head>
 <div class="flex centered justify-center items-center mt-3">
   <div
     class="mx-4 w-full p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
@@ -134,7 +120,7 @@
       <Message message={m.message} self={m.self} time={m.time} />
     {/each}
   </div>
-  <div bind:this={dummy} class="mb-12" />
+  <div bind:this={scrollBottom} class="mb-12" />
 </div>
 
 <div class="flex centered_bottom justify-center items-center mt-3">
