@@ -91,7 +91,7 @@
   <span class="mt-1">@{username}</span>
   <div bind:this={bio_VAL} class="w-10/12 text-left text-xs py-2">loading</div>
   <button
-    class="text-xs items-center text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 p-3 pt-1"
+    class="text-xs items-center text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3"
     on:click={() => {
       open(link_VAL.innerHTML);
     }}

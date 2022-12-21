@@ -10,14 +10,12 @@
   let editable = false;
   let user_avatar;
   let bio_VAL, link_VAL;
-  // let alias_graph = user.get("displayName");
   let bio_graph = user.get("bio");
   let link_graph = user.get("link");
   let avatar_graph = user.get("avatar");
 
   function save() {
     return new Promise(async (r) => {
-      // await alias_graph.put(username_VAL.innerHTML);
       await bio_graph.put(bio_VAL.innerHTML);
       await link_graph.put(link_VAL.innerHTML);
       r();
@@ -33,9 +31,6 @@
   }
 
   onMount(() => {
-    // alias_graph.once((val) => {
-    //   username_VAL.innerHTML = val;
-    // });
     bio_graph.once((val) => {
       bio_VAL.innerHTML = val || "404 no bio found";
     });
@@ -107,7 +102,7 @@
     loading
   </div>
   <button
-    class="text-xs items-center text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 p-3 pt-1"
+    class="text-xs items-center text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3 pl-2"
     on:click={() => {
       if (!editable) {
         open(link_VAL.innerHTML);
