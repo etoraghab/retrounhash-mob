@@ -149,14 +149,19 @@
       <div class="w-full h-full center">
         <div class="flex gap-2 items-center flex-col">
           <div class="text-md">retrounhash</div>
-          <form on:submit|preventDefault={handleAuth} class='flex gap-1 items-center flex-col'>
+          <form
+            on:submit|preventDefault={handleAuth}
+            class="flex gap-1 items-center flex-col"
+          >
             <input
               type="text"
+              autocomplete="current-username"
               class="bg-[#19191a] p-2 rounded-md text-sm"
               placeholder="username"
               bind:value={username}
             />
             <input
+              autocomplete="current-password"
               type="password"
               class="bg-[#19191a] p-2 rounded-md text-sm"
               placeholder="*********"
