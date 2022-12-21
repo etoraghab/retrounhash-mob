@@ -108,7 +108,7 @@
   class="flex dark h-screen bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75"
 >
   <div
-    class="h-full w-12 flex flex-col gap-2 bg-[#ffffff] dark:bg-[#19191a] text-black dark:text-white text-opacity-70"
+    class="w-12 flex flex-col gap-2 bg-[#ffffff] dark:bg-[#19191a] text-black dark:text-white text-opacity-70"
   >
     <div class="pt-1" />
     <div class="mx-auto mt-2 text-black dark:text-white text-opacity-70">
