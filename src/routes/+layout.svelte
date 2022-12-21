@@ -149,42 +149,35 @@
       <div class="w-full h-full center">
         <div class="flex gap-2 items-center flex-col">
           <div class="text-md">retrounhash</div>
-          <input
-            type="text"
-            class="bg-[#19191a] p-2 rounded-md text-sm"
-            placeholder="username"
-            bind:value={username}
-          />
-          <input
-            type="password"
-            class="bg-[#19191a] p-2 rounded-md text-sm"
-            placeholder="*********"
-            bind:value={password}
-          />
-          <!-- <button
-            on:click={async () => {
-              user.auth(username, password, (e) => {
-              });
-            }}
-            class="w-full bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black rounded-md text-sm p-1 transition-colors duration-300"
-          >
-            login
-          </button> -->
-          <button
-            on:click={handleAuth}
-            disabled={username == undefined}
-            class="w-full {disabled && username !== undefined
-              ? 'bg-blue-900 hover:bg-blue-800'
-              : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
-          >
-            {#if username == undefined}
-              continue
-            {:else if disabled}
-              login
-            {:else}
-              sign up
-            {/if}
-          </button>
+          <form on:submit|preventDefault={handleAuth} class='flex gap-1 items-center flex-col'>
+            <input
+              type="text"
+              class="bg-[#19191a] p-2 rounded-md text-sm"
+              placeholder="username"
+              bind:value={username}
+            />
+            <input
+              type="password"
+              class="bg-[#19191a] p-2 rounded-md text-sm"
+              placeholder="*********"
+              bind:value={password}
+            />
+            <button
+              on:click={handleAuth}
+              disabled={username == undefined}
+              class="w-full {disabled && username !== undefined
+                ? 'bg-blue-900 hover:bg-blue-800'
+                : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
+            >
+              {#if username == undefined}
+                continue
+              {:else if disabled}
+                login
+              {:else}
+                sign up
+              {/if}
+            </button>
+          </form>
         </div>
       </div>
     {/if}
