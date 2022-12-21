@@ -13,7 +13,7 @@
 
 <div
   bind:this={elmUID}
-  class="w-11/12 p-3 bg-[#19191a] border border-[#313131] rounded-md h-auto flex flex-col"
+  class="w-11/12 p-3 bg-[#ffffff] dark:bg-[#19191a] border border-[#dce1e6] dark:border-[#313131] rounded-md h-auto flex flex-col"
 >
   {#if option}
     <div class="text-sm font-thin flex gap-1 items-center justify-center">

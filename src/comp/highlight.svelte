@@ -117,7 +117,7 @@
       <div class="overflow-hidden h-1 mb-0 text-xs flex rounded-b-md ">
         <div
           style="width: {progress}%"
-          class="shadow-none flex transition-all duration-1000 ease-linear flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+          class="shadow-none flex transition-all duration-1000 ease-linear flex-col text-center whitespace-nowrap text-black dark:text-white justify-center bg-blue-500"
         />
       </div>
     </div>

@@ -23,7 +23,7 @@
       on:click={() => {
         goto("/settings/" + p.name);
       }}
-      class="w-11/12 p-2 flex gap-2 items-center bg-[#19191a] border border-[#313131] rounded-md h-auto"
+      class="w-11/12 p-2 flex gap-2 items-center bg-[#ffffff] dark:bg-[#19191a] border border-[#dce1e6] dark:border-[#313131] rounded-md h-auto"
     >
       <svelte:component this={p.icon} width="1.3em" />
       {p.name}
@@ -34,7 +34,7 @@
   {/each}
   <div class="p-2 text-xs w-11/12">
     <button
-      class="w-full bg-[#b32b2b] hover:bg-[#811f1f] text-white rounded-md text-sm p-1 px-2 transition-colors duration-300"
+      class="w-full bg-[#b32b2b] hover:bg-[#811f1f] text-black dark:text-white rounded-md text-sm p-1 px-2 transition-colors duration-300"
       on:click={() => {
         user.leave();
         localStorage.clear();

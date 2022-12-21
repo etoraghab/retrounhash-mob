@@ -104,12 +104,12 @@
     content="retrounhash is a decentralized social media platform to share, interact and socialise around with the world while staying secure and private."
   />
 </svelte:head>
-<div class="flex dark h-screen bg-[#141414] text-white text-opacity-75">
+<div class="flex dark h-screen bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75">
   <div
-    class="h-full w-12 flex flex-col gap-2 bg-[#19191a] text-white text-opacity-70"
+    class="h-full w-12 flex flex-col gap-2 bg-[#ffffff] dark:bg-[#19191a] text-black dark:text-white text-opacity-70"
   >
     <div class="pt-1" />
-    <div class="mx-auto mt-2 text-white text-opacity-70">
+    <div class="mx-auto mt-2 text-black dark:text-white text-opacity-70">
       <img
         class="w-8 rounded-md h-auto aspect-square "
         src="/assets/android-icon-48x48.png"
@@ -156,14 +156,14 @@
             <input
               type="text"
               autocomplete="current-username"
-              class="bg-[#19191a] p-2 rounded-md text-sm"
+              class="bg-[#ffffff] dark:bg-[#19191a] p-2 rounded-md text-sm"
               placeholder="username"
               bind:value={username}
             />
             <input
               autocomplete="current-password"
               type="password"
-              class="bg-[#19191a] p-2 rounded-md text-sm"
+              class="bg-[#ffffff] dark:bg-[#19191a] p-2 rounded-md text-sm"
               placeholder="*********"
               bind:value={password}
             />

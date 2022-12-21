@@ -85,7 +85,7 @@
 </svelte:head>
 <div class="flex centered justify-center items-center mt-3">
   <div
-    class="mx-4 w-full p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
+    class="mx-4 w-full p-2 border border-[#dce1e6] dark:border-[#313131] bg-[#ffffff] dark:bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
   >
     <button
       on:click={() => {
@@ -107,7 +107,7 @@
       on:click={() => {
         goto(`/u/${username}`);
       }}
-      class="text-sm font-thin w-full resize-none bg-[#19191a] rounded p-1"
+      class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
     >
       {username}
     </button>
@@ -125,7 +125,7 @@
 
 <div class="flex centered_bottom justify-center items-center mt-3">
   <div
-    class="mx-4 w-full p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
+    class="mx-4 w-full p-2 border border-[#dce1e6] dark:border-[#313131] bg-[#ffffff] dark:bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
   >
     <!-- <div
       class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-md"
@@ -143,7 +143,7 @@
         bind:value={q}
         type="text"
         placeholder="Type a message"
-        class="text-sm font-thin w-full resize-none bg-[#19191a] rounded p-1"
+        class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
       />
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button

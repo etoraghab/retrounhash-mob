@@ -114,7 +114,7 @@
           }
         }}
         class="w-8/12 {following
-          ? 'bg-[#272626] hover:bg-[#383737] text-white'
+          ? 'bg-[#272626] hover:bg-[#383737] text-black dark:text-white'
           : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
       >
         {following ? "unfollow" : "follow"}
@@ -129,7 +129,7 @@
               goto("/dm/" + username);
             });
         }}
-        class="w-4/12 bg-[#272626] hover:bg-[#383737] text-white rounded-md text-sm p-1 transition-colors duration-300"
+        class="w-4/12 bg-[#272626] hover:bg-[#383737] text-black dark:text-white rounded-md text-sm p-1 transition-colors duration-300"
       >
         message
       </button>

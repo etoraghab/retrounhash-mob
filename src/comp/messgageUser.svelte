@@ -9,7 +9,7 @@
 
 {#if !deleted}
   <div
-    class="w-full p-1 bg-[#19191a] border border-[#313131] rounded-md h-auto flex flex-col"
+    class="w-full p-1 bg-[#ffffff] dark:bg-[#19191a] border border-[#dce1e6] dark:border-[#313131] rounded-md h-auto flex flex-col"
   >
     <button
       on:click={() => {

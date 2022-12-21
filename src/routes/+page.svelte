@@ -119,7 +119,7 @@
 </svelte:head>
 <div class="flex break-all justify-center items-center mt-3">
   <div
-    class="w-11/12 p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
+    class="w-11/12 p-2 border border-[#dce1e6] dark:border-[#313131] bg-[#ffffff] dark:bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
   >
     <img
       src={$avatar}
@@ -139,7 +139,7 @@
               textareaVAR.focus();
             }, 0);
           }}
-          class="text-sm font-thin w-full resize-none bg-[#19191a] rounded p-1"
+          class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
         >
           What's new?
         </div>
@@ -156,7 +156,7 @@
             bind:value={postContent}
             placeholder="What's new?"
             maxlength="280"
-            class="text-lg w-full h-44 resize-none bg-[#19191a] rounded p-1"
+            class="text-lg w-full h-44 resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
           />
           <div class="center p-2 w-full">
             <!-- <button class="">
@@ -167,7 +167,7 @@
             </div>
             <div class="m-2 flex gap-2">
               <button
-                class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#222222]"
+                class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#f0f2f5] dark:bg-[#222222]"
                 on:click={() => {
                   postContent = null;
                   postFocus = false;
@@ -177,7 +177,7 @@
               </button>
               <button
                 on:click={publishPost}
-                class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black"
+                class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#383838] text-white text-opacity-70"
               >
                 post
               </button>

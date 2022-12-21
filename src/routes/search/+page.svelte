@@ -162,7 +162,7 @@
       {/if}
       {#each accounts as a}
         <div
-          class="w-full p-1 bg-[#19191a] border border-[#313131] rounded-md h-auto flex flex-col"
+          class="w-full p-1 bg-[#ffffff] dark:bg-[#19191a] border border-[#dce1e6] dark:border-[#313131] rounded-md h-auto flex flex-col"
         >
           <button
             on:click={() => {
@@ -206,7 +206,7 @@
 <div class="pt-14" />
 <div class="flex centered justify-center items-center mt-3">
   <div
-    class="mx-4 p-2 border border-[#313131] bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
+    class="mx-4 p-2 border border-[#dce1e6] dark:border-[#313131] bg-[#ffffff] dark:bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
   >
     <div
       class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-md"
@@ -226,7 +226,7 @@
         type="text"
         contenteditable="true"
         placeholder="Search"
-        class="text-sm font-thin w-full resize-none bg-[#19191a] rounded p-1"
+        class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
       />
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button

@@ -157,7 +157,7 @@
         }
       }}
       class="w-10/12 {!editable
-        ? 'bg-[#272626] hover:bg-[#383737] text-white'
+        ? 'bg-[#272626] hover:bg-[#383737] text-black dark:text-white'
         : 'bg-[#d7d7e0] hover:bg-[#c3c3ca] text-black'} rounded-md text-sm p-1 transition-colors duration-300"
     >
       {editable ? "save" : "edit"}
