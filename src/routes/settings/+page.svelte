@@ -44,5 +44,5 @@
       log out
     </button>
   </div>
-  <div class="center text-xs text-opacity-70">v0.0.2</div>
+  <div class="center text-xs text-opacity-70">v0.0.3</div>
 </div>
