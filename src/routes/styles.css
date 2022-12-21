@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body{
+    height: 100%;
+}
+
 * {
     outline: none;
     font-family: "Product", Verdana, Geneva, Tahoma, sans-serif;

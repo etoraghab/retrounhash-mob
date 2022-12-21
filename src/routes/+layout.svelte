@@ -105,7 +105,7 @@
   />
 </svelte:head>
 <div
-  class="flex dark h-screen bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75"
+  class="flex dark h-full bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75"
 >
   <div
     class="w-12 flex flex-col gap-2 bg-[#ffffff] dark:bg-[#19191a] text-black dark:text-white text-opacity-70"
