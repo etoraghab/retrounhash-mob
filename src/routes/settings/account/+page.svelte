@@ -1,64 +1,9 @@
 <script>
+  import { username } from "$lib/gun";
+  import { goto } from "$app/navigation";
   import { db, keys, user } from "$lib/gun.js";
+  import { deleteAllposts } from "$lib/utils";
   import { v4 } from "uuid";
-
-  let posts = [];
-
-  user
-    .get("posts")
-    .map()
-    .once((val, uid) => {
-      if (val && uid) {
-        posts = [
-          {
-            uid: uid,
-            content: val,
-          },
-          ...posts,
-        ];
-      }
-    });
-
-  async function deleteallposts(override) {
-    if (
-      confirm("This action is not reversibe! continue?") ||
-      override == true
-    ) {
-      posts.forEach(async (p) => {
-        await user.get("posts").get(p.uid).put(null);
-      });
-      posts = [];
-    }
-  }
-
-  async function deleteaccount() {
-    if (
-      confirm(
-        "All your data will be deleted and your username will be locked forever! \ndelete account?"
-      )
-    ) {
-      if (
-        confirm(
-          "Last confirmation before erazing all data and deleting your account.\n proceed?"
-        )
-      ) {
-        await deleteallposts(true).then(async () => {
-          await db
-            .user()
-            .auth($keys, {
-              change: String(v4()).replace(/-/g, ""),
-            })
-            .then(() => {
-              user.delete($keys, () => {
-                user.leave();
-              });
-              localStorage.clear();
-              sessionStorage.clear();
-            });
-        });
-      }
-    }
-  }
 </script>
 
 <div class="center">
@@ -67,13 +12,42 @@
   >
     <div class="text-[20px] capitalize w-full center">sensitive area</div>
     <button
-      on:click={deleteallposts}
+      on:click={async () => {
+        await deleteAllposts();
+      }}
       class="px-3 mb-2 bg-yellow-600 text-white rounded-md"
     >
       delete all posts
     </button>
     <button
-      on:click={deleteaccount}
+      on:click={async () => {
+        if (
+          confirm(
+            "delete account and all associated data?\nThis is the last confirmation."
+          )
+        ) {
+          deleteAllposts(true);
+          user.get("bio").put(null);
+          user.get("link").put(null);
+          user.get("avatar").put(null);
+          user.get("followersCert").put(null);
+          user.get("username").put(null);
+          await db.user().auth($keys, {
+            change: String(v4()).replace(/-/g, ""),
+          });
+          // user.delete($keys);
+          user.leave();
+          keys.set({
+            pub: false,
+            epub: "",
+            epriv: "",
+            priv: "",
+          });
+          localStorage.clear();
+          sessionStorage.clear();
+          goto("/");
+        }
+      }}
       class="px-3 mb-2 bg-[#b32b2b] text-white rounded-md"
     >
       delete account

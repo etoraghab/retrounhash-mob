@@ -140,3 +140,40 @@ export function Timer(fn, t) {
     return this.stop().start();
   };
 }
+
+async function deleteposts() {
+  return new Promise(async (r) => {
+    await user
+      .get("posts")
+      .map()
+      .once(async (val, uid) => {
+        if (val && uid) {
+          await user
+            .get("posts")
+            .get(uid)
+            .put(null)
+            .then(async () => {
+              await user
+                .get("searchable")
+                .get(uid)
+                .put(null)
+                .then(() => {});
+            });
+        }
+      });
+  }).finally(() => {
+    r(true);
+  });
+}
+
+export async function deleteAllposts(override) {
+  if (override) {
+    await deleteposts();
+    return;
+  } else {
+    if (confirm("delete all posts?\nThis action is not reversible.")) {
+      deleteposts();
+      return;
+    }
+  }
+}
