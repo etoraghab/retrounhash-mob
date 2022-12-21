@@ -31,7 +31,6 @@
       following = null;
       bio_graph = user.get("bio");
       link_graph = user.get("link");
-      //avatar_graph = user.get("avatar");
 
       bio_graph.once((val) => {
         user_bio = val;
@@ -40,10 +39,7 @@
       link_graph.once((val) => {
         link_VAL.innerHTML = val || location.href.split(/\//)[2];
       });
-      /*avatar_graph.once((val) => {
-        user_avatar =
-          val || `https://avatars.dicebear.com/api/identicon/${username}.svg`;
-      });*/
+      user_avatar = await getUserAvatar(pub);
 
       db.user(pub)
         .get("posts")
@@ -88,7 +84,7 @@
 </svelte:head>
 <div class="flex flex-col break-all justify-center items-center mt-3">
   <img
-    src={$avatar}
+    src={user_avatar}
     class="h-20 w-20 aspect-square object-cover rounded-full"
     alt=""
   />
