@@ -139,7 +139,7 @@
       <Settings width="1.2em" />
     </a>
   </div>
-  <div class="w-full overflow-x-scroll">
+  <div class="w-full">
     {#if $keys.pub}
       <slot />
       <div class="p-2" />
