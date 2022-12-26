@@ -33,31 +33,33 @@
           .map()
           .once((post) => {
             db.get(post).once((val) => {
-              usernameGet(post.split(/~/)[1].split(/\//)[0]).then(
-                (username) => {
-                  getUserAvatar(post.split(/~/)[1].split(/\//)[0]).then(
-                    (avatar) => {
-                      let date = GUN.state.is(val, "content");
-                      posts = [
-                        {
-                          content: val.content,
-                          uid: post.split(/~/)[1].split(/\//)[2],
-                          avatar: avatar,
-                          name: username,
-                          date: moment(date).calendar(),
-                          sortDate: date,
-                          self:
-                            post.split(/~/)[1].split(/\//)[0] == $keys.pub
-                              ? true
-                              : false,
-                          pub: post.split(/~/)[1].split(/\//)[0],
-                        },
-                        ...posts,
-                      ];
-                    }
-                  );
-                }
-              );
+              if (val) {
+                usernameGet(post.split(/~/)[1].split(/\//)[0]).then(
+                  (username) => {
+                    getUserAvatar(post.split(/~/)[1].split(/\//)[0]).then(
+                      (avatar) => {
+                        let date = GUN.state.is(val, "content");
+                        posts = [
+                          {
+                            content: val.content,
+                            uid: post.split(/~/)[1].split(/\//)[2],
+                            avatar: avatar,
+                            name: username,
+                            date: moment(date).calendar(),
+                            sortDate: date,
+                            self:
+                              post.split(/~/)[1].split(/\//)[0] == $keys.pub
+                                ? true
+                                : false,
+                            pub: post.split(/~/)[1].split(/\//)[0],
+                          },
+                          ...posts,
+                        ];
+                      }
+                    );
+                  }
+                );
+              }
             });
           });
       }
@@ -65,22 +67,25 @@
   }
 
   async function searchAccounts(query_) {
-    query_.replace(/@/g, '').split(" ").forEach(async (query) => {
-      await publickeyGet(query).then(async (val) => {
-        accounts = [
-          {
-            pub: val,
-            username: query,
-            avatar: await getUserAvatar(val),
-            // bio: await getuserbio(val),
-          },
-          ...accounts,
-        ];
+    query_
+      .replace(/@/g, "")
+      .split(" ")
+      .forEach(async (query) => {
+        await publickeyGet(query).then(async (val) => {
+          accounts = [
+            {
+              pub: val,
+              username: query,
+              avatar: await getUserAvatar(val),
+              // bio: await getuserbio(val),
+            },
+            ...accounts,
+          ];
+        });
       });
-    });
 
     let tags = query_.match(/@[a-z0-9_]+/g) || [];
-    tags.forEach(async query => {
+    tags.forEach(async (query) => {
       await publickeyGet(query).then(async (val) => {
         accounts = [
           {
