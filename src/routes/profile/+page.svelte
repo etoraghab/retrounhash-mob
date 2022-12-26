@@ -156,7 +156,7 @@
       }}
       class="w-10/12 {!editable
         ? 'bg-[#e6e8eb] dark:bg-[#222222] dark:text-white'
-        : 'bg-[#383838] text-white text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
+        : 'bg-[#383838] text-white dark:bg-[#e6e8eb] dark:text-black text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
     >
       {editable ? "save" : "edit"}
     </button>

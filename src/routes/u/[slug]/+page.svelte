@@ -120,7 +120,7 @@
         }}
         class="w-8/12 {following
           ? 'bg-[#f0f2f5] dark:bg-[#222222] dark:text-white'
-          : 'bg-[#383838] text-white text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
+          : 'bg-[#383838] text-white dark:bg-[#d2d4d6] dark:text-black text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
       >
         {following ? "unfollow" : "follow"}
       </button>
