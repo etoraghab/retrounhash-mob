@@ -150,7 +150,7 @@
           }}
           class="w-1/2 center {tab === i
             ? 'border-b border-blue-600'
-            : 'border-b border-[#141414]'} pb-1 transition-all duration-500"
+            : 'border-b dark:border-[#141414] border-[#edeef0]'} pb-1 transition-all duration-500"
         >
           {i}
         </button>
