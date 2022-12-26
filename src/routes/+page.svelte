@@ -1,12 +1,13 @@
 <script>
   import moment from "moment";
   moment().format();
-  import Image from "@svicons/boxicons-regular/image.svelte";
-  import { avatar, db, keys, user, username } from "$lib/gun";
+  import { db, keys, user } from "$lib/gun";
   import { v4 } from "uuid";
   import Post from "../comp/post.svelte";
   import { onMount } from "svelte";
   import { getUserAvatar, usernameGet } from "$lib/utils";
+  import AiOutlineLoading from "svelte-icons-pack/ai/AiOutlineLoading";
+  import Icon from "svelte-icons-pack/Icon.svelte";
 
   let postFocus = false;
   let postContent;
@@ -121,13 +122,19 @@
   <div
     class="w-11/12 p-2 border border-[#dce1e6] dark:border-[#313131] bg-[#ffffff] dark:bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
   >
-    <img
-      src={$avatar}
-      class="h-6 w-6 {postFocus
-        ? 'mb-auto mt-1'
-        : ''} mx-auto aspect-square object-cover rounded-md"
-      alt=""
-    />
+    {#await getUserAvatar($keys.pub)}
+      <div class="animate-spin">
+        <Icon src={AiOutlineLoading} color="gray" width="1.2em" />
+      </div>
+    {:then data}
+      <img
+        src={data}
+        class="h-6 w-6 {postFocus
+          ? 'mb-auto mt-1'
+          : ''} mx-auto aspect-square object-cover rounded-md"
+        alt=""
+      />
+    {/await}
     {#if !postFocus}
       <div class="flex items-center w-full justify-center">
         <div

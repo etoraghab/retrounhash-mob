@@ -11,6 +11,7 @@
   import { getUserAvatar, publickeyGet, usernameGet } from "$lib/utils";
   import moment from "moment";
   import Post from "../../../comp/post.svelte";
+  import Loading from "../../../comp/loading.svelte";
 
   let user = db.user(pub);
   let following = null;
@@ -82,7 +83,11 @@
   </title>
   <meta name="description" content={user_bio} />
 </svelte:head>
-<div class="flex flex-col break-all justify-center items-center mt-3">
+<div
+  class="{user_avatar
+    ? ''
+    : 'hidden'} flex flex-col break-all justify-center items-center mt-3"
+>
   <img
     src={user_avatar}
     class="h-20 w-20 aspect-square object-cover rounded-full"
@@ -142,3 +147,9 @@
     <Post data={p} />
   {/each}
 </div>
+
+{#if !user_avatar}
+  <div class="w-full h-screen center">
+    <Loading />
+  </div>
+{/if}

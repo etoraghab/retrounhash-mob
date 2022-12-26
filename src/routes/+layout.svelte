@@ -112,7 +112,7 @@
   >
     <div class="mx-auto mt-2 text-black dark:text-white text-opacity-70">
       <img
-        class="w-8 rounded-md h-auto aspect-square "
+        class="w-8 rounded-md h-auto aspect-square"
         src="/assets/android-icon-48x48.png"
         alt=""
       />
@@ -142,13 +142,12 @@
     {#if $keys.pub}
       <div class="flex">
         <div class="w-12" />
-        <div class="w-full">
+        <div class="w-full pb-2.5 bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75">
           <slot />
         </div>
       </div>
-      <div class="p-2" />
     {:else if loading}
-      <div class="w-full h-full center">
+      <div class="pl-10 w-screen h-screen center">
         <Loading />
       </div>
     {:else}

@@ -67,14 +67,16 @@
     .get(pub)
     .map()
     .once((a) => {
-      messages = [
-        {
-          message: a.message,
-          time: Gun.state.is(a, "message"),
-          self: true,
-        },
-        ...messages,
-      ];
+      if (a) {
+        messages = [
+          {
+            message: a.message,
+            time: Gun.state.is(a, "message"),
+            self: true,
+          },
+          ...messages,
+        ];
+      }
     });
 
   $: messages, scroll();

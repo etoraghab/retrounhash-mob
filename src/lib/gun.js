@@ -1,9 +1,9 @@
 import Gun from "gun";
 import "gun/sea";
 // import "gun/axe";
-import "gun/lib/radix";
-import "gun/lib/radisk";
-import "gun/lib/store";
+// import "gun/lib/radix2";
+// import "gun/lib/radisk2";
+// import "gun/lib/store";
 import "gun/lib/rindexed";
 import "gun/lib/webrtc";
 
@@ -22,7 +22,6 @@ let username_local;
 export const user = db.user().recall({ sessionStorage: true });
 export const username = writable();
 export const avatar = writable();
-var avatar_graph = user.get("avatar");
 export const keys = writable({
   pub: "",
   epub: "",
@@ -36,8 +35,13 @@ db.on("auth", async () => {
     username.set(name);
     username_local = name;
   });
-  await getUserAvatar(user.is.pub).then((val) => {
-    avatar.set(val);
+  // await getUserAvatar(user.is.pub).then((val) => {
+  //   console.log(val);
+  //   avatar.set(val);
+  // });
+
+  user.get("avatar").on((val) => {
+    avatar.set(val || `https://avatars.dicebear.com/api/identicon/${username_local}.svg`);
   });
   /*avatar_graph.on((val) => {
     avatar.set(

@@ -9,6 +9,7 @@
   import { copyToClipboard } from "$lib/utils";
   import TrashAlt from "@svicons/boxicons-regular/trash-alt.svelte";
   import { goto } from "$app/navigation";
+  import Loading from "../../comp/loading.svelte";
 
   let editable = false;
   let user_avatar;
@@ -34,16 +35,18 @@
   }
 
   onMount(() => {
-    bio_graph.once((val) => {
-      bio_VAL.innerHTML = val || "404 no bio found";
-    });
-    link_graph.once((val) => {
-      link_VAL.innerHTML = val || location.href.split(/\//)[2];
-    });
-    avatar_graph.once((val) => {
-      user_avatar =
-        val || `https://avatars.dicebear.com/api/identicon/${$username}.svg`;
-    });
+    setTimeout(() => {
+      bio_graph.once((val) => {
+        bio_VAL.innerHTML = val || "404 no bio found";
+      });
+      link_graph.once((val) => {
+        link_VAL.innerHTML = val || location.href.split(/\//)[2];
+      });
+      avatar_graph.once((val) => {
+        user_avatar =
+          val || `https://avatars.dicebear.com/api/identicon/${$username}.svg`;
+      });
+    }, 1000);
   });
 
   function imageUploaded() {
@@ -95,7 +98,11 @@
     content="Edit and manage your profile on retrounhash, the decentralized social platform."
   />
 </svelte:head>
-<div class="flex flex-col break-all justify-center items-center mt-3">
+<div
+  class="{user_avatar
+    ? ''
+    : 'hidden'} flex flex-col break-all justify-center items-center mt-3"
+>
   <label for="avatar">
     <img
       src={user_avatar}
@@ -189,3 +196,9 @@
     {/if}
   </div>
 </div>
+
+{#if !user_avatar}
+  <div class="w-full h-screen center">
+    <Loading />
+  </div>
+{/if}
