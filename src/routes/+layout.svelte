@@ -154,7 +154,7 @@
     {:else}
       <div class="pl-10 w-screen h-screen center">
         <div class="flex gap-2 items-center flex-col">
-          <div class="text-md">retrounhash</div>
+          <div class="text-xl">retrounhash</div>
           <form
             on:submit|preventDefault={handleAuth}
             class="flex gap-1 items-center flex-col"
