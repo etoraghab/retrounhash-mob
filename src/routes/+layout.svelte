@@ -152,7 +152,7 @@
         <Loading />
       </div>
     {:else}
-      <div class="w-full h-full center">
+      <div class="pl-10 w-screen h-screen center">
         <div class="flex gap-2 items-center flex-col">
           <div class="text-md">retrounhash</div>
           <form
