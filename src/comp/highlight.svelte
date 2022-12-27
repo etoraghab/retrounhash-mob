@@ -56,7 +56,7 @@
   >
     <img
       src={featureImg}
-      class="h-44 w-20 ring ring-blue-600 ring-opacity-60 rounded-md brightness-[0.8] object-cover  center border border-[#2c2b2b]"
+      class="h-44 w-20 ring ring-blue-600 ring-opacity-60 rounded-lg brightness-[0.8] object-cover  center border border-[#2c2b2b]"
       alt=""
     />
     <div class="fixed h-44 w-20 flex justify-center items-end mb-4">

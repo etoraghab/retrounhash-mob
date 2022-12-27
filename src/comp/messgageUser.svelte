@@ -9,7 +9,7 @@
 
 {#if !deleted}
   <div
-    class="w-full p-1 bg-[#ffffff] dark:bg-[#19191a] border border-[#dce1e6] dark:border-[#313131] rounded-md h-auto flex flex-col"
+    class="w-full p-1 bg-[#ffffff] dark:bg-[#222222]  rounded-lg h-auto flex flex-col"
   >
     <button
       on:click={() => {
@@ -20,7 +20,7 @@
         <div class="flex w-full">
           <img
             src={f.avatar}
-            class="h-6 w-6 aspect-square object-cover rounded-md m-1"
+            class="h-6 w-6 aspect-square object-cover rounded-lg m-1"
             alt=""
           />
           <div class="flex w-full justify-center pl-1">

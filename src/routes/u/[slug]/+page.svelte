@@ -4,7 +4,6 @@
   export let data;
   const username = data.slug;
   let pub;
-  import imageCompression from "browser-image-compression";
   import Link from "@svicons/boxicons-regular/link.svelte";
   import { db, keys, user as user_, avatar } from "$lib/gun";
   import { onMount } from "svelte";
@@ -96,7 +95,7 @@
   <span class="mt-1">@{username}</span>
   <div bind:this={bio_VAL} class="w-10/12 text-left text-xs py-2">loading</div>
   <button
-    class="text-xs items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3"
+    class="text-xs w-10/12 items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left  m-3"
     on:click={() => {
       open(link_VAL.innerHTML);
     }}
@@ -104,7 +103,7 @@
     <Link width="1em" />
     <span bind:this={link_VAL}> loading </span>
   </button>
-  <div class="flex gap-2 w-11/12 break-all justify-center items-center">
+  <div class="flex gap-2 w-10/12 break-all justify-center items-center">
     {#if following !== null && pub !== $keys.pub}
       <button
         on:click={async () => {
@@ -120,7 +119,7 @@
         }}
         class="w-8/12 {following
           ? 'bg-[#f0f2f5] dark:bg-[#222222] dark:text-white'
-          : 'bg-[#383838] text-white dark:bg-[#d2d4d6] dark:text-black text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
+          : 'bg-[#383838] text-white dark:bg-[#d2d4d6] dark:text-black text-opacity-70'} rounded-lg text-sm p-1 transition-colors duration-300"
       >
         {following ? "unfollow" : "follow"}
       </button>
@@ -134,7 +133,7 @@
               goto("/dm/" + pub);
             });
         }}
-        class="w-4/12 bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-md text-sm p-1 transition-colors duration-300"
+        class="w-4/12 bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-lg text-sm p-1 transition-colors duration-300"
       >
         message
       </button>
@@ -142,10 +141,12 @@
   </div>
 </div>
 
-<div class="flex flex-col gap-3 justify-start items-center mt-3">
-  {#each posts as p}
-    <Post data={p} />
-  {/each}
+<div class="center">
+  <div class="flex flex-col gap-3 justify-start items-center mt-3 w-10/12">
+    {#each posts as p}
+      <Post data={p} />
+    {/each}
+  </div>
 </div>
 
 {#if !user_avatar}

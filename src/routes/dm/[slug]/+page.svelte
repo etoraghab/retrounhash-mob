@@ -87,7 +87,7 @@
 </svelte:head>
 <div class="flex centered justify-center items-center mt-3">
   <div
-    class="mx-4 w-full p-2 border border-[#dce1e6] dark:border-[#313131] bg-[#ffffff] dark:bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
+    class="mx-4 w-full p-2  bg-[#ffffff] dark:bg-[#222222] rounded-lg h-auto flex gap-1 items-center"
   >
     <button
       on:click={() => {
@@ -97,11 +97,11 @@
       <Icon src={BsArrowLeftShort} size={20} />
     </button>
     <div
-      class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-md"
+      class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-lg"
     >
       {#if pub}
         {#await getUserAvatar(pub) then data}
-          <img src={data} class="rounded-md" alt="" />
+          <img src={data} class="rounded-lg" alt="" />
         {/await}
       {/if}
     </div>
@@ -109,7 +109,7 @@
       on:click={() => {
         goto(`/u/${username}`);
       }}
-      class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
+      class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#222222] rounded p-1"
     >
       {username}
     </button>
@@ -127,10 +127,10 @@
 
 <div class="flex centered_bottom justify-center items-center mt-3">
   <div
-    class="mx-4 w-full p-2 border border-[#dce1e6] dark:border-[#313131] bg-[#ffffff] dark:bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
+    class="mx-4 w-full p-2  bg-[#ffffff] dark:bg-[#222222] rounded-lg h-auto flex gap-1 items-center"
   >
     <!-- <div
-      class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-md"
+      class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-lg"
     >
       <Search width="1.2em" />
     </div> -->
@@ -145,7 +145,7 @@
         bind:value={q}
         type="text"
         placeholder="Type a message"
-        class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
+        class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#222222] rounded p-1"
       />
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button
@@ -153,7 +153,7 @@
           sendMessage[q];
         }}
         type="submit"
-        class="h-6 center w-6 m-auto aspect-square object-cover rounded-md"
+        class="h-6 center w-6 m-auto aspect-square object-cover rounded-lg"
       >
         <Arrow width="1.2em" />
       </button>

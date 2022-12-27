@@ -129,7 +129,7 @@
     loading
   </div>
   <button
-    class="text-xs items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3 pl-2"
+    class="text-xs w-10/12 items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left  m-3 pl-2"
     on:click={() => {
       if (!editable) {
         open(link_VAL.innerHTML);
@@ -139,7 +139,7 @@
     <Link width="1em" />
     <span bind:this={link_VAL} contenteditable={editable}>loading</span>
   </button>
-  <div class="flex gap-2 w-11/12 px-2">
+  <div class="flex gap-2 px-2 w-10/12">
     <button
       on:click={async () => {
         if (editable) {
@@ -155,8 +155,8 @@
         }
       }}
       class="w-10/12 {!editable
-        ? 'bg-[#e6e8eb] dark:bg-[#222222] dark:text-white'
-        : 'bg-[#383838] text-white dark:bg-[#e6e8eb] dark:text-black text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
+        ? 'bg-[#f2f3f5] dark:bg-[#222222] dark:text-white'
+        : 'bg-[#383838] text-white dark:bg-[#f2f3f5] dark:text-black text-opacity-70'} rounded-lg text-sm p-1 transition-colors duration-300"
     >
       {editable ? "save" : "edit"}
     </button>
@@ -165,7 +165,7 @@
         await copyToClipboard($keys.pub);
         console.log("copied");
       }}
-      class="w-7 rounded-md text-sm p-1"
+      class="w-7 rounded-lg text-sm p-1"
     >
       <Copy width="1.4em" />
     </button>
@@ -173,13 +173,13 @@
       on:click={async () => {
         open(location.href.replace(/profile/, "u/") + $username);
       }}
-      class="w-7 rounded-md text-sm p-1"
+      class="w-7 rounded-lg text-sm p-1"
     >
       <Open width="1.4em" />
     </button>
   </div>
 
-  <div class="w-11/12 mt-3">
+  <div class="w-10/12 mt-3">
     <div class="text-lg">Post Management</div>
     {#each posts as p}
       <Postinprofile {p} />

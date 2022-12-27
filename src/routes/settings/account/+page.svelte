@@ -8,14 +8,14 @@
 
 <div class="center">
   <div
-    class="p-2 w-11/12 border border-dashed center flex-col mt-5 border-red-700 rounded-md"
+    class="p-2 w-10/12 border border-dashed center flex-col mt-5 border-red-700 rounded-lg"
   >
     <div class="text-[20px] capitalize w-full center">sensitive area</div>
     <button
       on:click={async () => {
         await deleteAllposts();
       }}
-      class="px-3 mb-2 bg-yellow-600 text-white rounded-md"
+      class="px-3 mb-2 bg-[#e4cd81] rounded-lg"
     >
       delete all posts
     </button>
@@ -48,7 +48,7 @@
           goto("/");
         }
       }}
-      class="px-3 mb-2 bg-[#b32b2b] text-white rounded-md"
+      class="px-3 mb-2 bg-[#a13242] text-white rounded-lg"
     >
       delete account
     </button>

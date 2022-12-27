@@ -33,6 +33,7 @@
 		"gun": "^0.2020.1238",
 		"moment": "^2.29.4",
 		"svelte-icons-pack": "^2.0.0",
+		"twemoji-parser": "^14.0.0",
 		"utf-8-validate": "^5.0.10",
 		"uuid": "^9.0.0"
 	}

@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   import "./styles.css";
   import Home from "@svicons/boxicons-regular/home.svelte";
   import Search from "@svicons/boxicons-regular/search.svelte";
@@ -95,6 +96,15 @@
       }
     });
   }
+
+  let q;
+  import { page } from "$app/stores";
+
+  let pagecurrent = "";
+  page.subscribe((p) => {
+    pagecurrent = p.route.id;
+    console.log(pagecurrent);
+  });
 </script>
 
 <svelte:head>
@@ -105,46 +115,113 @@
   />
 </svelte:head>
 <div
-  class="h-full bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75"
+  class="flex w-full z-50 fixed top-0 center h-12 bg-[#ffffff] dark:bg-[#222222] text-black dark:text-white text-opacity-75"
 >
-  <div
-    class="w-12 h-full fixed left-0 top-0 flex flex-col gap-2 bg-[#ffffff] dark:bg-[#19191a] text-black dark:text-white text-opacity-70"
-  >
-    <div class="mx-auto mt-2 text-black dark:text-white text-opacity-70">
-      <img
-        class="w-8 rounded-md h-auto aspect-square"
-        src="/assets/android-icon-48x48.png"
-        alt=""
-      />
+  <div class="md:w-2/3 lg:w-2/3 center">
+    <div class="w-full">
+      <div class="flex">
+        <a href="/">
+          <img
+            class="w-8 rounded-full h-auto aspect-square"
+            src="/assets/android-icon-48x48.png"
+            alt=""
+          /></a
+        >
+        <div class="w-32" />
+        <div class="w-2" />
+        <div class="flex bg-[#edeef0] dark:bg-[#424242] rounded-lg p-1 pl-2">
+          <div class="opacity-50 flex center">
+            <Search width="1.2em" />
+          </div>
+          <form
+            on:submit|preventDefault={() => {
+              goto("/search/" + q);
+            }}
+          >
+            <input
+              type="text"
+              bind:value={q}
+              class="pl-2 bg-[#edeef0] dark:bg-[#424242] rounded-lg text-sm"
+              placeholder="Search"
+            />
+            <button type="submit" class="hidden" />
+          </form>
+        </div>
+      </div>
     </div>
-    <a href="/" aria-label="home" class="mx-auto mt-2 p-2 rounded-md">
-      <Home width="1.2em" />
-    </a>
-    <a href="/search" aria-label="search" class="mx-auto mt-2 p-2 rounded-md">
-      <Search width="1.2em" />
-    </a>
-    <a href="/dm" aria-label="messages" class="mx-auto mt-2 p-2 rounded-md ">
-      <Message width="1.2em" />
-    </a>
-    <a href="/profile" aria-label="profile" class="mx-auto mt-2 p-2 rounded-md">
-      <Account width="1.2em" />
-    </a>
-
-    <a
-      href="/settings"
-      aria-label="settings"
-      class="mx-auto mt-auto mb-3 p-2 rounded-md"
-    >
-      <Settings width="1.2em" />
-    </a>
   </div>
+</div>
+<div class="h-12" />
+<div
+  class="w-full flex justify-center items-center bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75"
+>
+  <div class="md:w-3/4 lg:w-2/3 flex h-screen">
+    <div class="pt-3">
+      <div
+        class="w-40 pt-2 rounded-lg border border-[#dce1e6] dark:border-[#424242] flex flex-col gap-2 bg-[#ffffff] dark:bg-[#222222] text-black dark:text-white text-opacity-70"
+      >
+        <a
+          href="/"
+          aria-label="home"
+          class="flex gap-3 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg mx-auto px-3 w-3/4"
+        >
+          <Home width="1.2em" /> <txt class="pt-0.5">Home</txt>
+        </a>
+        <!-- <a
+          href="/search"
+          aria-label="home"
+          class="flex gap-3 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg mx-auto px-3 w-3/4"
+        >
+          <Search width="1.2em" /> <txt class="pt-0.5">Search</txt>
+        </a> -->
+        <a
+          href="/dm"
+          aria-label="home"
+          class="flex gap-3 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg mx-auto px-3 w-3/4"
+        >
+          <Message width="1.2em" /> <txt class="pt-0.5">Messages</txt>
+        </a>
+        <a
+          href="/profile"
+          aria-label="home"
+          class="flex gap-3 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg mx-auto px-3 w-3/4"
+        >
+          <Account width="1.2em" /> <txt class="pt-0.5">Profile</txt>
+        </a>
+        <div class="h-60" />
+        <a
+          href="/settings"
+          aria-label="home"
+          class="flex gap-3 mb-2 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg mx-auto px-3 w-3/4"
+        >
+          <Settings width="1.2em" /> <txt class="pt-0.5">Settings</txt>
+        </a>
+      </div>
+    </div>
+    <div class="overflow-scroll w-full flex justify-center h-full">
+      <div class="w-full px-2">
+        <slot />
+      </div>
+    </div>
+    <div class="pt-3">
+      <div
+        class="{pagecurrent == '/'
+          ? 'w-80'
+          : 'w-72'} h-52 p-2 rounded-lg flex flex-col gap-2 bg-[#ffffff] dark:bg-[#222222] dark:hover:bg-[#424242] text-black dark:text-white text-opacity-70"
+      >
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="h-full ">
   <div class="w-full">
     {#if $keys.pub}
       <div class="flex">
         <div class="w-12" />
-        <div class="w-full pb-2.5 bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75">
-          <slot />
-        </div>
+        <div
+          class="w-full pb-2.5 bg-[#edeef0] dark:bg-[#141414] text-black dark:text-white text-opacity-75"
+        />
       </div>
     {:else if loading}
       <div class="pl-10 w-screen h-screen center">
@@ -161,14 +238,14 @@
             <input
               type="text"
               autocomplete="current-username"
-              class="bg-[#ffffff] dark:bg-[#19191a] p-2 rounded-md text-sm"
+              class="bg-[#ffffff] dark:bg-[#222222] p-2 rounded-lg text-sm"
               placeholder="username"
               bind:value={username}
             />
             <input
               autocomplete="current-password"
               type="password"
-              class="bg-[#ffffff] dark:bg-[#19191a] p-2 rounded-md text-sm"
+              class="bg-[#ffffff] dark:bg-[#222222] p-2 rounded-lg text-sm"
               placeholder="*********"
               bind:value={password}
             />
@@ -177,7 +254,7 @@
               disabled={username == undefined}
               class="w-full {disabled && username !== undefined
                 ? 'bg-blue-900 hover:bg-blue-800'
-                : 'bg-[#383838] text-white text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
+                : 'bg-[#383838] text-white text-opacity-70'} rounded-lg text-sm p-1 transition-colors duration-300"
             >
               {#if username == undefined}
                 continue
@@ -191,5 +268,5 @@
         </div>
       </div>
     {/if}
-  </div>
-</div>
+  </div> -->
+<!-- </div> -->

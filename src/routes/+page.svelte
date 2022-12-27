@@ -118,9 +118,9 @@
     content="retrounhash is a decentralized social media platform to share, interact and socialise around with the world while staying secure and private."
   />
 </svelte:head>
-<div class="flex break-all justify-center items-center mt-3">
+<div class="flex w-full break-all justify-center items-center mt-3">
   <div
-    class="w-11/12 p-2 border border-[#dce1e6] dark:border-[#313131] bg-[#ffffff] dark:bg-[#19191a] rounded-md h-auto flex gap-1 items-center"
+    class="w-full p-3 border border-[#dce1e6] dark:border-[#424242] bg-[#ffffff] dark:bg-[#222222] rounded-lg h-auto flex gap-1 items-center"
   >
     {#await getUserAvatar($keys.pub)}
       <div class="animate-spin">
@@ -129,9 +129,9 @@
     {:then data}
       <img
         src={data}
-        class="h-6 w-6 {postFocus
+        class="h-7 w-7 {postFocus
           ? 'mb-auto mt-1'
-          : ''} mx-auto aspect-square object-cover rounded-md"
+          : ''} mx-auto aspect-square object-cover rounded-full"
         alt=""
       />
     {/await}
@@ -146,7 +146,7 @@
               textareaVAR.focus();
             }, 0);
           }}
-          class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
+          class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#222222] rounded p-1"
         >
           What's new?
         </div>
@@ -163,7 +163,7 @@
             bind:value={postContent}
             placeholder="What's new?"
             maxlength="280"
-            class="text-lg w-full h-44 resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
+            class="text-lg w-full h-44 resize-none bg-[#ffffff] dark:bg-[#222222] rounded p-1"
           />
           <div class="center p-2 w-full">
             <!-- <button class="">
@@ -174,7 +174,7 @@
             </div>
             <div class="m-2 flex gap-2">
               <button
-                class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#f0f2f5] dark:bg-[#222222]"
+                class="btn flex items-center text-sm justify-center rounded-lg px-2.5 py-0.5 bg-[#f0f2f5] dark:bg-[#222222]"
                 on:click={() => {
                   postContent = null;
                   postFocus = false;
@@ -184,7 +184,7 @@
               </button>
               <button
                 on:click={publishPost}
-                class="btn flex items-center text-sm justify-center rounded-md px-2.5 py-0.5 bg-[#383838] text-white dark:bg-[#d2d4d6] dark:text-black text-opacity-70"
+                class="btn flex items-center text-sm justify-center rounded-lg px-2.5 py-0.5 bg-[#383838] text-white dark:bg-[#d2d4d6] dark:text-black text-opacity-70"
               >
                 post
               </button>

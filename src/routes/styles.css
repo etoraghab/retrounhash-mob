@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import "../fonts/style.css";
 
 @tailwind base;
@@ -6,16 +7,18 @@
 
 html, body{
     height: 100%;
+    @apply bg-[#edeef0] dark:bg-[#353434] text-black dark:text-white text-opacity-75;
 }
 
 * {
     outline: none;
-    font-family: "Product", Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Raleway', sans-serif;
+    /* font-family: "Product", Verdana, Geneva, Tahoma, sans-serif; */
 }
 
 /* width */
 ::-webkit-scrollbar {
-    width: 1px;
+    width: 0px;
     height: 0px;
 }
 
@@ -36,6 +39,10 @@ html, body{
 
 a {
     @apply text-blue-700 dark:text-blue-500 text-opacity-60;
+}
+
+txt{
+    @apply text-black dark:text-white opacity-80;
 }
 
 .center {

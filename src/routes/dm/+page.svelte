@@ -80,7 +80,7 @@
 <!-- <div class="flex items-center">
   <img
     src={$avatar}
-    class="h-44 w-20 rounded-md brightness-[0.8] object-cover  center border border-[#2c2b2b]"
+    class="h-44 w-20 rounded-lg brightness-[0.8] object-cover  center border border-[#2c2b2b]"
     alt=""
   />
   <div class="fixed h-44 w-20 flex justify-center items-end mb-4">
@@ -119,8 +119,8 @@ adwwwwwwww
 /> -->
 
 <div class="w-full flex flex-col justify-center items-center mt-3">
-  <div class="text-xl mb-3 w-11/12 text-left">Messages</div>
-  <div class="flex w-11/12 gap-1 flex-col justify-center items-center">
+  <div class="text-xl mb-3 w-10/12 text-left">Messages</div>
+  <div class="flex w-10/12 gap-1 flex-col justify-center items-center">
     <div class="text-xs text-left w-full">
       {messaging_followers.length}
       {#if messaging_followers.length >= 2 || messaging_followers.length == 0}
