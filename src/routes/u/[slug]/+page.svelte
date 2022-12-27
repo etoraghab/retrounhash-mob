@@ -131,7 +131,7 @@
             .get(pub)
             .put(true)
             .then(() => {
-              goto("/dm/" + username);
+              goto("/dm/" + pub);
             });
         }}
         class="w-4/12 bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-md text-sm p-1 transition-colors duration-300"
