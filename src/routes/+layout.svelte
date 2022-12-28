@@ -356,7 +356,7 @@
                   </button> -->
                     {:else if pagecurrent == "/explore"}
                       <button
-                        class="flex gap-1 px-4 transition-all duration-300 hover:bg-[#333333] w-full text-left rounded-lg py-2 text-sm"
+                        class="flex gap-1 px-4 transition-all duration-300 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] w-full text-left rounded-lg py-2 text-sm"
                         role="menuitem"
                         tabindex="-1"
                         id="menu-item-0"
@@ -369,7 +369,7 @@
                         Refresh
                       </button>
                       <button
-                        class="flex gap-1 px-4 transition-all duration-300 hover:bg-[#333333] w-full text-left rounded-lg py-2 text-sm"
+                        class="flex gap-1 px-4 transition-all duration-300 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] w-full text-left rounded-lg py-2 text-sm"
                         role="menuitem"
                         tabindex="-1"
                         id="menu-item-0"

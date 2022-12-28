@@ -199,7 +199,7 @@
             }}
             class="py-2 mx-2 px-2 flex gap-2 items-center opacity-80"
           >
-            <div class="hover:bg-[#424242] p-1 rounded-lg">
+            <div class="dark:hover:bg-[#424242] hover:bg-[#f2f3f5] p-1 rounded-lg">
               <ArrowBack width="1.4em" />
             </div>
             Back
@@ -292,7 +292,7 @@
                       <p class="text-xs text-grey-darkest" />
 
                       <button
-                        class="p-1 flex center gap-1 transition-all duration-300 m-auto mr-2 hover:bg-[#3b3b3b] rounded-lg"
+                        class="p-1 flex center gap-1 transition-all duration-300 m-auto mr-2 dark:hover:bg-[#424242] hover:bg-[#dadadb] rounded-lg"
                         on:click={() => {
                           user.get("requests").get(r.pub).put(false);
                           user.get("requestAproved").get(r.pub).put(true);
@@ -306,7 +306,7 @@
                         <Plus width="1.2em" /> <span class="text-xs">Add</span>
                       </button>
                       <button
-                        class="p-1 transition-all duration-300 ml-1 mr-1 text-red-600 hover:bg-[#3b3b3b] rounded-lg"
+                        class="p-1 transition-all duration-300 ml-1 mr-1 text-red-600 dark:hover:bg-[#424242] hover:bg-[#dadadb] rounded-lg"
                         on:click={() => {
                           user.get("requests").get(r.pub).put(false);
                           user.get("requestAproved").get(r.pub).put(false);
@@ -356,13 +356,13 @@
               </div>
             </div>
             <!-- Messages -->
-            <div class="flex-1 overflow-auto" style="">
+            <div class="flex-1 overflow-auto bg-[#edeef0]" style="">
               <div class="py-2 px-3">
                 <!-- messages -->
                 {#each messages as m}
                   {#if m.self}
                     <div class="flex justify-end mb-2">
-                      <div class="rounded py-2 px-3 bg-[#333333]">
+                      <div class="rounded py-2 px-3 bg-[#fafbfb] dark:bg-[#333333]">
                         <p class="text-sm mt-1">{m.message}</p>
                         <p class="text-right text-xs text-grey-dark mt-1">
                           {moment(m.time).fromNow()}
@@ -371,7 +371,7 @@
                     </div>
                   {:else}
                     <div class="flex mb-2">
-                      <div class="rounded py-2 px-3 bg-[#333333]">
+                      <div class="rounded py-2 px-3 bg-[#fafbfb] dark:bg-[#333333]">
                         <p class="text-sm mt-1">{m.message}</p>
                         <p class="text-right text-xs text-grey-dark mt-1">
                           {moment(m.time).fromNow()}
