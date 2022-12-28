@@ -18,6 +18,7 @@ export const db = new Gun({
   localStorage: false,
   axe: false,
 });
+
 let username_local;
 export const user = db.user().recall({ sessionStorage: true });
 export const username = writable();
@@ -35,17 +36,10 @@ db.on("auth", async () => {
     username.set(name);
     username_local = name;
   });
-  // await getUserAvatar(user.is.pub).then((val) => {
-  //   console.log(val);
-  //   avatar.set(val);
-  // });
 
   user.get("avatar").on((val) => {
-    avatar.set(val || `https://avatars.dicebear.com/api/identicon/${username_local}.svg`);
-  });
-  /*avatar_graph.on((val) => {
     avatar.set(
       val || `https://avatars.dicebear.com/api/identicon/${username_local}.svg`
     );
-  });*/
+  });
 });

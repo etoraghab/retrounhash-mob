@@ -7,7 +7,7 @@
 
 html, body{
     height: 100%;
-    @apply bg-[#edeef0] dark:bg-[#353434] text-black dark:text-white text-opacity-75;
+    @apply bg-[#ffffff] dark:bg-[#222222] text-black dark:text-white text-opacity-75;
 }
 
 * {

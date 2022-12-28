@@ -11,6 +11,7 @@
   import moment from "moment";
   import Post from "../../../comp/post.svelte";
   import Loading from "../../../comp/loading.svelte";
+  import { X } from "@svicons/boxicons-regular";
 
   let user = db.user(pub);
   let following = null;
@@ -74,6 +75,8 @@
         });
     });
   });
+
+  let requested;
 </script>
 
 <svelte:head>
@@ -123,20 +126,58 @@
       >
         {following ? "unfollow" : "follow"}
       </button>
-      <button
-        on:click={async () => {
-          await user_
-            .get("canMessage")
-            .get(pub)
-            .put(true)
-            .then(() => {
-              goto("/dm/" + pub);
+      {#if requested}
+        <button
+          on:click={async () => {
+            await user.get("msgCert").once(async (val) => {
+              await user
+                .get("requests")
+                .get($keys.pub)
+                .put(false, null, {
+                  opt: {
+                    cert: val,
+                  },
+                });
             });
-        }}
-        class="w-4/12 bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-lg text-sm p-1 transition-colors duration-300"
-      >
-        message
-      </button>
+
+            await user_
+              .get("canMessage")
+              .get(pub)
+              .put(false)
+              .then(() => {});
+
+            requested = false;
+          }}
+          class="{requested?"": "w-4/12"} bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-lg text-sm p-1 transition-colors duration-300"
+        >
+          <X width="1.4em" />
+        </button>
+      {:else}
+        <button
+          on:click={async () => {
+            await user.get("msgCert").once(async (val) => {
+              await user
+                .get("requests")
+                .get($keys.pub)
+                .put(true, null, {
+                  opt: {
+                    cert: val,
+                  },
+                });
+            });
+
+            await user
+              .get("canMessage")
+              .get(pub)
+              .put(true)
+              .then(() => {});
+            requested = true;
+          }}
+          class="w-4/12 bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-lg text-sm p-1 transition-colors duration-300"
+        >
+          request
+        </button>
+      {/if}
     {/if}
   </div>
 </div>

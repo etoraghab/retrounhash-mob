@@ -1,182 +1,149 @@
 <script>
-  import { getUserAvatar, publickeyGet, usernameGet } from "$lib/utils";
-  import Arrow from "@svicons/boxicons-regular/right-arrow-alt.svelte";
-  import { onMount } from "svelte";
-  import { db, keys, user } from "$lib/gun";
-  import Message from "../../../comp/message.svelte";
-  import Icon from "svelte-icons-pack/Icon.svelte";
-  import BsArrowLeftShort from "svelte-icons-pack/bs/BsArrowLeftShort";
-  import { goto } from "$app/navigation";
+  import { getUserAvatar, usernameGet } from "$lib/utils";
+  import imageCompression from "browser-image-compression";
+  import { v4 } from "uuid";
+  import { db, user, username } from "$lib/gun.js";
+  import MessgageUser from "../../../comp/messgageUser.svelte";
 
-  export let data;
-  const pub = data.slug;
-  let scrollBottom;
-  let messages = [];
-  let username;
-  usernameGet(pub).then((u) => {
-    username = u;
-  });
-
-  let q;
-
-  function scroll() {
-    setTimeout(() => scrollBottom?.scrollIntoView({ behavior: "auto" }), 50);
-  }
-
-  async function sendMessage() {
-    if (q !== undefined || (q !== "" && q)) {
-      let time = new Date().toISOString();
-      user
-        .get("dm")
-        .get(pub)
-        .get(time)
-        .put({
-          message: q,
-        })
-        .then((data) => {
-          q = "";
-        });
-    }
-  }
-
-  let removeDUP = () => {
-    messages.sort(
-      (d1, d2) => new Date(d1.time).getTime() - new Date(d2.time).getTime()
-    );
-  };
-
-  $: messages, removeDUP();
-
-  db.user(pub)
-    .get("dm")
-    .get($keys.pub)
-    .map()
-    .once((a) => {
-      messages = [
-        {
-          message: a.message,
-          time: Gun.state.is(a, "message"),
-          self: false,
-        },
-        ...messages,
-      ];
-    });
-
+  let following = [];
+  let messaging_followers = [];
   user
-    .get("dm")
-    .get(pub)
+    .get("following")
     .map()
-    .once((a) => {
+    .once(async (a, b) => {
       if (a) {
-        messages = [
-          {
-            message: a.message,
-            time: Gun.state.is(a, "message"),
-            self: true,
-          },
-          ...messages,
-        ];
+        following = [b, ...following];
       }
     });
 
-  $: messages, scroll();
+  function updateList() {
+    user
+      .get("canMessage")
+      .map()
+      .once(async (a, b) => {
+        if (a == true) {
+          messaging_followers = [
+            {
+              pub: b,
+              username: await usernameGet(b),
+              avatar: await getUserAvatar(b),
+            },
+            ...messaging_followers,
+          ];
+        }
+      });
+  }
+
+  user.get("canMessage").on(() => {
+    messaging_followers = [];
+    updateList();
+  });
+
+  function blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function uploadHighlight() {
+    var file = document.querySelector("#highlight-chooser").files[0];
+    var reader = new FileReader();
+    reader.onload = async function () {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 500,
+        useWebWorker: true,
+      };
+      try {
+        const compressedFile = await imageCompression(file, options);
+        let base64IMG = await blobToBase64(compressedFile);
+        user
+          .get("highlights")
+          .get(v4())
+          .put({
+            img: base64IMG,
+            caption: prompt("caption"),
+          })
+          .then((e) => {
+            base64IMG = "";
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    reader.readAsDataURL(file);
+  }
 </script>
 
 <svelte:head>
-  <title>{username || "loading"} - retrounhash</title>
+  <title>messaging - retrounhash</title>
+  <meta
+    name="description"
+    content="Make messagin private, secure and fast with retrounhash, the decentralized social platform."
+  />
 </svelte:head>
-<div class="flex centered justify-center items-center mt-3">
-  <div
-    class="mx-4 w-full p-2  bg-[#ffffff] dark:bg-[#222222] rounded-lg h-auto flex gap-1 items-center"
-  >
-    <button
-      on:click={() => {
-        goto("/dm/");
-      }}
-    >
-      <Icon src={BsArrowLeftShort} size={20} />
-    </button>
-    <div
-      class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-lg"
-    >
-      {#if pub}
-        {#await getUserAvatar(pub) then data}
-          <img src={data} class="rounded-lg" alt="" />
-        {/await}
+<!-- <div class="flex items-center">
+  <img
+    src={$avatar}
+    class="h-44 w-20 rounded-lg brightness-[0.8] object-cover  center border border-[#2c2b2b]"
+    alt=""
+  />
+  <div class="fixed h-44 w-20 flex justify-center items-end mb-4">
+    <label for="highlight-chooser">
+      <div class="center">
+        <Icon src={Plus} size="2.5rem" />
+      </div>
+      <div class="text-xs text-center">story</div>
+    </label>
+
+  </div>
+</div>
+<div class="overflow-scroll flex ">
+  {#each following as f}
+    <Highlight pub={f} />
+  {/each}
+</div> -->
+<!-- 
+<div class="p-3">
+  <div class="flex justify-center flex-col gap-3">
+    <div class="flex overflow-x-scroll w-[90px] m-auto">
+      {#each following as f}
+        <Highlight pub={f} />
+      {/each}
+    </div>
+  </div>
+</div>
+adwwwwwwww
+<input
+  type="file"
+  name="highlight-chooser"
+  id="highlight-chooser"
+  on:change={uploadHighlight}
+  accept="image/*"
+  class="hidden"
+/> -->
+
+<div class="w-full flex flex-col justify-center items-center mt-3">
+  <div class="text-xl mb-3 w-10/12 text-left">Messages</div>
+  <div class="flex w-10/12 gap-1 flex-col justify-center items-center">
+    <div class="text-xs text-left w-full">
+      {messaging_followers.length}
+      {#if messaging_followers.length >= 2 || messaging_followers.length == 0}
+        contacts
+      {:else}
+        contact
       {/if}
     </div>
-    <button
-      on:click={() => {
-        goto(`/u/${username}`);
-      }}
-      class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#222222] rounded p-1"
-    >
-      {username}
-    </button>
-  </div>
-</div>
-
-<div class="w-full mt-20">
-  <div class="flex flex-col gap-1 chat">
-    {#each messages as m}
-      <Message message={m.message} self={m.self} time={m.time} />
+    {#if messaging_followers.length == 0}
+      <div class="text-xs capitalize ">
+        follow people or message them by visiting their profile for them to show
+        up here
+      </div>
+    {/if}
+    {#each messaging_followers as f}
+      <MessgageUser {f} />
     {/each}
   </div>
-  <div bind:this={scrollBottom} class="mb-12" />
 </div>
-
-<div class="flex centered_bottom justify-center items-center mt-3">
-  <div
-    class="mx-4 w-full p-2  bg-[#ffffff] dark:bg-[#222222] rounded-lg h-auto flex gap-1 items-center"
-  >
-    <!-- <div
-      class="h-6 flex justify-center w-6 m-auto aspect-square object-cover rounded-lg"
-    >
-      <Search width="1.2em" />
-    </div> -->
-    <form
-      autocomplete="off"
-      on:submit|preventDefault={() => {
-        sendMessage(q);
-      }}
-      class="flex w-full"
-    >
-      <input
-        bind:value={q}
-        type="text"
-        placeholder="Type a message"
-        class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#222222] rounded p-1"
-      />
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <button
-        on:click={() => {
-          sendMessage[q];
-        }}
-        type="submit"
-        class="h-6 center w-6 m-auto aspect-square object-cover rounded-lg"
-      >
-        <Arrow width="1.2em" />
-      </button>
-    </form>
-  </div>
-</div>
-
-<style>
-  .centered {
-    position: fixed;
-    width: 100vw;
-    bottom: 88.5%;
-    left: calc(50vw);
-    padding-left: 2.73rem;
-    transform: translate(-50%, -50%);
-  }
-
-  .centered_bottom {
-    position: fixed;
-    width: 100vw;
-    top: 93%;
-    left: calc(50vw);
-    padding-left: 2.73rem;
-    transform: translate(-50%, -50%);
-  }
-</style>

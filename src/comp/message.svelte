@@ -10,7 +10,7 @@
       <div
         class="rounded-lg {self
           ? 'rounded-br-none'
-          : 'rounded-bl-none'} bg-[#ffffff] dark:bg-[#333333] border border-[#dce1e6] dark:border-[#424242] dark:border-[#363636] bg-opacity-75 py-1.5 px-3 break-all"
+          : 'rounded-bl-none'} bg-[#ffffff] dark:bg-[#333333] border border-[#dce1e6] dark:border-[#424242] bg-opacity-75 py-1.5 px-3 break-all"
       >
         {message}
       </div>
