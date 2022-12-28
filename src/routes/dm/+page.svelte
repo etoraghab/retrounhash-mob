@@ -135,7 +135,6 @@
       .get("requests")
       .map()
       .once(async (val, val2) => {
-        console.log(val);
         if (val == true) {
           await db
             .user(val2)
@@ -174,6 +173,15 @@
     requests = a;
   }
   $: requests, removeDUP_req();
+
+  function removeDUP_chat() {
+    let a = messaging_followers.filter(
+      (v, i, a) =>
+        a.findIndex((v2) => JSON.stringify(v2) === JSON.stringify(v)) === i
+    );
+    messaging_followers = a;
+  }
+  $: messaging_followers, removeDUP_chat();
 </script>
 
 <svelte:head>
@@ -356,7 +364,7 @@
               </div>
             </div>
             <!-- Messages -->
-            <div class="flex-1 overflow-auto bg-[#edeef0]" style="">
+            <div class="flex-1 overflow-auto bg-[#edeef0] dark:bg-[#242424]" style="">
               <div class="py-2 px-3">
                 <!-- messages -->
                 {#each messages as m}

@@ -136,14 +136,12 @@
   let pagecurrent = "";
   page.subscribe((p) => {
     pagecurrent = p.route.id;
-    console.log(pagecurrent);
   });
 
   let currentloc = "loading";
   let userlocation_graph = user.get("location").get("city");
   userlocation_graph.on(async (val) => {
     val = await SEA.decrypt(val, $keys.priv);
-    console.log(val);
     currentloc = val;
   });
 
@@ -153,7 +151,6 @@
       .get("requests")
       .map()
       .once(async (val, val2) => {
-        console.log(val);
         if (val == true) {
           await db
             .user(val2)
