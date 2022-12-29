@@ -17,6 +17,7 @@
 		"@svicons/boxicons-regular": "^0.1.11",
 		"@types/cookie": "^0.5.1",
 		"autoprefixer": "^10.4.13",
+		"nprogress": "^0.2.0",
 		"postcss": "^8.4.20",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",

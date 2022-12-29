@@ -1,5 +1,24 @@
 <script>
   import "./styles.css";
+  import NProgress from "nprogress";
+  import { navigating } from "$app/stores";
+
+  import "nprogress/nprogress.css";
+
+  NProgress.configure({
+    showSpinner: false,
+    minimum: 0.16,
+  });
+
+  $: {
+    if ($navigating) {
+      NProgress.start();
+    }
+    if (!$navigating) {
+      NProgress.done();
+    }
+  }
+
   import Home from "@svicons/boxicons-regular/home.svelte";
   import Search from "@svicons/boxicons-regular/search.svelte";
   import Settings from "@svicons/boxicons-regular/cog.svelte";
@@ -154,11 +173,13 @@
     class="w-12 h-full fixed left-0 top-0 flex flex-col gap-2 bg-[#ffffff] dark:bg-[#19191a] text-black dark:text-white text-opacity-70"
   >
     <div class="mx-auto mt-2 text-black dark:text-white text-opacity-70">
-      <img
-        class="w-8 rounded-md h-auto aspect-square"
-        src="/assets/android-icon-48x48.png"
-        alt=""
-      />
+      <a href="/">
+        <img
+          class="w-8 rounded-md h-auto aspect-square"
+          src="/assets/android-icon-48x48.png"
+          alt=""
+        /></a
+      >
     </div>
     <a href="/" aria-label="home" class="mx-auto mt-2 p-2 rounded-md">
       <Home width="1.2em" />
