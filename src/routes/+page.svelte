@@ -47,6 +47,20 @@
               .put(soul);
           }
         });
+
+        await user
+          .get("location")
+          .get("city")
+          .once(async (r) => {
+            let item = await SEA.decrypt(r, $keys.priv);
+            let soul = await Gun.node.soul(data);
+            let hash = await SEA.work(soul, null, null, { name: "SHA-256" });
+            db.get("search_geo")
+              .get("query")
+              .get(`#${item}`)
+              .get(hash)
+              .put(soul);
+          });
       });
     postContent = null;
   }
@@ -124,7 +138,7 @@
   >
     {#await getUserAvatar($keys.pub)}
       <div class="animate-spin">
-        <Icon src={AiOutlineLoading} color="gray" width="1.2em" />
+        <Icon src={AiOutlineLoading} color="gray" size={23} />
       </div>
     {:then data}
       <img

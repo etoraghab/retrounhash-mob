@@ -28,6 +28,7 @@
 	"dependencies": {
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"aws-sdk": "^2.1277.0",
+		"axios": "^1.2.2",
 		"browser-image-compression": "^2.0.0",
 		"bufferutil": "^4.0.7",
 		"gun": "^0.2020.1238",

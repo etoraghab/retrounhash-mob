@@ -109,7 +109,7 @@
       on:click={() => {
         goto(`/u/${username}`);
       }}
-      class="text-sm font-thin w-full resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
+      class="text-sm font-thin w-32 truncate mr-auto resize-none bg-[#ffffff] dark:bg-[#19191a] rounded p-1"
     >
       {username}
     </button>

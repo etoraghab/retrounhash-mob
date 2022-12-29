@@ -4,6 +4,7 @@
   export let data;
   const username = data.slug;
   let pub;
+  import { X } from "@svicons/boxicons-regular";
   import imageCompression from "browser-image-compression";
   import Link from "@svicons/boxicons-regular/link.svelte";
   import { db, keys, user as user_, avatar } from "$lib/gun";
@@ -75,6 +76,8 @@
         });
     });
   });
+
+  let requested;
 </script>
 
 <svelte:head>
@@ -93,7 +96,7 @@
     class="h-20 w-20 aspect-square object-cover rounded-full"
     alt=""
   />
-  <span class="mt-1">@{username}</span>
+  <span class="mt-1 w-40 truncate">@{username}</span>
   <div bind:this={bio_VAL} class="w-10/12 text-left text-xs py-2">loading</div>
   <button
     class="text-xs items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3"
@@ -124,20 +127,60 @@
       >
         {following ? "unfollow" : "follow"}
       </button>
-      <button
-        on:click={async () => {
-          await user_
-            .get("canMessage")
-            .get(pub)
-            .put(true)
-            .then(() => {
-              goto("/dm/" + pub);
+      {#if requested}
+        <button
+          on:click={async () => {
+            await user.get("msgCert").once(async (val) => {
+              await user
+                .get("requests")
+                .get($keys.pub)
+                .put(false, null, {
+                  opt: {
+                    cert: val,
+                  },
+                });
             });
-        }}
-        class="w-4/12 bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-md text-sm p-1 transition-colors duration-300"
-      >
-        message
-      </button>
+
+            await user_
+              .get("canMessage")
+              .get(pub)
+              .put(false)
+              .then(() => {});
+
+            requested = false;
+          }}
+          class="{requested
+            ? ''
+            : 'w-4/12'} bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-lg text-sm p-1 transition-colors duration-300"
+        >
+          <X width="1.4em" />
+        </button>
+      {:else}
+        <button
+          on:click={async () => {
+            await user.get("msgCert").once(async (val) => {
+              await user
+                .get("requests")
+                .get($keys.pub)
+                .put(true, null, {
+                  opt: {
+                    cert: val,
+                  },
+                });
+            });
+
+            await user_
+              .get("canMessage")
+              .get(pub)
+              .put(true)
+              .then(() => {});
+            requested = true;
+          }}
+          class="w-4/12 bg-[#f0f2f5] dark:bg-[#222222] dark:text-white rounded-lg text-sm p-1 transition-colors duration-300"
+        >
+          request
+        </button>
+      {/if}
     {/if}
   </div>
 </div>
