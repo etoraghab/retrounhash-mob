@@ -118,7 +118,9 @@
       on:click={async () => {
         let loc = prompt("enter new location");
         if (loc) {
-          userlocation_graph.put(await SEA.encrypt(loc, $keys.priv));
+          userlocation_graph.put(
+            await SEA.encrypt(loc.toLowerCase(), $keys.priv)
+          );
           location.reload();
         }
       }}

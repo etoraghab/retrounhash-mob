@@ -134,7 +134,7 @@
                 await user
                   .get("location")
                   .get("city")
-                  .put(await SEA.encrypt(res.data.city, $keys.priv))
+                  .put(await SEA.encrypt((res.data.city).toLowerCase(), $keys.priv))
                   .back()
                   .get("country")
                   .put(await SEA.encrypt(res.data.country_name, $keys.priv));

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import "../fonts/style.css";
 
 @tailwind base;
@@ -10,7 +11,8 @@ html, body{
 
 * {
     outline: none;
-    font-family: "Product", Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Raleway', sans-serif;
+    /* font-family: "Product", Verdana, Geneva, Tahoma, sans-serif; */
 }
 
 /* width */
