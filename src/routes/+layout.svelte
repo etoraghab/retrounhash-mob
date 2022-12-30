@@ -8,6 +8,8 @@
   NProgress.configure({
     showSpinner: false,
     minimum: 0.16,
+    template:
+      '<div class="bar" role="bar" style="background: #155fe5;"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>',
   });
 
   $: {

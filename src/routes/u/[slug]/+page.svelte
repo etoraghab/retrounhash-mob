@@ -96,7 +96,7 @@
     class="h-20 w-20 aspect-square object-cover rounded-full"
     alt=""
   />
-  <span class="mt-1 w-40 truncate">@{username}</span>
+  <span class="mt-1 w-40 center truncate">@{username}</span>
   <div bind:this={bio_VAL} class="w-10/12 text-left text-xs py-2">loading</div>
   <button
     class="text-xs items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3"
