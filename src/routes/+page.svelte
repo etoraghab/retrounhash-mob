@@ -1,4 +1,5 @@
 <script>
+  import { SEA } from "gun/gun";
   import moment from "moment";
   moment().format();
   import { db, keys, user } from "$lib/gun";
@@ -22,7 +23,9 @@
     await user
       .get("posts")
       .get(id)
-      .put(postContent)
+      .put({
+        content: postContent,
+      })
       .then(async () => {
         postContent = postContent.replace(/(\,|\.)/g, "");
         refreshPosts();
@@ -74,30 +77,52 @@
           if (f[0] !== "_" && f[1] !== null && f[1]) {
             let pub = f[0];
             let avatar = await getUserAvatar(pub);
+            // db.user(pub)
+            //   .get("posts")
+            //   .once((post_) => {
+            //     if (post_ && typeof post_ == "object") {
+            //       Object.entries(post_).forEach(async (post) => {
+            //         if (post[0] !== "_" && post[1] !== null) {
+            //           let date = new Date(
+            //             post_["_"][">"][post[0]]
+            //           ).toUTCString();
+            //           posts = [
+            //             {
+            //               content: post[1],
+            //               uid: post[0],
+            //               avatar: avatar,
+            //               name: await usernameGet(pub),
+            //               date: moment(date).calendar(),
+            //               sortDate: date,
+            //               self: pub == $keys.pub ? true : false,
+            //               pub: pub,
+            //             },
+            //             ...posts,
+            //           ];
+            //         }
+            //       });
+            //     }
+            //   });
+
             db.user(pub)
               .get("posts")
-              .once((post_) => {
-                if (post_) {
-                  Object.entries(post_).forEach(async (post) => {
-                    if (post[0] !== "_" && post[1] !== null) {
-                      let date = new Date(
-                        post_["_"][">"][post[0]]
-                      ).toUTCString();
-                      posts = [
-                        {
-                          content: post[1],
-                          uid: post[0],
-                          avatar: avatar,
-                          name: await usernameGet(pub),
-                          date: moment(date).calendar(),
-                          sortDate: date,
-                          self: pub == $keys.pub ? true : false,
-                          pub: pub,
-                        },
-                        ...posts,
-                      ];
-                    }
-                  });
+              .map()
+              .once(async (p, u) => {
+                if (typeof p == "object" && p) {
+                  let date = Gun.state.is(p, "content");
+                  posts = [
+                    {
+                      content: p.content,
+                      uid: u,
+                      avatar: avatar,
+                      name: await usernameGet(pub),
+                      date: moment(date).calendar(),
+                      self: pub == $keys.pub ? true : false,
+                      sortDate: date,
+                      pub: pub,
+                    },
+                    ...posts,
+                  ];
                 }
               });
           }

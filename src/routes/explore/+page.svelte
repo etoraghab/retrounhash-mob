@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import moment from "moment";
   moment().format();
-  import { getUserAvatar, usernameGet } from "$lib/utils";
+  import { getUserAvatar, postRender, usernameGet } from "$lib/utils";
   import { db, keys, user } from "$lib/gun.js";
   import SEA from "gun/sea";
 
@@ -23,11 +23,11 @@
                 await usernameGet(post.split(/~/)[1].split(/\//)[0]).then(
                   async (username) => {
                     await getUserAvatar(post.split(/~/)[1].split(/\//)[0]).then(
-                      (avatar) => {
+                      async (avatar) => {
                         let date = GUN.state.is(val, "content");
                         post = val["_"]["#"];
                         let fuckingpostobj = {
-                          content: val.content,
+                          content: await postRender(val.content),
                           uid: post.split(/~/)[1].split(/\//)[2],
                           avatar: avatar,
                           name: username,
@@ -144,8 +144,8 @@
       class="w-11/12 break-all p-3 bg-[#ffffff] dark:bg-[#19191a] border border-[#dce1e6] dark:border-[#313131] rounded-md h-auto flex flex-col"
     >
       <div>
-        <div class="text-sm break-words">
-          {data.content}
+        <div class="text-sm break-words flex gap-1 flex-wrap">
+          {@html data.content}
         </div>
         <div class="flex items-center mb-1 mt-2">
           <div class="flex w-full">

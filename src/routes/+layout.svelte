@@ -28,7 +28,7 @@
   import Message from "@svicons/boxicons-regular/message-alt.svelte";
   import Account from "@svicons/boxicons-regular/user.svelte";
   import { db, keys, user, username as username_ } from "$lib/gun";
-  import { SEA } from "gun";
+  import { SEA } from "gun/gun";
   import { onMount } from "svelte";
   import Loading from "../comp/loading.svelte";
   import { publickeyGet, usernameGet } from "$lib/utils";

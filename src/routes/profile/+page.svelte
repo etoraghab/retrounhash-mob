@@ -4,24 +4,51 @@
   import Link from "@svicons/boxicons-regular/link.svelte";
   import Copy from "@svicons/boxicons-regular/copy.svelte";
   import Open from "@svicons/boxicons-regular/window-alt.svelte";
-  import { keys, user, username } from "$lib/gun";
+  import { db, keys, user, username } from "$lib/gun";
   import { onMount } from "svelte";
   import { copyToClipboard } from "$lib/utils";
   import TrashAlt from "@svicons/boxicons-regular/trash-alt.svelte";
   import { goto } from "$app/navigation";
   import Loading from "../../comp/loading.svelte";
+  import Icon from "svelte-icons-pack";
+  import FaMapMarkerAlt from "svelte-icons-pack/fa/FaSolidMapMarkerAlt";
 
   let editable = false;
-  let user_avatar;
+  let user_avatar, displayName, saved, location, editting, background;
   let bio_VAL, link_VAL;
   let bio_graph = user.get("bio");
-  let link_graph = user.get("link");
   let avatar_graph = user.get("avatar");
+  let background_graph = user.get("background");
+  let displayName_graph = user.get("displayName");
+  let location_graph = user.get("displayLocation");
+
+  background_graph.once((val) => {
+    background =
+      val ||
+      `https://images.unsplash.com/photo-1578735546632-9ff1f1e7518e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`;
+  });
+
+  location_graph.once((l) => {
+    location = l;
+  });
+
+  displayName_graph.once((n) => {
+    displayName = n || $username;
+  });
 
   function save() {
     return new Promise(async (r) => {
-      await bio_graph.put(bio_VAL.innerHTML);
-      await link_graph.put(link_VAL.innerHTML);
+      bio_VAL = bio_VAL
+        .replace(/#+([a-zA-Z0-9_]+)/gi, '<a href="/search/#$1">#$1</a>')
+        .replace(/\n/g, "<br>");
+      await displayName_graph.put(displayName);
+      await bio_graph.put(bio_VAL);
+      await location_graph.put(location);
+      saved = true;
+      editting = false;
+      setTimeout(() => {
+        saved = false;
+      }, 2000);
       r();
     });
   }
@@ -33,20 +60,16 @@
       reader.readAsDataURL(blob);
     });
   }
+  bio_graph.once((val) => {
+    // val = val
+    //   .replace(/#+([a-zA-Z0-9_]+)/gi, '<a href="/search/#$1">#$1</a>')
+    //   .replace(/\\n/g, "<br>");
+    bio_VAL = val || "404 no bio found";
+  });
 
-  onMount(() => {
-    setTimeout(() => {
-      bio_graph.once((val) => {
-        bio_VAL.innerHTML = val || "404 no bio found";
-      });
-      link_graph.once((val) => {
-        link_VAL.innerHTML = val || location.href.split(/\//)[2];
-      });
-      avatar_graph.once((val) => {
-        user_avatar =
-          val || `https://avatars.dicebear.com/api/identicon/${$username}.svg`;
-      });
-    }, 1000);
+  avatar_graph.once((val) => {
+    user_avatar =
+      val || `https://avatars.dicebear.com/api/identicon/${$username}.svg`;
   });
 
   function imageUploaded() {
@@ -71,17 +94,52 @@
     reader.readAsDataURL(file);
   }
 
+  function backdroundUpload() {
+    var file = document.querySelector("#background").files[0];
+    var reader = new FileReader();
+    reader.onload = async function () {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+      };
+      try {
+        const compressedFile = await imageCompression(file, options);
+        let base64IMG = await blobToBase64(compressedFile);
+        await background_graph.put(base64IMG);
+        background = base64IMG;
+        base64IMG = "";
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
   let posts = [];
 
+  import moment from "moment";
+  import {
+    Camera,
+    Check,
+    Pencil,
+    WindowOpen,
+    X,
+  } from "@svicons/boxicons-regular";
+
+  moment().format();
   user
     .get("posts")
     .map()
-    .once((val, uid) => {
-      if (val && uid) {
+    .once(async (p, u) => {
+      if (typeof p == "object" && p) {
+        let date = Gun.state.is(p, "content");
         posts = [
           {
-            uid: uid,
-            content: val,
+            content: p.content,
+            uid: u,
+            date: moment(date).calendar(),
+            sortDate: date,
           },
           ...posts,
         ];
@@ -99,87 +157,175 @@
   />
 </svelte:head>
 <div
-  class="{user_avatar
+  class="{$username
     ? ''
-    : 'hidden'} flex flex-col break-all justify-center items-center mt-3"
+    : 'hidden'} flex flex-col break-all justify-center items-center mt-1 pl-1"
 >
-  <label for="avatar">
-    <img
-      src={user_avatar}
-      class="h-20 w-20 aspect-square object-cover rounded-full"
-      alt=""
-    />
-  </label>
-  <input
-    type="file"
-    name="avatar"
-    id="avatar"
-    on:change={imageUploaded}
-    accept="image/*"
-    class="hidden"
-  />
-  <span class="mt-1">
-    @{$username}
-  </span>
-  <div
-    bind:this={bio_VAL}
-    class="w-10/12 text-left text-xs py-2"
-    contenteditable={editable}
-  >
-    loading
-  </div>
-  <button
-    class="text-xs items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left w-11/12 m-3 pl-2"
-    on:click={() => {
-      if (!editable) {
-        open(link_VAL.innerHTML);
-      }
-    }}
-  >
-    <Link width="1em" />
-    <span bind:this={link_VAL} contenteditable={editable}>loading</span>
-  </button>
-  <div class="flex gap-2 w-11/12 px-2">
-    <button
-      on:click={async () => {
-        if (editable) {
-          editable = false;
-          await save().then(() => {
-            console.log("saved");
-          });
-        } else {
-          editable = true;
-          setTimeout(function () {
-            bio_VAL.focus();
-          }, 0);
-        }
-      }}
-      class="w-10/12 {!editable
-        ? 'bg-[#e6e8eb] dark:bg-[#222222] dark:text-white'
-        : 'bg-[#383838] text-white dark:bg-[#e6e8eb] dark:text-black text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
-    >
-      {editable ? "save" : "edit"}
-    </button>
-    <button
-      on:click={async () => {
-        await copyToClipboard($keys.pub);
-        console.log("copied");
-      }}
-      class="w-7 rounded-md text-sm p-1"
-    >
-      <Copy width="1.4em" />
-    </button>
-    <button
-      on:click={async () => {
-        open(location.href.replace(/profile/, "u/") + $username);
-      }}
-      class="w-7 rounded-md text-sm p-1"
-    >
-      <Open width="1.4em" />
-    </button>
-  </div>
+  <div class="w-full flex items-center justify-start pl-2 pr-1">
+    <div class="center w-full">
+      <img
+        src={background}
+        class="w-full h-40 object-cover brightness-50 rounded-lg rounded-t-md"
+        alt=""
+      />
+      <div class="absolute">
+        <div class="flex gap-2">
+          <label
+            for="background"
+            class="p-2 bg-[#646464] bg-opacity-30 rounded-full"
+          >
+            <Pencil width="1.6em" />
+          </label>
+          <button
+            on:click={() => {
+              background_graph.put(
+                "https://images.unsplash.com/photo-1578735546632-9ff1f1e7518e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+              );
+              background =
+                "https://images.unsplash.com/photo-1578735546632-9ff1f1e7518e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80";
+            }}
+            class="p-2 bg-[#646464] bg-opacity-30 rounded-full"
+          >
+            <X width="1.6em" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="center z-[99999999] absolute mt-40 ml-3">
+      <img
+        src={user_avatar}
+        class="w-20 brightness-50 h-20 object-cover rounded-full shadow-sm shadow-black"
+        alt=""
+      />
+      <div class="absolute">
+        <div class="flex gap-2">
+          <label
+            for="avatar"
+            class="p-2 cursor-pointer bg-[#646464] bg-opacity-30 rounded-full"
+          >
+            <Camera width="1em" />
+          </label>
+          <button
+            on:click={async () => {
+              await avatar_graph.put(
+                "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+              );
+              user_avatar =
+                "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541";
+            }}
+            class="p-2 cursor-pointer bg-[#646464] bg-opacity-30 rounded-full"
+          >
+            <X width="1em" />
+          </button>
+        </div>
+      </div>
+    </div>
 
-  <div class="w-11/12 mt-3">
+    <input
+      type="file"
+      name="avatar"
+      id="avatar"
+      on:change={imageUploaded}
+      accept="image/*"
+      class="hidden"
+    />
+
+    <input
+      type="file"
+      name="background"
+      id="background"
+      on:change={backdroundUpload}
+      accept="image/*"
+      class="hidden"
+    />
+  </div>
+  <div class="h-16 w-full flex justify-end pr-5">
+    <button
+      on:click={() => {
+        editting = true;
+        bio_VAL = bio_VAL
+          .replace(/\<a href\=\"\/search\/(.*)\"\>(.*)\<\/a\>/g, "$1")
+          .replace(/\<br\>/g, "\n");
+      }}
+      class="dark:bg-[#d2d4d6] m-auto mr-3 dark:text-black gap-3 h-7 my-auot transition-all duration-300 text-sm p-1 dark:hover:bg-[#b6b9bb] rounded-lg px-3"
+    >
+      edit profile
+    </button>
+    <button
+      on:click={() => {
+        goto("/u/" + $username);
+      }}
+      class="dark:bg-[#d2d4d6] my-auto dark:text-black gap-3 h-7 transition-all duration-300 text-sm p-1 dark:hover:bg-[#b6b9bb] rounded-lg px-2"
+    >
+      <WindowOpen width="1.2em" />
+    </button>
+  </div>
+  <div class="text-left flex-col flex truncate w-full pl-3 text-lg">
+    {displayName}
+    <span class="text-sm opacity-75">
+      @{$username}
+    </span>
+  </div>
+  {#if editting}
+    <div class="w-full pl-3 pt-3 justify-start">
+      <div class="border border-blue-600 border-opacity-50 rounded-lg p-2 mb-2">
+        <div class="opacity-90 text-xs pl-1 capitalize">Name</div>
+        <input
+          type="text"
+          bind:value={displayName}
+          placeholder={$username}
+          class="pl-2 h-4 text-lg w-full bg-transparent rounded-lg resize-none"
+        />
+      </div>
+      <div class="border border-blue-600 border-opacity-50 rounded-lg p-2 mb-2">
+        <div class="opacity-90 text-xs pl-1 capitalize">about you</div>
+        <textarea
+          type="text"
+          bind:value={bio_VAL}
+          placeholder=""
+          class="pl-2 h-16 text-lg w-full bg-transparent rounded-lg resize-none"
+        />
+      </div>
+      <div class="border border-blue-600 border-opacity-50 rounded-lg p-2 mb-2">
+        <div class="opacity-90 text-xs pl-1 capitalize">Location</div>
+        <input
+          type="text"
+          bind:value={location}
+          placeholder="New York"
+          class="pl-2 h-4 text-lg w-full bg-transparent rounded-lg resize-none"
+        />
+      </div>
+      <div class="w-full justify-start">
+        <button
+          on:click={save}
+          class="flex dark:bg-[#d2d4d6] dark:text-black mr-auto ml-1 mt-2 gap-3 transition-all duration-300 text-sm p-1 dark:hover:bg-[#b6b9bb] rounded-lg mx-auto px-3"
+        >
+          {#if saved}
+            <Check width="1.4em" />
+          {:else}
+            save
+          {/if}
+        </button>
+      </div>
+    </div>
+  {:else}
+    <div class="w-full pt-4 pl-3 justify-start">
+      <div class="text-md  flex flex-col gap-1">
+        <span class="text-[14px] line-clamp-6">
+          {@html bio_VAL || "404: bio not found"}
+        </span>
+        {#if location}
+          <span
+            class="flex opacity-60 text-[13px] gap-1 capitalize items-center"
+          >
+            <Icon src={FaMapMarkerAlt} color="gray" size="15" />
+            {location}
+          </span>
+        {/if}
+      </div>
+    </div>
+  {/if}
+  <div class="w-11/12 mt-12">
     <div class="text-lg">Post Management</div>
     {#each posts as p}
       <Postinprofile {p} />
@@ -197,7 +343,7 @@
   </div>
 </div>
 
-{#if !user_avatar}
+{#if !$username}
   <div class="w-full h-screen center">
     <Loading />
   </div>

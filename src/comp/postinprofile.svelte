@@ -8,7 +8,7 @@
 
 {#if !deleted}
   <div
-    class="w-11/12 truncate p-1.5 text-sm m-1 bg-[#ffffff] dark:bg-[#19191a] border border-[#dce1e6] dark:border-[#313131] rounded-md flex h-auto"
+    class="w-60 truncate p-1.5 text-sm m-1 bg-[#ffffff] dark:bg-[#19191a] border border-[#dce1e6] dark:border-[#313131] rounded-md flex h-auto"
   >
     <div class="w-3/4 truncate">
       {p.content}

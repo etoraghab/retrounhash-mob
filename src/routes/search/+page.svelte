@@ -1,6 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-  import GUN from "gun";
+  import GUN from "gun/gun";
   import Search from "@svicons/boxicons-regular/search.svelte";
   import Arrow from "@svicons/boxicons-regular/right-arrow-alt.svelte";
   import { db, keys } from "$lib/gun";

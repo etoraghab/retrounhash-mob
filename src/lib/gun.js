@@ -1,4 +1,4 @@
-import Gun from "gun";
+import Gun from "gun/gun";
 import "gun/sea";
 // import "gun/axe";
 // import "gun/lib/radix2";

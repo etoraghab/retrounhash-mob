@@ -177,3 +177,18 @@ export async function deleteAllposts(override) {
     }
   }
 }
+
+import { parse } from "twemoji-parser";
+
+export async function postRender(t) {
+  return new Promise((r) => {
+    let entities = parse(t);
+    for (const e of entities) {
+      t = t.replace(
+        new RegExp(e.text, "g"),
+        `<img src="${e.url}" draggable="false" class="h-3 my-auto selector" alt="" />`
+      );
+    }
+    r(t.replace(/#+([a-zA-Z0-9_]+)/gi, '<a href="/search/#$1">#$1</a>'));
+  });
+}

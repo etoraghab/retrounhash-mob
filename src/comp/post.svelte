@@ -1,16 +1,16 @@
 <script>
-  import { TrashAlt, UserPlus } from "@svicons/boxicons-regular";
+  import { Pin, UserPlus } from "@svicons/boxicons-regular";
   import { goto } from "$app/navigation";
   import { user } from "$lib/gun";
   import Menu from "@svicons/boxicons-regular/dots-horizontal-rounded.svelte";
   import Report from "@svicons/boxicons-regular/flag.svelte";
+  import TrashAlt from "@svicons/boxicons-regular/trash-alt.svelte";
   import Delete from "@svicons/boxicons-regular/trash-alt.svelte";
   import X from "@svicons/boxicons-regular/x.svelte";
 
   let option;
   export let data;
   let elmUID;
-
   let content = data.content.replace(
     /#+([a-zA-Z0-9_]+)/gi,
     '<a href="/search/#$1">#$1</a>'
@@ -33,6 +33,8 @@
     .once((isFollowing) => {
       following = isFollowing || false;
     });
+
+  // export let pinned;
 </script>
 
 <div
@@ -109,8 +111,8 @@
     </div>
   {:else}
     <div>
-      <div class="text-sm break-words">
-        {data.content}
+      <div class="text-sm break-words flex gap-1 flex-wrap">
+        {@html content}
       </div>
       <div class="flex items-center mb-1 mt-2">
         <div class="flex w-full">
