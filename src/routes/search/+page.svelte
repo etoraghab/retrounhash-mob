@@ -149,7 +149,7 @@
             tab = i;
           }}
           class="w-1/2 center {tab === i
-            ? 'border-b border-blue-600'
+            ? 'border-b border-[#3c7ab6] dark:border-[#346ca3]'
             : 'border-b dark:border-[#141414] border-[#edeef0]'} pb-1 transition-all duration-500"
         >
           {i}

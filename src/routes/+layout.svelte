@@ -9,7 +9,7 @@
     showSpinner: false,
     minimum: 0.16,
     template:
-      '<div class="bar" role="bar" style="background: #155fe5;"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>',
+      '<div class="bar" role="bar" style="background: #2b6ba0;"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>',
   });
 
   $: {
@@ -247,7 +247,7 @@
               on:click={handleAuth}
               disabled={username == undefined}
               class="w-full {disabled && username !== undefined
-                ? 'bg-blue-900 hover:bg-blue-800'
+                ? 'bg-[#2b6ba0] hover:bg-[#265d8a]'
                 : 'bg-[#383838] text-white text-opacity-70'} rounded-md text-sm p-1 transition-colors duration-300"
             >
               {#if username == undefined}

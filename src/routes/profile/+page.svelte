@@ -268,7 +268,7 @@
   </div>
   {#if editting}
     <div class="w-full pl-3 pt-3 justify-start">
-      <div class="border border-blue-600 border-opacity-50 rounded-lg p-2 mb-2">
+      <div class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2">
         <div class="opacity-90 text-xs pl-1 capitalize">Name</div>
         <input
           type="text"
@@ -277,7 +277,7 @@
           class="pl-2 h-4 text-lg w-full bg-transparent rounded-lg resize-none"
         />
       </div>
-      <div class="border border-blue-600 border-opacity-50 rounded-lg p-2 mb-2">
+      <div class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2">
         <div class="opacity-90 text-xs pl-1 capitalize">about you</div>
         <textarea
           type="text"
@@ -286,7 +286,7 @@
           class="pl-2 h-16 text-lg w-full bg-transparent rounded-lg resize-none"
         />
       </div>
-      <div class="border border-blue-600 border-opacity-50 rounded-lg p-2 mb-2">
+      <div class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2">
         <div class="opacity-90 text-xs pl-1 capitalize">Location</div>
         <input
           type="text"

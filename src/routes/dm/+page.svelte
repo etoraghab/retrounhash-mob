@@ -194,7 +194,7 @@ adwwwwwwww
             tab = i;
           }}
           class="w-1/2 center {tab === i
-            ? 'border-b border-blue-600'
+            ? 'border-b border-[#3c7ab6] dark:border-[#346ca3]'
             : 'border-b dark:border-[#222222] border-[#edeef0]'} pb-1 transition-all duration-500"
         >
           {i}
@@ -244,7 +244,7 @@ adwwwwwwww
               />
             </div>
             <div
-              class="ml-4 flex-1 border-b hover:border-0 border-[#dce1e6] dark:border-[#424242] py-1"
+              class="ml-4 flex-1 border-b hover:border-0 border-[#dce1e6] dark:border-[#363636] py-1"
             >
               <div class="flex items-bottom justify-between">
                 <p
@@ -258,7 +258,7 @@ adwwwwwwww
                 <p class="text-xs text-grey-darkest" />
 
                 <button
-                  class="p-1 flex center gap-1 transition-all duration-300 m-auto mr-2 dark:hover:bg-[#424242] hover:bg-[#dadadb] rounded-lg"
+                  class="p-1 flex center gap-1 transition-all duration-300 m-auto mr-2 dark:hover:bg-[#363636] hover:bg-[#dadadb] rounded-lg"
                   on:click={() => {
                     user.get("requests").get(r.pub).put(false);
                     user.get("requestAproved").get(r.pub).put(true);
@@ -272,7 +272,7 @@ adwwwwwwww
                   <Plus width="1.2em" /> <span class="text-xs">Add</span>
                 </button>
                 <button
-                  class="p-1 transition-all duration-300 ml-1 mr-1 text-red-600 dark:hover:bg-[#424242] hover:bg-[#dadadb] rounded-lg"
+                  class="p-1 transition-all duration-300 ml-1 mr-1 text-red-600 dark:hover:bg-[#363636] hover:bg-[#dadadb] rounded-lg"
                   on:click={() => {
                     user.get("requests").get(r.pub).put(false);
                     user.get("requestAproved").get(r.pub).put(false);

@@ -219,7 +219,7 @@
   <div class="flex flex-col gap-3 justify-start items-center mt-3 w-11/12">
     {#each posts as p}
       <div
-        class="w-full break-all p-3 border border-[#dce1e6] dark:border-[#424242] bg-[#ffffff] dark:bg-[#222222]  rounded-lg h-auto flex flex-col"
+        class="w-full break-all p-3 border border-[#dce1e6] dark:border-[#363636] bg-[#ffffff] dark:bg-[#222222]  rounded-lg h-auto flex flex-col"
       >
         <div>
           <div class="flex items-center mb-1 mt-2">
@@ -268,7 +268,7 @@
   <span class="mt-1">@{username}</span>
   <div class="w-10/12 text-left text-xs py-2">{user_bio}</div>
   <button
-    class="text-xs w-10/12 items-center text-blue-700 dark:text-blue-500 flex gap-1 text-opacity-75 text-left  m-3"
+    class="text-xs w-10/12 items-center text-[#3c7ab6] dark:text-[#346ca3] flex gap-1 text-opacity-75 text-left  m-3"
     on:click={() => {
       open(user_link);
     }}

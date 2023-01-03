@@ -74,7 +74,7 @@
                   user.get("following").get(data.pub).put(false);
                   following = false;
                 }}
-                class="flex gap-1 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg my-auto px-3"
+                class="flex gap-1 transition-all duration-300 text-sm p-1 dark:hover:bg-[#363636] hover:bg-[#f2f3f5] rounded-lg my-auto px-3"
               >
                 <UserPlus width="1.2em" />
                 Unfollow @{data.name}
@@ -85,7 +85,7 @@
                   user.get("following").get(data.pub).put(true);
                   following = true;
                 }}
-                class="flex gap-1 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg my-auto px-3"
+                class="flex gap-1 transition-all duration-300 text-sm p-1 dark:hover:bg-[#363636] hover:bg-[#f2f3f5] rounded-lg my-auto px-3"
               >
                 <UserPlus width="1.2em" />
                 Follow @{data.name}
@@ -94,7 +94,7 @@
           </div>
         {/if}
         <button
-          class="flex gap-1 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg my-auto px-3"
+          class="flex gap-1 transition-all duration-300 text-sm p-1 dark:hover:bg-[#363636] hover:bg-[#f2f3f5] rounded-lg my-auto px-3"
         >
           <Report width="1.2em" />
           Report
@@ -104,7 +104,7 @@
         on:click={() => {
           option = false;
         }}
-        class="ml-auto mr-2 mb-auto mt-2 flex gap-1 transition-all duration-300 text-sm p-1 dark:hover:bg-[#424242] hover:bg-[#f2f3f5] rounded-lg cursor-pointer"
+        class="ml-auto mr-2 mb-auto mt-2 flex gap-1 transition-all duration-300 text-sm p-1 dark:hover:bg-[#363636] hover:bg-[#f2f3f5] rounded-lg cursor-pointer"
       >
         <X width="1.2em" />
       </button>

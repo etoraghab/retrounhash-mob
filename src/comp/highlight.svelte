@@ -56,7 +56,7 @@
   >
     <img
       src={featureImg}
-      class="h-44 w-20 ring ring-blue-600 ring-opacity-60 rounded-md brightness-[0.8] object-cover  center border border-[#2c2b2b]"
+      class="h-44 w-20 ring ring-[#2b6ba0] ring-opacity-60 rounded-md brightness-[0.8] object-cover  center border border-[#2c2b2b]"
       alt=""
     />
     <div class="fixed h-44 w-20 flex justify-center items-end mb-4">
@@ -99,7 +99,7 @@
           src={avatar}
           class="h-14 w-14 aspect-square object-cover rounded-full 
             {highlights.length !== 0
-            ? 'border-2 border-offset-2 border-blue-700 hover:border-sky-700 transition-all duration-500'
+            ? 'border-2 border-offset-2 border-[#3c7ab6] hover:border-sky-700 transition-all duration-500'
             : ''}"
           alt=""
         />
@@ -117,7 +117,7 @@
       <div class="overflow-hidden h-1 mb-0 text-xs flex rounded-b-md ">
         <div
           style="width: {progress}%"
-          class="shadow-none flex transition-all duration-1000 ease-linear flex-col text-center whitespace-nowrap text-black dark:text-white justify-center bg-blue-500"
+          class="shadow-none flex transition-all duration-1000 ease-linear flex-col text-center whitespace-nowrap text-black dark:text-white justify-center bg-[#346ca3]"
         />
       </div>
     </div>

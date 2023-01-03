@@ -62,7 +62,7 @@
       </div>
       <div class="py-2">
         <button
-          class="bg-blue-600 center hover:bg-blue-700 transition-all duration-300 disabled:saturate-0 disabled:opacity-75 cursor-pointer text-white rounded-lg h-7 px-5"
+          class="bg-[#2b6ba0] center hover:bg-[#3c7ab6] transition-all duration-300 disabled:saturate-0 disabled:opacity-75 cursor-pointer text-white rounded-lg h-7 px-5"
           disabled={password == "" || password == undefined || loading}
         >
           {#if loading}

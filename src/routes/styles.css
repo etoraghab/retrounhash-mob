@@ -37,7 +37,7 @@ html, body{
 }
 
 a {
-    @apply text-blue-700 dark:text-blue-500 text-opacity-60;
+    @apply text-[#3c7ab6] dark:text-[#346ca3] text-opacity-60;
 }
 
 .center {
