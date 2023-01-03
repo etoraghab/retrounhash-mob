@@ -268,7 +268,9 @@
   </div>
   {#if editting}
     <div class="w-full pl-3 pt-3 justify-start">
-      <div class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2">
+      <div
+        class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2"
+      >
         <div class="opacity-90 text-xs pl-1 capitalize">Name</div>
         <input
           type="text"
@@ -277,7 +279,9 @@
           class="pl-2 h-4 text-lg w-full bg-transparent rounded-lg resize-none"
         />
       </div>
-      <div class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2">
+      <div
+        class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2"
+      >
         <div class="opacity-90 text-xs pl-1 capitalize">about you</div>
         <textarea
           type="text"
@@ -286,7 +290,9 @@
           class="pl-2 h-16 text-lg w-full bg-transparent rounded-lg resize-none"
         />
       </div>
-      <div class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2">
+      <div
+        class="border border-[#3c7ab6] dark:border-[#346ca3] border-opacity-50 rounded-lg p-2 mb-2"
+      >
         <div class="opacity-90 text-xs pl-1 capitalize">Location</div>
         <input
           type="text"
@@ -295,7 +301,15 @@
           class="pl-2 h-4 text-lg w-full bg-transparent rounded-lg resize-none"
         />
       </div>
-      <div class="w-full justify-start">
+      <div class="w-full flex">
+        <button
+          on:click={() => {
+            editting = false;
+          }}
+          class="flex ml-1 mt-2 gap-3 transition-all duration-300 text-sm p-1 rounded-lg px-3 dark:hover:bg-[#2c2c2c] hover:bg-[#f2f3f5]"
+        >
+          close
+        </button>
         <button
           on:click={save}
           class="flex dark:bg-[#d2d4d6] dark:text-black mr-auto ml-1 mt-2 gap-3 transition-all duration-300 text-sm p-1 dark:hover:bg-[#b6b9bb] rounded-lg mx-auto px-3"
