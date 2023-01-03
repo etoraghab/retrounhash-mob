@@ -1,56 +1,46 @@
 <script>
-  import { username } from "$lib/gun";
+  import ChevronRight from "@svicons/boxicons-regular/chevron-right.svelte";
   import { goto } from "$app/navigation";
-  import { db, keys, user } from "$lib/gun.js";
-  import { deleteAllposts } from "$lib/utils";
-  import { v4 } from "uuid";
+  import { FolderMinus, Key, TrashAlt } from "@svicons/boxicons-regular";
 </script>
 
 <div class="center">
-  <div
-    class="p-2 w-11/12 border border-dashed center flex-col mt-5 border-red-700 rounded-md"
-  >
-    <div class="text-[20px] capitalize w-full center">sensitive area</div>
+  <div class="flex justify-center gap-2 flex-col w-11/12 mt-3">
     <button
-      on:click={async () => {
-        await deleteAllposts();
+      on:click={() => {
+        goto("/settings/account/changepass");
       }}
-      class="px-3 mb-2 bg-yellow-600 text-white rounded-md"
+      class="md:w-11/12 lg:w-10/12 p-2 flex gap-2 items-center bg-[#ffffff] dark:bg-[#222222]  rounded-lg h-auto"
     >
-      delete all posts
+      <Key width="1.3em" />
+      Change password
+      <div class="ml-auto mr-1">
+        <ChevronRight width="1.2em" />
+      </div>
     </button>
     <button
-      on:click={async () => {
-        if (
-          confirm(
-            "delete account and all associated data?\nThis is the last confirmation."
-          )
-        ) {
-          deleteAllposts(true);
-          user.get("bio").put(null);
-          user.get("link").put(null);
-          user.get("avatar").put(null);
-          user.get("followersCert").put(null);
-          user.get("username").put(null);
-          await db.user().auth($keys, {
-            change: String(v4()).replace(/-/g, ""),
-          });
-          // user.delete($keys);
-          user.leave();
-          keys.set({
-            pub: false,
-            epub: "",
-            epriv: "",
-            priv: "",
-          });
-          localStorage.clear();
-          sessionStorage.clear();
-          goto("/");
-        }
+      on:click={() => {
+        goto("/settings/account/deleteposts");
       }}
-      class="px-3 mb-2 bg-[#b32b2b] text-white rounded-md"
+      class="md:w-11/12 lg:w-10/12 p-2 flex gap-2 items-center bg-[#ffffff] dark:bg-[#222222]  rounded-lg h-auto"
     >
-      delete account
+      <FolderMinus width="1.3em" />
+      Delete all posts
+      <div class="ml-auto mr-1">
+        <ChevronRight width="1.2em" />
+      </div>
+    </button>
+    <button
+      on:click={() => {
+        goto("/settings/account/delete");
+      }}
+      class="md:w-11/12 lg:w-10/12 p-2 flex gap-2 items-center bg-[#ffffff] dark:bg-[#222222]  rounded-lg h-auto"
+    >
+      <TrashAlt width="1.3em" />
+      Delete account
+      <div class="ml-auto mr-1">
+        <ChevronRight width="1.2em" />
+      </div>
     </button>
   </div>
 </div>

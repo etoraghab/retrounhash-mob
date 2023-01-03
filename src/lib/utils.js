@@ -73,7 +73,8 @@ export async function publickeyGet(username) {
         if (pub) {
           r(pub);
         }
-      });
+      })
+      .off();
   });
 }
 
@@ -113,7 +114,9 @@ export async function getUserAvatar(pub) {
           r(avatar);
         } else {
           let name = await usernameGet(pub);
-          r(`https://avatars.dicebear.com/api/identicon/${name}.svg`);
+          r(
+            `https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541`
+          );
         }
       });
   });
@@ -166,16 +169,34 @@ async function deleteposts() {
   });
 }
 
-export async function deleteAllposts(override) {
-  if (override) {
-    await deleteposts();
-    return;
-  } else {
-    if (confirm("delete all posts?\nThis action is not reversible.")) {
-      deleteposts();
-      return;
-    }
-  }
+export async function deleteselectiveposts(t, cb) {
+  return new Promise(async (r) => {
+    await user
+      .get("posts")
+      .map()
+      .once(async (val, uid) => {
+        if (val && String(val.content).includes(t)) {
+          await user
+            .get("posts")
+            .get(uid)
+            .put(null)
+            .then(async () => {
+              await user
+                .get("searchable")
+                .get(uid)
+                .put(null)
+                .then(() => {});
+            });
+        }
+      });
+    cb();
+    r(true);
+  });
+}
+
+export async function deleteAllposts() {
+  await deleteposts();
+  return;
 }
 
 import { parse } from "twemoji-parser";
