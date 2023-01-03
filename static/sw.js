@@ -1,5 +1,5 @@
 self.addEventListener("install", function (event) {
-  var CACHE_NAME = "0.0.4";
+  var CACHE_NAME = "1.6.9";
   var urlsToCache = ["/"];
 
   self.addEventListener("install", function (event) {

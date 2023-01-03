@@ -49,7 +49,7 @@
       logged in as @{$username}
     </div>
     <div class="ml-auto">
-      <span class="text-[9px]">v</span>0.0.2 <sub>beta</sub>
+      <span class="text-[9px]">v</span>1.6.9 <sub>beta</sub>
     </div>
   </div>
 </div>
