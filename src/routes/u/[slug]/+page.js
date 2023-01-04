@@ -1,6 +1,6 @@
 import { db, keys } from "$lib/gun";
 import { currentuserposts } from "$lib/store";
-import { getUserAvatar, postRender, publickeyGet } from "$lib/utils";
+import { checkVerification, getUserAvatar, postRender, publickeyGet } from "$lib/utils";
 import { error } from "@sveltejs/kit";
 import moment from "moment";
 
@@ -63,19 +63,23 @@ export async function load({ params }) {
       if (typeof p == "object" && p) {
         let date = Gun.state.is(p, "content");
         // if (u !== pinned) {
-        currentuserposts.set([
-          {
-            content: await postRender(p.content),
-            uid: u,
-            avatar: await getUserAvatar(pub),
-            name: params.slug,
-            date: moment(date).calendar(),
-            self: false,
-            sortDate: date,
-            pub: pub,
-          },
-          ...posts,
-        ]);
+
+        await checkVerification(pub).then(async (v) => {
+          currentuserposts.set([
+            {
+              content: await postRender(p.content),
+              uid: u,
+              avatar: await getUserAvatar(pub),
+              name: params.slug,
+              date: moment(date).calendar(),
+              self: false,
+              sortDate: date,
+              pub: pub,
+              verified: v.isVerified,
+            },
+            ...posts,
+          ]);
+        })
         // } else {
         //   posts = [
         //     {
@@ -95,7 +99,7 @@ export async function load({ params }) {
       }
     });
 
-    
+
 
   return {
     slug: params.slug,
@@ -105,6 +109,7 @@ export async function load({ params }) {
     background: await getbackground(pub),
     bio: await getBio(pub),
     location: await getLoc(pub),
+    verification: await checkVerification(pub),
   };
 
   throw error(404, "Not found");

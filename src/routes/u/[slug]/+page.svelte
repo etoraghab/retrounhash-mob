@@ -195,7 +195,16 @@
     {/if}
   </div>
   <div class="text-left flex-col flex truncate w-full pl-3 text-lg">
-    {data.displayName}
+    <div class="flex gap-1 items-center">
+      <span>
+        {data.displayName}
+      </span>
+      {#if data.verification.isVerified}
+        <span>
+          <Check width="1.2em" />
+        </span>
+      {/if}
+    </div>
     <span class="text-sm opacity-75">
       @{username}
     </span>
@@ -237,7 +246,16 @@
               </button>
               <div class="flex flex-col justify-center pl-1">
                 <span class="text-sm m-auto ml-0">
-                  {p.name}
+                  <div class="flex gap-1 items-center">
+                    <span>
+                      {p.name}
+                    </span>
+                    {#if p.verified}
+                      <span>
+                        <Check width="1.2em" />
+                      </span>
+                    {/if}
+                  </div>
                 </span>
                 <span class="text-[10px] opacity-90 mb-auto">
                   {p.date}

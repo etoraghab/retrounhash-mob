@@ -6,7 +6,7 @@
   import { v4 } from "uuid";
   import Post from "../comp/post.svelte";
   import { onMount } from "svelte";
-  import { getUserAvatar, usernameGet } from "$lib/utils";
+  import { getUserAvatar, usernameGet, checkVerification } from "$lib/utils";
   import AiOutlineLoading from "svelte-icons-pack/ai/AiOutlineLoading";
   import Icon from "svelte-icons-pack/Icon.svelte";
 
@@ -104,27 +104,30 @@
             //     }
             //   });
 
-            db.user(pub)
-              .get("posts")
-              .map()
-              .once(async (p, u) => {
-                if (typeof p == "object" && p) {
-                  let date = Gun.state.is(p, "content");
-                  posts = [
-                    {
-                      content: p.content,
-                      uid: u,
-                      avatar: avatar,
-                      name: await usernameGet(pub),
-                      date: moment(date).calendar(),
-                      self: pub == $keys.pub ? true : false,
-                      sortDate: date,
-                      pub: pub,
-                    },
-                    ...posts,
-                  ];
-                }
-              });
+            await checkVerification(pub).then(async (v) => {
+              db.user(pub)
+                .get("posts")
+                .map()
+                .once(async (p, u) => {
+                  if (typeof p == "object" && p) {
+                    let date = Gun.state.is(p, "content");
+                    posts = [
+                      {
+                        content: p.content,
+                        uid: u,
+                        avatar: avatar,
+                        name: await usernameGet(pub),
+                        date: moment(date).calendar(),
+                        self: pub == $keys.pub ? true : false,
+                        sortDate: date,
+                        pub: pub,
+                        verified: v.isVerified,
+                      },
+                      ...posts,
+                    ];
+                  }
+                });
+            });
           }
         });
       }

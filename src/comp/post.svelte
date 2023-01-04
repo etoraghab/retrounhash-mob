@@ -1,5 +1,5 @@
 <script>
-  import { Pin, UserPlus } from "@svicons/boxicons-regular";
+  import { Check, Pin, UserPlus } from "@svicons/boxicons-regular";
   import { goto } from "$app/navigation";
   import { user } from "$lib/gun";
   import Menu from "@svicons/boxicons-regular/dots-horizontal-rounded.svelte";
@@ -128,8 +128,13 @@
             />
           </button>
           <div class="flex flex-col justify-center pl-1">
-            <span class="text-xs m-auto ml-0">
-              {data.name}
+            <span class="text-sm m-auto ml-0 flex items-center gap-1">
+              <span>
+                {data.name}
+              </span>
+              {#if data.verified}
+                <Check width="1.2em" />
+              {/if}
             </span>
             <span class="text-[9px] text-opacity-60 my-auto">
               {data.date}

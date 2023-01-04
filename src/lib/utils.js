@@ -200,6 +200,8 @@ export async function deleteAllposts() {
 }
 
 import { parse } from "twemoji-parser";
+import axios from "axios";
+import { info } from "./info";
 
 export async function postRender(t) {
   return new Promise((r) => {
@@ -211,5 +213,24 @@ export async function postRender(t) {
       );
     }
     r(t.replace(/#+([a-zA-Z0-9_]+)/gi, '<a href="/search/#$1">#$1</a>'));
+  });
+}
+
+export async function checkVerification(pub) {
+  return new Promise(async (res) => {
+    await axios
+      .get(`${info.api}/check/${pub}`)
+      .then((r) => {
+        res({
+          isVerified: r.data.isVerified,
+          type: r.data.type,
+        });
+      })
+      .catch(() => {
+        res({
+          isVerified: false,
+          type: false,
+        });
+      });
   });
 }

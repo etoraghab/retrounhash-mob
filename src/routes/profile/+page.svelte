@@ -145,6 +145,8 @@
         ];
       }
     });
+
+  export let data;
 </script>
 
 <svelte:head>
@@ -261,7 +263,16 @@
     </button>
   </div>
   <div class="text-left flex-col flex truncate w-full pl-3 text-lg">
-    {displayName}
+    <div class="flex gap-1 items-center">
+      <span>
+        {displayName}
+      </span>
+      {#if data.isVerified}
+        <span>
+          <Check width="1.2em" />
+        </span>
+      {/if}
+    </div>
     <span class="text-sm opacity-75">
       @{$username}
     </span>
